@@ -46,3 +46,15 @@
 		});
 		local.search(myValue);
 	}
+	
+	function G(id){
+		return document.getElementById(id);
+	}
+	
+	function EntryPress(e){
+		var e = e || window.event;
+		if(e.keyCode == 13){
+			var walking = new BMap.WalkingRoute(map, {renderOptions:{map:map,autoViewport:true}});
+			walking.search(G("pathFrom").value,G("pathTo").value);
+		}
+	}
