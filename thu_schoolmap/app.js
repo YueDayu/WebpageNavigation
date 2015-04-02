@@ -12,6 +12,9 @@ var wechat = require('wechat');
 var menu = require('./weixin/menu');
 var jssdk = require('./weixin/webforjssdk');
 var app = express();
+var API = require("./node_modules/wechat-api");
+var config = require("./weixin/config");
+var api = new API(config.appid,config.appsecret);
 
 // all environments
 app.set('port', process.env.PORT || 80);
@@ -65,4 +68,19 @@ app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
 //use this code
 //menu.Menu();
 
-jssdk.webjsconfig();
+//jssdk.webjsconfig();
+
+app.get('/Navigation',function(req,res) {
+    res.sendfile("Hello.html");
+});
+
+app.post('ajax/location', function(req, res){
+    var param = {
+        debug:false,
+        jsApiList: ['getLocation'],
+        url:"104.236.174.46/Navigation"
+    };
+    api.getJsConfig(param, function(err, result){
+        res.send(result.toJSON());
+    });
+});

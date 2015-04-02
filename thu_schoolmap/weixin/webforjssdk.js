@@ -9,18 +9,5 @@ exports.webjsconfig = function(){
     var express = require('express');
     var app = express();
 
-    app.post('ajax/Navigation',function(req,res){
-        var param = {
-            debug:false,
-            jsApiList: ['getLocation'],
-            url:"http://yuedayu.github.io/WebpageNavigation/Navigation.html"
-        };
-        api.getJsConfig(param,callback);
 
-        function callback(err,result) {
-            res.send(result.toJSON());
-        }
-    });
-
-    app.post('ajax/')
 };
