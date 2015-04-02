@@ -22,5 +22,5 @@ exports.webjsconfig = function(){
         }
     });
 
-
-}
+    app.post('ajax/')
+};
