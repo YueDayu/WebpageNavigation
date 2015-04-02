@@ -10,6 +10,7 @@ var http = require('http');
 var path = require('path');
 var wechat = require('wechat');
 var menu = require('./weixin/menu');
+var jssdk = require('./weixin/webforjssdk');
 var app = express();
 
 // all environments
@@ -63,3 +64,5 @@ app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
 //If you want to create Menu
 //use this code
 //menu.Menu();
+
+jssdk.webjsconfig();
