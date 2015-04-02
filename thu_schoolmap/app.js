@@ -14,7 +14,7 @@ var jssdk = require('./weixin/webforjssdk');
 var app = express();
 var API = require("./node_modules/wechat-api");
 var config = require("./weixin/config");
-var api = new API(config.appid,config.appsecret);
+var api = new API(config.appid, config.appsecret);
 
 // all environments
 app.set('port', process.env.PORT || 80);
@@ -78,9 +78,13 @@ app.post('/location', function(req, res){
     var param = {
         debug:false,
         jsApiList: ['getLocation'],
-        url:"104.236.174.46/Navigation"
+        url:"http://104.236.174.46/Navigation"
     };
     api.getJsConfig(param, function(err, result){
-        res.send(result.toJSON());
+       // res.send("Hello World");
+        res.send(err);
+        console.log(err);
+        console.log(result);
     });
+    //res.send("Hello World");
 });
