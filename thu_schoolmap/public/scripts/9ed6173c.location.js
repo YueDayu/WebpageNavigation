@@ -1,0 +1,1 @@
+console.log("location.js!"),$.post("/location",function(a){console.log(a)});

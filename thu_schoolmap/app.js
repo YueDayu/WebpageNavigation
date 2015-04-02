@@ -71,10 +71,10 @@ app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
 //jssdk.webjsconfig();
 
 app.get('/Navigation',function(req,res) {
-    res.sendfile("Hello.html");
+    res.sendfile("./dist/Navigation.html");
 });
 
-app.post('ajax/location', function(req, res){
+app.post('/location', function(req, res){
     var param = {
         debug:false,
         jsApiList: ['getLocation'],
