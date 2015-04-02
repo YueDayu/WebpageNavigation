@@ -51,7 +51,7 @@ app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
     if(message.MsgType == 'event' && message.Event == 'CLICK'){
         switch(message.EventKey){
             case "Navigation":
-                var link = "<a href='www.baidu.com'>click me</a>";
+                var link = "<a href='http://123.56.155.236/Navigation'>click me</a>";
                 res.reply({type:"text",content:link});
                 break;
             case "aaa":
