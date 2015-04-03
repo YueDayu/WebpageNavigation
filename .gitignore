@@ -1,4 +1,10 @@
 node_modules
+<<<<<<< HEAD
 dist
 .tmp
 bower_components
+=======
+.tmp
+bower_components
+.idea/
+>>>>>>> back
