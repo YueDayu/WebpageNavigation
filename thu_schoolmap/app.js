@@ -2,6 +2,7 @@
 /**
  * Module dependencies.
  */
+var debug = true;
 
 var express = require('express');
 var routes = require('./routes');
@@ -63,21 +64,27 @@ app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
     }
 }));
 
-//If you want to create Menu
-//use this code
-menu.Menu();
+//TODO:If you want to create Menu
+//TODO:use this code just run at the first time.
+
+//menu.Menu();
 
 app.get('/Navigation',function(req,res) {
     res.sendfile("./dist/Navigation.html");
 });
 
 app.post('/location', function(req, res){
-    var param = {
-        debug:false,
-        jsApiList: ['getLocation'],
-        url:"http://123.56.155.236/Navigation"
-    };
-    api.getJsConfig(param, function(err, result){
-        res.send(result);
-    });
+    if (!debug) {
+        var param = {
+            debug:false,
+            jsApiList: ['getLocation'],
+            url:"http://123.56.155.236/Navigation"
+        };
+        api.getJsConfig(param, function(err, result){
+            result.isDebug = false;
+            res.send(result);
+        });
+    } else {
+        res.send({isDebug: true});
+    }
 });

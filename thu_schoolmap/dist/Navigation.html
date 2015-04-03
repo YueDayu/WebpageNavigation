@@ -1,8 +1,30 @@
-<!DOCTYPE html> <html class=no-js> <head> <meta charset=utf-8> <title>webpageNavigation</title> <meta name=description content=""> <meta name=viewport content="width=device-width"> <link rel="shortcut icon" href=/6df2b309.favicon.ico> <!-- Place favicon.ico and apple-touch-icon.png in the root directory --> <link rel=stylesheet href=styles/9c307a9d.vendor.css> <link rel=stylesheet href=styles/a5896f90.main.css>  <body> <!--[if lt IE 10]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]--> <div class=container> <div class=header> <ul class="nav nav-pills pull-right"> <li class=active><a href=#>Home</a></li> <li><a href=#>About</a></li> <li><a href=#>Contact</a></li> </ul> <h3 class=text-muted>webpageNavigation</h3> </div> <div class=jumbotron> <h1>'Allo, 'Allo!</h1> <p class=lead>Always a pleasure scaffolding your apps.</p> <p><a class="btn btn-lg btn-success" href=#>Splendid! <span class="glyphicon glyphicon-ok"></span></a></p> </div> <div class="row marketing"> <div class=col-lg-6> <h4>HTML5 Boilerplate</h4> <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p> <h4>Bootstrap</h4> <p>Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.</p> </div> </div> <div class=footer> <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p> </div> </div> <script src=scripts/9e2a73af.vendor.js></script> <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. --> <script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-      e.src='//www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');</script> <script src=scripts/cb7562c6.plugins.js></script> <script src=scripts/b7e86f06.jweixin-1.0.0.js></script> <script src=scripts/9ed6173c.location.js></script> <script src=scripts/de63c1bd.UIcontrol.js></script> <script src=scripts/4c4e553e.BDmap.js></script>  
+<!DOCTYPE html>
+<html class=no-js>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>webpageNavigation</title>
+    <meta name=description content="">
+    <meta name=viewport content="initial-scale=1,user-scalable=no">
+    <meta name=viewport content="width=device-width">
+    <link rel="shortcut icon" href=favicon.ico> <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel=stylesheet href=styles/vendor.css>
+    <link rel=stylesheet href=styles/main.css>
+<body>
+<div id="allmap"></div>
+<div id="result">
+    <div id="r-result">
+        <input type="button" onclick="add_control();" value="添加" />
+        <input type="button" onclick="delete_control();" value="删除" />
+    </div>
+    请输入：<input type="text" id="searchId" size="20" value="百度" style="width:150px" />
+    路线绘制：from:<input type="text" id="pathFrom" size="20" style="width:150px"/> to:<input type="text" id="pathTo" size="20" style="width:150px" onkeydown="EntryPress()"/>
+</div>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=RprdeOx6ifNtPgcYARapDtRY"></script>
+<script src="scripts/vendor.js"></script>
+<script src=scripts/jweixin-1.0.0.js></script>
+<script src=scripts/location.js></script>
+<script src=scripts/UIcontrol.js></script>
+<script src=scripts/BDmap.js></script>
+<script src="scripts/plugins.js"></script>
+</body>
+</html>
