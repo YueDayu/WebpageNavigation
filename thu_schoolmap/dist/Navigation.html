@@ -4,15 +4,32 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>webpageNavigation</title>
     <meta name="description" content="">
-    <meta name="viewport" content="initial-scale=1,user-scalable=no">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href=favicon.ico> <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="stylesheet" href="styles/vendor.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/bootstrap.css">
     <link rel="stylesheet" href="styles/bootstrap.min.css">
 <body>
+
 <div id="allmap"></div>
+<div class="container">
+    <div class="nav-style" id = "search-div">
+        <div class="input-group">
+            <input type="text" class="form-control" id = "search-place" placeholder="Please enter place">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-primary" id = "search-button">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+                 <button class="btn btn-default" type="button">
+                     <span class="glyphicon glyphicon-remove"></span>
+                 </button>
+           </span>
+        </div><!-- /input-group -->
+    </div>
+</div>
+
+<!--
 <div id="result">
     <div id="r-result">
         <input type="button" onclick="add_control();" value="添加" />
@@ -20,7 +37,7 @@
     </div>
     请输入：<input type="text" id="searchId" size="20" value="百度" style="width:150px" />
     路线绘制：from:<input type="text" id="pathFrom" size="20" style="width:150px"/> to:<input type="text" id="pathTo" size="20" style="width:150px" onkeydown="EntryPress()"/>
-</div>
+</div>-->
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=RprdeOx6ifNtPgcYARapDtRY"></script>
 <script type="text/javascript" src="scripts/vendor.js"></script>
 <script type="text/javascript" src="scripts/jweixin-1.0.0.js"></script>
