@@ -1,4 +1,4 @@
-var isDebug = false;
+var isDebug = true;
 
 $.post("/location", function (result) {
     isDebug = result.isDebug;
@@ -13,27 +13,37 @@ $.post("/location", function (result) {
             jsApiList: result.jsApiList
         });
     }
+    SetLocation();
 });
 
-function Location() {
+function Location(callback) {
     var location = {};
     if (isDebug) { //Debug mode, use browser location
-
+        var geolocation = new BMap.Geolocation();
+        geolocation.getCurrentPosition(function(r){
+            if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                console.log(r.point);
+                location = {
+                    latitude: r.point.lat,
+                    longitude: r.point.lng,
+                    accuracy: 0
+                };
+                console.log(location);
+                callback(location);
+            }
+        },{enableHighAccuracy: true})
     } else { //wechat location
         wx.getLocation({
             success: function (res) {
-                //var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-                //var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-                //var speed = res.speed; // 速度，以米/每秒计
-                //var accuracy = res.accuracy; // 位置精度
-                //alert(JSON.stringify(res));
-                var tempPoing = new BMap.Point();
-                location = {
-                    latitude: res.latitude,
-                    longitude: res.longitude,
-                    accuracy: res.accuracy
-                };
-                return location;
+                var tempPoing = new BMap.Point(res.latitude, res.longitude);
+                BMap.Convertor.translate(tempPoing, 2, function(point) {
+                    location = {
+                        latitude: point.x,
+                        longitude: point.y,
+                        accuracy: res.accuracy
+                    };
+                    callback(location);
+                });
             },
             cancel: function (res) {
                 alert('用户拒绝授权获取地理位置');
@@ -44,3 +54,4 @@ function Location() {
         });
     }
 }
+
