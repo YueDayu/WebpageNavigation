@@ -65,7 +65,7 @@ app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
 
 //If you want to create Menu
 //use this code
-//menu.Menu();
+menu.Menu();
 
 app.get('/Navigation',function(req,res) {
     res.sendfile("./dist/Navigation.html");

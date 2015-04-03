@@ -4,11 +4,6 @@
       "name":"校园导航",
       "type":"click",
       "key":"Navigation"
-    },
-    {
-      "name":"aaa",
-      "type":"click",
-      "key":"aaa"
     }
   ]
 }

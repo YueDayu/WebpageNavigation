@@ -3,6 +3,6 @@
  */
 
 module.exports = {
-    appid: 'wx8b1eda56ba8d9ba5',
-    appsecret: '4ddcd928a94ac5e27fb3f938e8ad00cb'
+    appid: 'wx0110959b4f04e614',
+    appsecret: 'aca188952bdc6f54def43fe856fd2f18'
 };
