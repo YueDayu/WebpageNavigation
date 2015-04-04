@@ -35,15 +35,22 @@ function Location(callback) {
     } else { //wechat location
         wx.getLocation({
             success: function (res) {
-                var tempPoing = new BMap.Point(res.longitude, res.latitude);
-                BMap.Convertor.translate(tempPoing, 2, function(point) {
+                var tempPoint = new BMap.Point(parseFloat(res.longitude), parseFloat(res.latitude));
+                alert(tempPoint.lng + " " + tempPoint.lat);
+
+                translateCallback = function(point) {
+                    alert("1");
                     location = {
-                        latitude: point.latitude,
-                        longitude: point.longitude,
-                        accuracy: res.accuracy
+                        latitude: point.lat,
+                        longitude: point.lng,
+                        accuracy: parseFloat(res.accuracy)
                     };
                     callback(location);
-                });
+                };
+                setTimeout(function(){
+                    BMap.Convertor.translate(tempPoint, 2, translateCallback);
+                }, 1000);
+
             },
             cancel: function (res) {
                 alert('用户拒绝授权获取地理位置');
