@@ -12,6 +12,10 @@ $(document).ready(function(){
         debugger;
         alert("1");
     });
+    //TODO: 在取消焦点的时候使用 startlocation 函数开始自定位。
+    $("#search-content").focus(function() {
+        stopLocation();
+    });
     $("#search-button").click(function(){
         var options = {
             onSearchComplete: function(results){
