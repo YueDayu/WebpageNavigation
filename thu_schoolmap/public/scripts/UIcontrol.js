@@ -5,16 +5,21 @@ var bs = new BMap.Bounds(pStart,pEnd);
 var lastMarker;
 
 $(document).ready(function(){
-    $("#input-box").click(function(){
-        $("#clear-button").css("display","block");
-    });
-    $("#clear-button").click(function(){
-        debugger;
-        alert("1");
+
+    $("#allmap").click(function(){
+
+       $("#search-content").blur();
+       $("#search-button").blur();
+       $("#begin-nav-button").blur();
+       $("#return-button").blur();
+
     });
     //TODO: 在取消焦点的时候使用 startlocation 函数开始自定位。
     $("#search-content").focus(function() {
         stopLocation();
+    });
+    $("#search-content").blur(function(){
+        startLocation();
     });
     $("#search-button").click(function(){
         var options = {
@@ -26,7 +31,8 @@ $(document).ready(function(){
                     map.addOverlay(lastMarker);
                 } else {
                     console.log(results);
-                    alert("搜索失败");
+                    //alert("搜索失败");
+                    $("#search-no-result").modal('show');
                 }
             }
         };
@@ -34,5 +40,14 @@ $(document).ready(function(){
         map.removeOverlay(lastMarker);
         //TODO: 处理输入信息
         local.searchInBounds(document.getElementById("search-content").value, bs);
-    })
+    });
+    $("#begin-nav-button").click(function(){
+
+    });
+    $("#return-button").click(function(){
+
+    });
+    //You can use the following code to make navgation-bottom-bar show or disappear
+    //  $("#navgation-bottom-bar").fadeOut();
+    //  $("#navgation-bottom-bar").fadeIn();
 });
