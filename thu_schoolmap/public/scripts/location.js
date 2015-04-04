@@ -4,7 +4,6 @@ var lastLocation = {
     longitude: 0,
     accuracy: 0
 };
-var locationLoop;
 
 $.post("/location", function (result) {
     isDebug = result.isDebug;
@@ -18,12 +17,10 @@ $.post("/location", function (result) {
             jsApiList: result.jsApiList
         });
         wx.ready(function() {
-            SetLocation();
-            locationLoop = setInterval("SetLocation()", 10000);
+            startLocation();
         });
     } else {
-        SetLocation();
-        locationLoop = setInterval("SetLocation()", 10000);
+        startLocation();
     }
 });
 
@@ -60,13 +57,6 @@ function Location(callback) {
                             location = lastLocation;
                         }
                     } else {
-                        //TODO: show path
-                        var polyline = new BMap.Polyline([
-                            lastLocation,
-                            location
-                        ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});   //创建折线
-                        map.addOverlay(polyline);
-
                         lastLocation = location;
                         location = {
                             latitude: point.lat,
@@ -78,12 +68,12 @@ function Location(callback) {
                 });
             },
             cancel: function (res) {
-                clearInterval(locationLoop);
+                stopLocation();
                 alert('用户拒绝授权获取地理位置');
             }
         });
         wx.error(function (res) {
-            clearInterval(locationLoop);
+            stopLocation();
             alert("获取权限失败请重启应用");
         });
     }
