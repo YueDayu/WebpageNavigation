@@ -35,11 +35,11 @@ function Location(callback) {
     } else { //wechat location
         wx.getLocation({
             success: function (res) {
-                var tempPoing = new BMap.Point(res.latitude, res.longitude);
+                var tempPoing = new BMap.Point(res.longitude, res.latitude);
                 BMap.Convertor.translate(tempPoing, 2, function(point) {
                     location = {
-                        latitude: point.x,
-                        longitude: point.y,
+                        latitude: point.latitude,
+                        longitude: point.longitude,
                         accuracy: res.accuracy
                     };
                     callback(location);
