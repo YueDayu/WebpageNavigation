@@ -1,32 +1,34 @@
-//console.log("UIcontrol.js!");
+var pStart = new BMap.Point(116.320547,39.997177);
+var pEnd = new BMap.Point(116.345052,40.020554);
+var bs = new BMap.Bounds(pStart,pEnd);
+
+var lastMarker;
 
 $(document).ready(function(){
     $("#input-box").click(function(){
         $("#clear-button").css("display","block");
-
     });
     $("#clear-button").click(function(){
-        //$("#search-content").attr("value","");
-        //$("#clear-button").css("display","none");
         debugger;
         alert("1");
     });
     $("#search-button").click(function(){
-        var cont = new BMap.Autocomplete(
-            {
-                "input": "search-content",
-                "location": map
-            });
-        map.clearOverlays();    //清除地图上所有覆盖物
-        function myFun() {
-            var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
-            map.centerAndZoom(pp, 18);
-            map.addOverlay(new BMap.Marker(pp));    //添加标注
-        }
-
-        var local = new BMap.LocalSearch(map, { //智能搜索
-            onSearchComplete: myFun
-        });
-        local.search(myValue);
+        var options = {
+            onSearchComplete: function(results){
+                if (local.getStatus() == BMAP_STATUS_SUCCESS){
+                    var pp = local.getResults().getPoi(0).point;
+                    map.centerAndZoom(pp, 18);
+                    lastMarker = new BMap.Marker(pp);
+                    map.addOverlay(lastMarker);
+                } else {
+                    console.log(results);
+                    alert("搜索失败");
+                }
+            }
+        };
+        var local = new BMap.LocalSearch(map, options);
+        map.removeOverlay(lastMarker);
+        //TODO: 处理输入信息
+        local.searchInBounds(document.getElementById("search-content").value, bs);
     })
 });
