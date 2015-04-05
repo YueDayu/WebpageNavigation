@@ -9,9 +9,13 @@ var firstFlag = true;
 var lastPoint = new BMap.Point(116.332836,40.009999);
 var point = new BMap.Point(116.332836,40.009999);
 
+var path, startPointMarker, endPointMarker;
+
 function SetLocation() {
     Location(function (pos) {
         lastPoint = point;
+        firstFlag = false;
+        $("#begin-nav-button").removeAttr("disabled");
         point = new BMap.Point(pos.longitude, pos.latitude);
         var polyline = new BMap.Polyline([
             lastPoint,
@@ -32,4 +36,16 @@ function startLocation() {
 
 function stopLocation() {
     clearInterval(locationLoop);
+}
+
+function findRoute(startPoint, endPoint) {
+    var walking = new BMap.WalkingRoute(map, {renderOptions:{map: map, autoViewport: true}});
+    walking.setMarkersSetCallback(function(a) {
+        startPointMarker = a[0].marker;
+        endPointMarker = a[1].marker;
+    });
+    walking.setPolylinesSetCallback(function(a) {
+        path = a[0].getPolyline();
+    });
+    walking.search(startPoint, endPoint);
 }
