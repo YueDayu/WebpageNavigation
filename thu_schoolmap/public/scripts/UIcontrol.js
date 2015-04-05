@@ -7,20 +7,15 @@ var lastMarker;
 $(document).ready(function(){
 
     $("#allmap").click(function(){
-
        $("#search-content").blur();
        $("#search-button").blur();
        $("#begin-nav-button").blur();
        $("#return-button").blur();
-
     });
     //TODO: 在取消焦点的时候使用 startlocation 函数开始自定位。
-    $("#search-content").focus(function() {
-        stopLocation();
-    });
-    $("#search-content").blur(function(){
-        startLocation();
-    });
+    //$("#search-content").focus(function() {
+    //    stopLocation();
+    //});
     $("#search-button").click(function(){
         var options = {
             onSearchComplete: function(results){
@@ -30,8 +25,6 @@ $(document).ready(function(){
                     lastMarker = new BMap.Marker(pp);
                     map.addOverlay(lastMarker);
                 } else {
-                    console.log(results);
-                    //alert("搜索失败");
                     $("#search-no-result").modal('show');
                 }
             }
@@ -47,7 +40,7 @@ $(document).ready(function(){
     $("#return-button").click(function(){
 
     });
-    //You can use the following code to make navgation-bottom-bar show or disappear
+    //TODO:You can use the following code to make navgation-bottom-bar show or disappear
     //  $("#navgation-bottom-bar").fadeOut();
     //  $("#navgation-bottom-bar").fadeIn();
 });

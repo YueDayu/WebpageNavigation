@@ -17,10 +17,10 @@ $.post("/location", function (result) {
             jsApiList: result.jsApiList
         });
         wx.ready(function() {
-            startLocation();
+            SetLocation();
         });
     } else {
-        startLocation();
+        SetLocation();
     }
 });
 
@@ -48,6 +48,7 @@ function Location(callback) {
                     if (accuracy >= 50)
                     {
                         if (lastLocation.longitude == 0) {
+                            alert("定位精度过低，请确保打开GPS定位并重启应用");
                             location = {
                                 latitude: point.lat,
                                 longitude: point.lng,
