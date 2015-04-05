@@ -5,6 +5,10 @@ var bs = new BMap.Bounds(pStart,pEnd);
 var lastMarker;
 
 $(document).ready(function(){
+    var ac = new BMap.Autocomplete({
+            "input" : "search-content",
+            "location" : map
+        });
 
     $("#allmap").click(function(){
        $("#search-content").blur();
