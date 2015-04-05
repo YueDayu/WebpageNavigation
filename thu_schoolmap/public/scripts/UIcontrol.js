@@ -74,6 +74,11 @@ $(document).ready(function(){
     //  $("#begin-nav-div").fadeIn();
     //  $("#stop-nav-div").fadeOut();
     //  $("#stop-nav-div").fadeIn();
+
+    //TODO : You can use the following code to show or hide the modal which indicates that
+    //you are trying to locate yourself
+    // $("#begin-nav-model").modal('show');
+    // $("#begin-nav-model").modal('hide');
 });
 
 function showModel(title, content){
