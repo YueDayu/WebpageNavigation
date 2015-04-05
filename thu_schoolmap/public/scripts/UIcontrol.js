@@ -34,7 +34,7 @@ $(document).ready(function(){
                     map.centerAndZoom(searchPoint, 18);
                     lastMarker = new BMap.Marker(searchPoint);
                     map.addOverlay(lastMarker);
-                    $("#navgation-bottom-bar").fadeIn();
+                    $("#begin-nav-div").fadeIn();
                 } else {
                     showModel("搜索失败", "抱歉，我们没有在清华校内找到您要的地点。");
                 }
@@ -48,13 +48,19 @@ $(document).ready(function(){
     $("#begin-nav-button").attr({"disabled":"disabled"}).click(function(){
         map.removeOverlay(lastMarker);
         findRoute(point, searchPoint);
+        $("#begin-nav-div").fadeOut(function() {
+            $("#stop-nav-div").fadeIn();
+        });
     });
     $("#return-button").click(function(){
 
     });
     //TODO:You can use the following code to make navgation-bottom-bar show or disappear
-    $("#navgation-bottom-bar").fadeOut();
-    //  $("#navgation-bottom-bar").fadeIn();
+    //$("#begin-nav-div").fadeOut();
+    //  $("#begin-nav-div").fadeOut();
+    //  $("#begin-nav-div").fadeIn();
+    //  $("#stop-nav-div").fadeOut();
+    //  $("#stop-nav-div").fadeIn();
 });
 
 function showModel(title, content){
