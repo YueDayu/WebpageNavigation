@@ -32,7 +32,7 @@ $(document).ready(function(){
                 } else {
                     console.log(results);
                     //alert("搜索失败");
-                    $("#search-no-result").modal('show');
+                    //showModel("Sorry","Place doesn't exist!");
                 }
             }
         };
@@ -51,3 +51,9 @@ $(document).ready(function(){
     //  $("#navgation-bottom-bar").fadeOut();
     //  $("#navgation-bottom-bar").fadeIn();
 });
+
+function showModel(title,content){
+    $("#model-title").text(title);
+    $("#model-content").text(content);
+    $("#search-no-result").modal('show');
+}
