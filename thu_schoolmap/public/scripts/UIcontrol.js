@@ -11,10 +11,12 @@ $(document).ready(function(){
         });
 
     $("#allmap").click(function(){
+
        $("#search-content").blur();
        $("#search-button").blur();
        $("#begin-nav-button").blur();
        $("#return-button").blur();
+
     });
     //TODO: 在取消焦点的时候使用 startlocation 函数开始自定位。
     //$("#search-content").focus(function() {
@@ -29,7 +31,8 @@ $(document).ready(function(){
                     lastMarker = new BMap.Marker(pp);
                     map.addOverlay(lastMarker);
                 } else {
-                    $("#search-no-result").modal('show');
+                    //$("#search-no-result").modal('show');
+                    showModel("搜索失败", "抱歉，我们没有在清华校内找到您要的地点。");
                 }
             }
         };
@@ -48,3 +51,9 @@ $(document).ready(function(){
     //  $("#navgation-bottom-bar").fadeOut();
     //  $("#navgation-bottom-bar").fadeIn();
 });
+
+function showModel(title, content){
+    $("#model-title").text(title);
+    $("#model-content").text(content);
+    $("#search-no-result").modal('show');
+}

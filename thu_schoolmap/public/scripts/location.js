@@ -48,7 +48,7 @@ function Location(callback) {
                     if (accuracy >= 50)
                     {
                         if (lastLocation.longitude == 0) {
-                            alert("定位精度过低，请确保打开GPS定位并重启应用");
+                            showModel("定位失败", "定位精度过低，请确保打开GPS定位并重启应用");
                             location = {
                                 latitude: point.lat,
                                 longitude: point.lng,
