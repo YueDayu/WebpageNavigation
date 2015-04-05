@@ -47,9 +47,11 @@ $(document).ready(function(){
     $("#return-button").click(function(){
 
     });
-    //TODO:You can use the following code to make navgation-bottom-bar show or disappear
-    //  $("#navgation-bottom-bar").fadeOut();
-    //  $("#navgation-bottom-bar").fadeIn();
+    //TODO: You can use the following code to make navgation-bottom-bar show or disappear
+    //  $("#begin-nav-div").fadeOut();
+    //  $("#begin-nav-div").fadeIn();
+    //  $("#stop-nav-div").fadeOut();
+    //  $("#stop-nav-div").fadeIn();
 });
 
 function showModel(title, content){
