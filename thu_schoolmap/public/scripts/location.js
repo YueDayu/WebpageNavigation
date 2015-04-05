@@ -17,10 +17,14 @@ $.post("/location", function (result) {
             jsApiList: result.jsApiList
         });
         wx.ready(function() {
-            SetLocation();
+            SetLocation(function() {
+                map.panTo(point);
+            });
         });
     } else {
-        SetLocation();
+        SetLocation(function() {
+            map.panTo(point);
+        });
     }
 });
 
@@ -69,12 +73,10 @@ function Location(callback) {
                 });
             },
             cancel: function (res) {
-                stopLocation();
                 alert('用户拒绝授权获取地理位置');
             }
         });
         wx.error(function (res) {
-            stopLocation();
             alert("获取权限失败请重启应用");
         });
     }

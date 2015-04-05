@@ -11,31 +11,28 @@ var point = new BMap.Point(116.332836,40.009999);
 
 var path, startPointMarker, endPointMarker;
 
-function SetLocation() {
+function SetLocation(callback) {
     Location(function (pos) {
         lastPoint = point;
         firstFlag = false;
         $("#begin-nav-button").removeAttr("disabled");
         point = new BMap.Point(pos.longitude, pos.latitude);
-        var polyline = new BMap.Polyline([
-            lastPoint,
-            point
-        ], {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});   //创建折线
-        map.addOverlay(polyline);
         map.removeOverlay(myPosMarker);
         myPosMarker = new BMap.Marker(point);
         map.addOverlay(myPosMarker);
         //map.panTo(point); //TODO: make point center.
+        if(callback) {
+            callback();
+        }
     });
 }
 
-function startLocation() {
+function startLocation(endPoint) {
     SetLocation();
-    locationLoop = setInterval("SetLocation()", 5000);
-}
-
-function stopLocation() {
-    clearInterval(locationLoop);
+    if (map.getDistance(point, endPoint) < 30) {
+        endNavigation();
+        showModel("导航结束", "您已经到达目的地附近");
+    }
 }
 
 function findRoute(startPoint, endPoint) {
@@ -48,4 +45,13 @@ function findRoute(startPoint, endPoint) {
         path = a[0].getPolyline();
     });
     walking.search(startPoint, endPoint);
+}
+
+function startNavigation(startPoint, endPoint) {
+    findRoute(startPoint, endPoint);
+    locationLoop = setInterval(startLocation(endPoint), 5000);
+}
+
+function endNavigation() {
+    clearInterval(locationLoop);
 }

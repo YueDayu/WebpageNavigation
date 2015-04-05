@@ -17,18 +17,15 @@ $(document).ready(function(){
        $("#search-button").blur();
        $("#begin-nav-button").blur();
        $("#return-button").blur();
-
     });
-    //TODO: 在取消焦点的时候使用 startlocation 函数开始自定位。
-    //$("#search-content").focus(function() {
-    //    stopLocation();
-    //});
+
     $("#search-button").click(function(){
         map.removeOverlay(path);
         map.removeOverlay(startPointMarker);
         map.removeOverlay(endPointMarker);
         var options = {
             onSearchComplete: function(results){
+                $("#search-content").val("");
                 if (local.getStatus() == BMAP_STATUS_SUCCESS){
                     searchPoint = local.getResults().getPoi(0).point;
                     map.centerAndZoom(searchPoint, 18);
@@ -47,13 +44,29 @@ $(document).ready(function(){
     });
     $("#begin-nav-button").attr({"disabled":"disabled"}).click(function(){
         map.removeOverlay(lastMarker);
-        findRoute(point, searchPoint);
+        startNavigation(point, searchPoint);
         $("#begin-nav-div").fadeOut(function() {
             $("#stop-nav-div").fadeIn();
         });
+        $("#search-div").fadeOut();
     });
     $("#return-button").click(function(){
-
+        map.removeOverlay(path);
+        map.removeOverlay(startPointMarker);
+        map.removeOverlay(endPointMarker);
+        map.removeOverlay(lastMarker);
+        map.panTo(point);
+        $("#begin-nav-div").fadeOut();
+    });
+    $("#stop-nav-div").click(function(){
+        endNavigation();
+        map.removeOverlay(path);
+        map.removeOverlay(startPointMarker);
+        map.removeOverlay(endPointMarker);
+        $("#search-div").fadeIn();
+        $("#stop-nav-div").fadeOut();
+        map.panTo(point);
+        showModel("停止导航", "您已经手动停止导航。");
     });
     //TODO:You can use the following code to make navgation-bottom-bar show or disappear
     //$("#begin-nav-div").fadeOut();
