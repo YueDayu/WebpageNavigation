@@ -1,1 +1,3 @@
-console.log('\'Allo \'Allo!');
+function G(id){
+	return document.getElementById(id);
+}
