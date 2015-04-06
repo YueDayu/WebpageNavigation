@@ -79,6 +79,11 @@ $(document).ready(function(){
     //you are trying to locate yourself
     // $("#begin-nav-model").modal('show');
     // $("#begin-nav-model").modal('hide');
+
+    //TODO : Add function to locate-self button
+    //$("#locate-button-div").click(function(){
+    //
+    //});
 });
 
 function showModel(title, content){
