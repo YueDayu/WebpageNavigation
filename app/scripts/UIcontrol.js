@@ -1,41 +1,93 @@
-//TODO:
-function Search(id){
-	//下拉列表
-	var acSearch = new BMap.Autocomplete({
-		"input":id, //to do..:to replace tmpId with your input ID
-		"location":map
-	});
-	//鼠标放在下拉列表上，高亮事件
-	acSearch.addEventListener("onhighlight", function(e){
-		var _value = e.fromitem.value;
-		var value = "";
-		if(e.fromitem.index > -1)
-			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-		value = "";
-		if(e.toitem.index > -1){
-			_value = e.toitem.value;
-			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-		}
-	});
-	//鼠标点击下拉列表后的事件
-	var searchValue;
-	acSearch.addEventListener("onconfirm", function(e){
-		var _value = e.item.value;
-		searchValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-		setPlace();
-	});
+var pStart = new BMap.Point(116.320547,39.997177);
+var pEnd = new BMap.Point(116.345052,40.020554);
+var bs = new BMap.Bounds(pStart,pEnd);
 
-	function setPlace(){
-		map.clearOverlays();
-		function myFun(){
-			var p_ = local.getResults().getPoi(0).point;
-			map.centerAndZoom(p_,18);
-			map.addOverlay(new BMap.Marker(p_));
-		}
-		var local = new BMap.LocalSearch(map,{
-			onSearchComplete: myFun
-		});
-		local.search(searchValue);
-	}	
+var lastMarker;
+var searchPoint;
+
+$(document).ready(function(){
+    var ac = new BMap.Autocomplete({
+            "input" : "search-content",
+            "location" : map
+        });
+
+    $("#allmap").click(function(){
+
+       $("#search-content").blur();
+       $("#search-button").blur();
+       $("#begin-nav-button").blur();
+       $("#return-button").blur();
+    });
+
+    $("#search-button").click(function(){
+        map.removeOverlay(path);
+        map.removeOverlay(startPointMarker);
+        map.removeOverlay(endPointMarker);
+        var options = {
+            onSearchComplete: function(results){
+                $("#search-content").val("");
+                if (local.getStatus() == BMAP_STATUS_SUCCESS){
+                    searchPoint = local.getResults().getPoi(0).point;
+                    map.centerAndZoom(searchPoint, 18);
+                    lastMarker = new BMap.Marker(searchPoint);
+                    map.addOverlay(lastMarker);
+                    $("#begin-nav-div").fadeIn();
+                } else {
+                    showModel("搜索失败", "抱歉，我们没有在清华校内找到您要的地点。");
+                }
+            }
+        };
+        var local = new BMap.LocalSearch(map, options);
+        map.removeOverlay(lastMarker);
+        //TODO: 处理输入信息
+        local.searchInBounds(document.getElementById("search-content").value, bs);
+    });
+    $("#begin-nav-button").attr({"disabled":"disabled"}).click(function(){
+        map.removeOverlay(lastMarker);
+        startNavigation(point, searchPoint);
+        $("#begin-nav-div").fadeOut(function() {
+            $("#stop-nav-div").fadeIn();
+        });
+        $("#search-div").fadeOut();
+    });
+    $("#return-button").click(function(){
+        map.removeOverlay(path);
+        map.removeOverlay(startPointMarker);
+        map.removeOverlay(endPointMarker);
+        map.removeOverlay(lastMarker);
+        map.panTo(point);
+        $("#begin-nav-div").fadeOut();
+    });
+    $("#stop-nav-div").click(function(){
+        endNavigation();
+        map.removeOverlay(path);
+        map.removeOverlay(startPointMarker);
+        map.removeOverlay(endPointMarker);
+        $("#search-div").fadeIn();
+        $("#stop-nav-div").fadeOut();
+        map.panTo(point);
+        showModel("停止导航", "您已经手动停止导航。");
+    });
+    //TODO:You can use the following code to make navgation-bottom-bar show or disappear
+    //$("#begin-nav-div").fadeOut();
+    //  $("#begin-nav-div").fadeOut();
+    //  $("#begin-nav-div").fadeIn();
+    //  $("#stop-nav-div").fadeOut();
+    //  $("#stop-nav-div").fadeIn();
+
+    //TODO : You can use the following code to show or hide the modal which indicates that
+    //you are trying to locate yourself
+    // $("#begin-nav-model").modal('show');
+    // $("#begin-nav-model").modal('hide');
+
+    //TODO : Add function to locate-self button
+    //$("#locate-button-div").click(function(){
+    //
+    //});
+});
+
+function showModel(title, content){
+    $("#model-title").text(title);
+    $("#model-content").text(content);
+    $("#search-no-result").modal('show');
 }
-
