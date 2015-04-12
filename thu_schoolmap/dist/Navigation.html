@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>webpageNavigation</title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="shortcut icon" href=./dist/favicon.ico> <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="stylesheet" href="styles/bootstrap.css">
     <link rel="stylesheet" href="styles/bootstrap.min.css">
@@ -30,6 +30,13 @@
         </div>
     </div>
 </div>
+<!--
+<div id = "locate-button-div">
+    <button type="button" class="btn btn-info " id = "locate-button">
+        <span class="glyphicon glyphicon-map-marker"></span>
+    </button>
+</div>
+-->
 <div class="navbar navbar-fixed-bottom" id ="navgation-bottom-bar">
     <div class="container">
         <div class="nav-bottom-style">
@@ -60,6 +67,13 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" id="begin-nav-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">正在努力定位中，请稍后</div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
