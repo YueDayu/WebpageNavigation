@@ -40,7 +40,11 @@ $(document).ready(function(){
         var local = new BMap.LocalSearch(map, options);
         map.removeOverlay(lastMarker);
         //TODO: 处理输入信息
-        local.searchInBounds(document.getElementById("search-content").value, bs);
+        local.searchInBounds(document.getElementById("search-content").value, bs, {
+			customData:{
+				geotableId: 99990
+			}
+		});
     });
     $("#begin-nav-button").attr({"disabled":"disabled"}).click(function(){
         map.removeOverlay(lastMarker);
