@@ -23,6 +23,7 @@ $(document).ready(function(){
         map.removeOverlay(path);
         map.removeOverlay(startPointMarker);
         map.removeOverlay(endPointMarker);
+        map.removeOverlay(lastMarker);
         var options = {
             onSearchComplete: function(results){
 				$("#search-content").val("");
