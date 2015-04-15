@@ -25,6 +25,11 @@ $(document).ready(function(){
         map.removeOverlay(endPointMarker);
         map.removeOverlay(lastMarker);
         var options = {
+            renderOptions:{
+                map: map,
+                selectFirstResult:true,
+                autoViewport:true
+            },
             onSearchComplete: function(results){
 				$("#search-content").val("");
                 if (local.getStatus() == BMAP_STATUS_SUCCESS){
@@ -104,6 +109,8 @@ $(document).ready(function(){
     //$("#locate-button-div").click(function(){
     //
     //});
+    addRoadBlock();
+    addTip();
 });
 
 function showModel(title, content){

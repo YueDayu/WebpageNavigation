@@ -56,3 +56,37 @@ function startNavigation(startPoint, endPoint) {
 function endNavigation() {
     clearInterval(locationLoop);
 }
+
+function addMarker(point, imageFile){
+    var myIcon = new BMap.Icon(imageFile, new BMap.Size(15,15), {
+        offset: new BMap.Size(10,25),
+        imageOffset: new BMap.Size(0,0)
+    });
+    var marker = new BMap.Marker(point, {
+        icon: myIcon
+    });
+    map.addOverlay(marker);
+    return marker;
+}
+
+function addRoadBlock(){
+    var blocks = [
+        new BMap.Point(116.337138,40.010476),
+        new BMap.Point(116.334111,40.011954)
+    ];
+    for(var i = 0;i < 2;i++){
+        var marker = addMarker(blocks[i], "scripts/RoadBlock.jpg");
+    }
+}
+
+function addTip(){
+    var points = [
+      new BMap.Point(116.336159,40.01565)
+    ];
+    for(var i = 0;i < 1;i++){
+        var marker = addMarker(points[i], "scripts/new.jpg");
+        marker.addEventListener("click", function(){
+            marker.openInfoWindow(new BMap.InfoWindow("test"));
+        });
+    }
+}
