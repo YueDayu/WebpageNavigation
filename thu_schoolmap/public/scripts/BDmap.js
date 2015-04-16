@@ -11,6 +11,7 @@ var lastPoint = new BMap.Point(116.332836,40.009999);
 var point = new BMap.Point(116.332836,40.009999);
 
 var path, startPointMarker, endPointMarker;
+var endPoint;
 
 function SetLocation(callback) {
     Location(function (pos) {
@@ -28,9 +29,9 @@ function SetLocation(callback) {
     });
 }
 
-function startLocation(endPoint) {
+function startLocation() {
     SetLocation();
-    if (map.getDistance(point, endPoint) < 30) {
+    if (map.getDistance(point, endPoint) < 50) {
         endNavigation();
         showModel("导航结束", "您已经到达目的地附近");
     }
@@ -48,9 +49,10 @@ function findRoute(startPoint, endPoint) {
     walking.search(startPoint, endPoint);
 }
 
-function startNavigation(startPoint, endPoint) {
-    findRoute(startPoint, endPoint);
-    locationLoop = setInterval(startLocation(endPoint), 5000);
+function startNavigation(startPoint, _endPoint) {
+    findRoute(startPoint, _endPoint);
+    endPoint = _endPoint;
+    locationLoop = setInterval("startLocation()", 5000);
 }
 
 function endNavigation() {
