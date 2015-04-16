@@ -1,7 +1,6 @@
 var map = new BMap.Map("allmap");
 map.centerAndZoom(new BMap.Point(116.332836,40.009999), 15);
 map.setCurrentCity("北京");
-map.addControl(new BMap.GeolocationControl());
 
 var locationLoop;
 

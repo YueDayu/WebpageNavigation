@@ -88,6 +88,9 @@ $(document).ready(function(){
         map.panTo(point);
         showModel("停止导航", "您已经手动停止导航。");
     });
+    $("#locate-button-div").click(function() {
+        map.panTo(point);
+    });
     //TODO:You can use the following code to make navgation-bottom-bar show or disappear
     //$("#begin-nav-div").fadeOut();
     //  $("#begin-nav-div").fadeOut();
