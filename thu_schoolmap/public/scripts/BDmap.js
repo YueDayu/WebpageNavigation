@@ -95,7 +95,12 @@ function addTip(){
         "软件学院校庆",
         "烧烤狂欢节"
     ];
+    var label = [
+        "scripts/0.jpg",
+        "scripts/2.jpg",
+        "scripts/1.jpg"
+    ];
     for(var i = 0;i < 3;i++){
-        var marker = addMarker(points[i], "scripts/new.jpg", titles[i]);
+        var marker = addMarker(points[i], label[i], titles[i]);
     }
 }
