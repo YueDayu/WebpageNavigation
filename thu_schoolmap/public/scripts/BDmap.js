@@ -36,20 +36,41 @@ function startLocation(endPoint) {
     }
 }
 
-function findRoute(startPoint, endPoint) {
-    var walking = new BMap.WalkingRoute(map, {renderOptions:{map: map, autoViewport: true}});
-    walking.setMarkersSetCallback(function(a) {
-        startPointMarker = a[0].marker;
-        endPointMarker = a[1].marker;
-    });
-    walking.setPolylinesSetCallback(function(a) {
-        path = a[0].getPolyline();
+function findWalkingRoute(startPoint, endPoint) {
+    var walking = new BMap.WalkingRoute(map, {
+        renderOptions:{
+            map: map,
+            autoViewport: true
+        },
+        onSearchComplete:function(a) {
+            startPointMarker = a[0].marker;
+            endPointMarker = a[1].marker;
+        },
+        onPolylinesSet:function(a) {
+            path = a[0].getPolyline();
+        }
     });
     walking.search(startPoint, endPoint);
 }
 
+function findDrivingRoute(startPoint, endPoint){
+    var driving = new BMap.DrivingRoute(map, {
+        renderOptions:{
+            map: map,
+            autoViewport: true
+        },
+        onSearchComplete:function(a) {
+            startPointMarker = a[0].marker;
+            endPointMarker = a[1].marker;
+        },
+        onPolylinesSet:function(a) {
+            path = a[0].getPolyline();
+        }
+    })
+}
+
 function startNavigation(startPoint, endPoint) {
-    findRoute(startPoint, endPoint);
+    findWalkingRoute(startPoint, endPoint);
     locationLoop = setInterval(startLocation(endPoint), 5000);
 }
 
