@@ -142,3 +142,25 @@ body {
 #locate-button span{
     font-size: 1.2em;
 }
+
+.Markerstyle {
+    position: absolute;
+    background-color: rgba(0, 0, 255, 0.2);
+    line-height : 18px;
+    white-space: nowrap;
+    -moz-user-select: none;
+    color : black;
+    border : 0px;
+    padding : 2px;
+    font-size: 12px;
+}
+
+.Arrowstyle {
+    position : absolute;
+    width: 11px;
+    height : 10px;
+    top : 22px;
+    left: 10px;
+    overflow : hidden;
+}
+

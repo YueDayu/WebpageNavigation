@@ -156,42 +156,29 @@ function addCMarker(point, imageFile, title,content) {
     ComplexCustomOverlay.prototype.initialize = function(map){
         this._map = map;
         var div = this._div = document.createElement("div");
-        div.style.position = "absolute";
+        div.className = "Markerstyle";
         div.style.zIndex = BMap.Overlay.getZIndex(this._point.lat);
-        div.style.backgroundColor = "#EE5D5B";
-        div.style.border = "1px solid #BC3B3A";
-        div.style.color = "white";
-        div.style.height = "20px";
-        div.style.padding = "2px";
-        div.style.lineHeight = "18px";
-        div.style.whiteSpace = "nowrap";
-        div.style.MozUserSelect = "none";
-        div.style.fontSize = "12px"
         var span = this._span = document.createElement("span");
         div.appendChild(span);
         span.appendChild(document.createTextNode(this._text));
         var that = this;
 
         var arrow = this._arrow = document.createElement("div");
-        arrow.style.position = "absolute";
-        arrow.style.width = "11px";
-        arrow.style.height = "10px";
-        arrow.style.top = "22px";
+        arrow.className = "Arrowstyle";
         arrow.style.left = "10px";
-        arrow.style.overflow = "hidden";
         div.appendChild(arrow);
 
         div.onmouseover = function(){
-            this.style.backgroundColor = "#6B00CA";
-            this.style.borderColor = "#0000ff";
+            //this.style.backgroundColor = "#6B00CA";
+            //this.style.borderColor = "#0000ff";
             this.style.height = "50px"
             this.getElementsByTagName("span")[0].innerHTML = that._overText;
             arrow.style.backgroundPosition = "0px -20px";
         }
 
         div.onmouseout = function(){
-            this.style.backgroundColor = "#EE5D5B";
-            this.style.borderColor = "#BC3B3A";
+            //this.style.backgroundColor = "#EE5D5B";
+            //this.style.borderColor = "#BC3B3A";
             this.style.height = "20px"
             this.getElementsByTagName("span")[0].innerHTML = that._text;
             arrow.style.backgroundPosition = "0px 0px";
