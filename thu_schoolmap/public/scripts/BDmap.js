@@ -134,7 +134,7 @@ function addTip(){
     $.getJSON("../data/activity_info.json",function(data){
         $.each(data,function(infoIndex,info){
             var point = new BMap.Point(info["longitude"],info["latitude"]);
-            var marker = addMarker(point,info["img"],info["title"],info["content"]);
+            var marker = addCMarker(point,info["img"],info["title"],info["content"]);
         });
     });
 }
@@ -212,4 +212,9 @@ function addCMarker(point, imageFile, title,content) {
     var myCompOverlay = new ComplexCustomOverlay(point, title,mouseoverTxt);
 
     map.addOverlay(myCompOverlay);
+}
+
+function addNewPoint(point) {
+    var Nmarker = new BMap.Marker(point);  // 创建标注
+    map.addOverlay(Nmarker);               // 将标注添加到地图中
 }
