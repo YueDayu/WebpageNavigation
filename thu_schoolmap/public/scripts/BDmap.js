@@ -1,7 +1,6 @@
 var map = new BMap.Map("allmap");
 map.centerAndZoom(new BMap.Point(116.332836,40.009999), 15);
 map.setCurrentCity("北京");
-map.addControl(new BMap.GeolocationControl());
 
 var locationLoop;
 
@@ -11,6 +10,7 @@ var lastPoint = new BMap.Point(116.332836,40.009999);
 var point = new BMap.Point(116.332836,40.009999);
 
 var path, startPointMarker, endPointMarker;
+var endPoint;
 
 function SetLocation(callback) {
     Location(function (pos) {
@@ -28,9 +28,9 @@ function SetLocation(callback) {
     });
 }
 
-function startLocation(endPoint) {
+function startLocation() {
     SetLocation();
-    if (map.getDistance(point, endPoint) < 30) {
+    if (map.getDistance(point, endPoint) < 50) {
         endNavigation();
         showModel("导航结束", "您已经到达目的地附近");
     }
@@ -66,11 +66,12 @@ function findDrivingRoute(startPoint, endPoint){
         onPolylinesSet:function(a) {
             path = a[0].getPolyline();
         }
-    })
+    });
+    driving.search(startPoint, endPoint);
 }
 
 function startNavigation(startPoint, endPoint) {
-    findWalkingRoute(startPoint, endPoint);
+    findDrivingRoute(startPoint, endPoint);
     locationLoop = setInterval(startLocation(endPoint), 5000);
 }
 

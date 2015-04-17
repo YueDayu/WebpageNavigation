@@ -58,6 +58,7 @@ function Location(callback) {
                                 longitude: point.lng,
                                 accuracy: accuracy
                             };
+                            lastLocation = location;
                         } else {
                             location = lastLocation;
                         }
