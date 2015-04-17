@@ -138,3 +138,10 @@ function addTip(){
         });
     });
 }
+
+function GetZoom() {
+    var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
+    if (Zoomrank > 13)
+        return 1;
+    else return 0;
+}
