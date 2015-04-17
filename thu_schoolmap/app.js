@@ -55,9 +55,9 @@ app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
                 var link = "<a href='http://123.56.155.236/Navigation'>点击我进行定位与导航</a>";
                 res.reply({type:"text",content:link});
                 break;
-            case "aaa":
-                res.reply({type:"text",content:"Just for test"});
-                break;
+//            case "aaa":
+//                res.reply({type:"text",content:"Just for test"});
+//                break;
             default :
                 break;
         }

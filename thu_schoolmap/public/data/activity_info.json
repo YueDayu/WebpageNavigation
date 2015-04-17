@@ -1,0 +1,23 @@
+[
+    {
+        "title":"嘉年华",
+        "longitude":116.336159,
+        "latitude":40.01565,
+        "img":"../img/0.jpg",
+        "content":"Default"
+    },
+    {
+        "title":"软件学院校庆",
+        "longitude":116.340166,
+        "latitude":40.007015,
+        "img":"../img/1.jpg",
+        "content":"Default"
+    },
+    {
+        "title":"烧烤狂欢节",
+        "longitude":116.332002,
+        "latitude":40.013724,
+        "img":"../img/2.jpg",
+        "content":"Default"
+    }
+]

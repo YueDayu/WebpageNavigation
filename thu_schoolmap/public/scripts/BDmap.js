@@ -58,7 +58,7 @@ function endNavigation() {
     clearInterval(locationLoop);
 }
 
-function addMarker(point, imageFile, title){
+function addMarker(point, imageFile, title,content){
     var myIcon = new BMap.Icon(imageFile, new BMap.Size(15,15));
     var marker = new BMap.Marker(point, {
         icon: myIcon
@@ -67,7 +67,7 @@ function addMarker(point, imageFile, title){
         marker.addEventListener("click", function(){
             var infoWindow = new BMap.InfoWindow();
             infoWindow.setTitle(title);
-            infoWindow.setContent("More information about the event");
+            infoWindow.setContent(content);
             marker.openInfoWindow(infoWindow);
         });
     }
@@ -76,32 +76,44 @@ function addMarker(point, imageFile, title){
 }
 
 function addRoadBlock(){
-    var blocks = [
-        new BMap.Point(116.337138,40.010476),
-        new BMap.Point(116.334111,40.011954)
-    ];
-    for(var i = 0;i < 2;i++){
-        var marker = addMarker(blocks[i], "scripts/RoadBlock.jpg");
-    }
+//    var blocks = [
+//        new BMap.Point(116.337138,40.010476),
+//        new BMap.Point(116.334111,40.011954)
+//    ];
+//    for(var i = 0;i < 2;i++){
+//        var marker = addMarker(blocks[i], "scripts/RoadBlock.jpg");
+//    }
+    $.getJSON("../data/roadblock_info.json",function(data){
+        $.each(data,function(infoIndex,info){
+            var point = new BMap.Point(info["longitude"],info["latitude"]);
+            var marker = addMarker(point,info["img"],info["title"],info["content"]);
+        });
+    });
 }
 
 function addTip(){
-    var points = [
-        new BMap.Point(116.336159,40.01565),
-        new BMap.Point(116.340166,40.007015),
-        new BMap.Point(116.332002,40.013724)
-    ];
-    var titles = [
-        "嘉年华",
-        "软件学院校庆",
-        "烧烤狂欢节"
-    ];
-    var label = [
-        "scripts/0.jpg",
-        "scripts/2.jpg",
-        "scripts/1.jpg"
-    ];
-    for(var i = 0;i < 3;i++){
-        var marker = addMarker(points[i], label[i], titles[i]);
-    }
+//    var points = [
+//        new BMap.Point(116.336159,40.01565),
+//        new BMap.Point(116.340166,40.007015),
+//        new BMap.Point(116.332002,40.013724)
+//    ];
+//    var titles = [
+//        "嘉年华",
+//        "软件学院校庆",
+//        "烧烤狂欢节"
+//    ];
+//    var label = [
+//        "scripts/0.jpg",
+//        "scripts/2.jpg",
+//        "scripts/1.jpg"
+//    ];
+//    for(var i = 0;i < 3;i++){
+//        var marker = addMarker(points[i], label[i], titles[i]);
+//    }
+    $.getJSON("../data/activity_info.json",function(data){
+        $.each(data,function(infoIndex,info){
+            var point = new BMap.Point(info["longitude"],info["latitude"]);
+            var marker = addMarker(point,info["img"],info["title"],info["content"]);
+        });
+    });
 }
