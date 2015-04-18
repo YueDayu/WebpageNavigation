@@ -245,7 +245,74 @@ function addTip(){
     $.getJSON("../data/activity_info.json",function(data){
         $.each(data,function(infoIndex,info){
             var point = new BMap.Point(info["longitude"],info["latitude"]);
-            var marker = addMarker(point,info["img"],info["title"],info["content"]);
+            var marker = addCMarker(point,info["img"],info["title"],info["content"]);
         });
     });
+}
+
+function GetZoom() {
+    var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
+    if (Zoomrank > 13)
+        return 1;
+    else return 0;
+}
+
+function addCMarker(point, imageFile, title,content) {
+    function ComplexCustomOverlay(point, text, mouseoverText){
+        this._point = point;
+        this._text = text;
+        this._overText = mouseoverText;
+    }
+    ComplexCustomOverlay.prototype = new BMap.Overlay();
+    ComplexCustomOverlay.prototype.initialize = function(map){
+        this._map = map;
+        var div = this._div = document.createElement("div");
+        div.className = "Markerstyle";
+        div.style.zIndex = BMap.Overlay.getZIndex(this._point.lat);
+        var span = this._span = document.createElement("span");
+        div.appendChild(span);
+        span.appendChild(document.createTextNode(this._text));
+        var that = this;
+
+        var arrow = this._arrow = document.createElement("div");
+        arrow.className = "Arrowstyle";
+        arrow.style.left = "10px";
+        div.appendChild(arrow);
+
+        div.onmouseover = function(){
+            //this.style.backgroundColor = "#6B00CA";
+            //this.style.borderColor = "#0000ff";
+            this.style.height = "50px"
+            this.getElementsByTagName("span")[0].innerHTML = that._overText;
+            arrow.style.backgroundPosition = "0px -20px";
+        }
+
+        div.onmouseout = function(){
+            //this.style.backgroundColor = "#EE5D5B";
+            //this.style.borderColor = "#BC3B3A";
+            this.style.height = "20px"
+            this.getElementsByTagName("span")[0].innerHTML = that._text;
+            arrow.style.backgroundPosition = "0px 0px";
+        }
+
+        map.getPanes().labelPane.appendChild(div);
+
+        return div;
+    }
+    ComplexCustomOverlay.prototype.draw = function(){
+        var map = this._map;
+        var pixel = map.pointToOverlayPixel(this._point);
+        this._div.style.left = pixel.x - parseInt(this._arrow.style.left) + "px";
+        this._div.style.top  = pixel.y - 30 + "px";
+    }
+    var txt = title, mouseoverTxt = content ;
+
+    var myCompOverlay = new ComplexCustomOverlay(point, title,mouseoverTxt);
+
+    map.addOverlay(myCompOverlay);
+}
+
+function addNewPoint(point) {
+    var Nmarker = new BMap.Marker(point);  // 创建标注
+    map.addOverlay(Nmarker);               // 将标注添加到地图中
 }
