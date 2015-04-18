@@ -5,6 +5,8 @@ var bs = new BMap.Bounds(pStart,pEnd);
 var lastMarker;
 var searchPoint;
 
+var roadcross;
+
 $(document).ready(function(){
     var ac = new BMap.Autocomplete({
             "input" : "search-content",
@@ -61,9 +63,11 @@ $(document).ready(function(){
 				geotableId:99990
 			}
 		});
+        $("#begin-nav-button").removeAttr("disabled");
     });
     $("#begin-nav-button").attr({"disabled":"disabled"}).click(function(){
         map.removeOverlay(lastMarker);
+        point = new BMap.Point(116.321759,40.005848);
         startNavigation(point, searchPoint);
         $("#begin-nav-div").fadeOut(function() {
             $("#stop-nav-div").fadeIn();
@@ -94,7 +98,7 @@ $(document).ready(function(){
     //TODO:You can use the following code to make navgation-bottom-bar show or disappear
     //$("#begin-nav-div").fadeOut();
     //  $("#begin-nav-div").fadeOut();
-    //  $("#begin-nav-div").fadeIn();
+    //  ("#begin-nav-div").fadeIn();
     //  $("#stop-nav-div").fadeOut();
     //  $("#stop-nav-div").fadeIn();
 
@@ -109,6 +113,7 @@ $(document).ready(function(){
     //});
     addRoadBlock();
     addTip();
+    $.getJSON("../data/roadcross_info.json", function(data){roadcross = data;});
 });
 
 function showModel(title, content){
