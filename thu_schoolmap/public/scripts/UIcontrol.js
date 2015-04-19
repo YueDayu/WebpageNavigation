@@ -119,10 +119,6 @@ $(document).ready(function(){
         $("#feed-back-model").modal("hide");
         resetfeedback();
     });
-    $("#set-location").click(function() {
-        $("#search-div").fadeIn();
-        $("#set-location").fadeOut();
-    });
     //TODO:You can use the following code to make navgation-bottom-bar show or disappear
     //$("#begin-nav-div").fadeOut();
     //  $("#begin-nav-div").fadeOut();
