@@ -14,6 +14,7 @@
 <body>
 
 <div id="allmap"></div>
+<div id = "feedback-button-div">遇到问题？反馈给我们</div>
 <div class="navbar navbar-fixed-top">
     <div class="container">
         <div class="nav-top-style" id = "search-div">
@@ -72,6 +73,82 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">正在努力定位中，请稍后</div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="feed-back-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">用户反馈</h4>
+            </div>
+            <div class="modal-body">
+                <form id="user-feedback">
+                    <label>您遇到的问题</label>
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="problem" value="cannot locate" id="problem1" checked>无法定位</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="problem" value="locate no precise" id="problem2">定位不准确</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="problem" value="cannot find place" id="problem3">查询不到地点</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="problem" value="place find no precise" id="problem4">查询地点不准确</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="problem" value="cannot navigate" id="problem5">无法导航</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="problem" value="else" id="problem6">其他</label>
+                    </div>
+
+                    <label>您手机型号</label>
+                    <select class="form-control" id="phone-type" name="phone-type">
+                        <option value="iPhone">iPhone</option>
+                        <option value="samsung">三星</option>
+                        <option value="mi">小米</option>
+                        <option value="meizu">魅族</option>
+                        <option value="huawei">华为</option>
+                        <option value="Windows Phone">Windows Phone</option>
+                        <option value="else">其他</option>
+                    </select>
+                    <label>您当前使用的网络</label>
+                    <div class="radio">
+                        <label><input type="radio" name="network" id="net-2G" value="2G" checked>2G</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="network" id="net-3G" value="3G">3G</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="network" id="net-4G" value="4G">4G</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="network" id="net-wifi" value="wifi">wifi</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="network" id="net-else" value="else">其他</label>
+                    </div>
+                    <label>上述问题给您的使用造成的影响</label>
+                    <div class="radio">
+                        <label><input type="radio" name="affect" id="affect1" value="not affect" checked>不影响使用</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="affect" id="affect2" value="a little">稍微有一点影响</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="affect" id="affect3" value="serious">比较严重，无法正常使用</label>
+                    </div>
+                    <label>请具体描述一下遇到的问题</label>
+                    <textarea class="form-control" name="problem-description" placeholder="请描述一下遇到的问题" rows="3" id="problem-desciption"></textarea>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel-post-feedback">关闭</button>
+                <button type="button" class="btn btn-primary" id="post-feedback">发送</button>
+            </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

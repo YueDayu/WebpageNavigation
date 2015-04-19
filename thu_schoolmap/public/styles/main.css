@@ -93,7 +93,7 @@ body {
 }
 
 .nav-bottom-style{
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 #search-content{
@@ -164,3 +164,21 @@ body {
     overflow : hidden;
 }
 
+#feedback-button-div{
+    position: absolute;
+    right: 1%;
+    bottom:15px;
+    /*top:60px;*/
+    z-index: 1500;
+    font-size: 0.8em;
+    color: rgb(66,139,202);
+    text-decoration: underline;
+}
+
+#feed-back-model{
+    z-index: 2000;
+}
+
+#phone-type{
+    margin-bottom: 10px;
+}

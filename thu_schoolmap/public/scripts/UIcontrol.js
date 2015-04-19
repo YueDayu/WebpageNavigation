@@ -95,6 +95,32 @@ $(document).ready(function(){
     $("#locate-button-div").click(function() {
         map.panTo(point);
     });
+    $("#feedback-button-div").click(function(){
+        $("#feed-back-model").modal('show');
+    });
+    $("#post-feedback").click(function(){
+        $.ajax({
+            cache:false,
+            type:"POST",
+            url:"feedback",
+            data:$("#user-feedback").serialize(),
+            async: true,
+            error: function(request) {
+                $("#feed-back-model").modal("hide");
+                resetfeedback();
+                showModel("发送失败","网络错误，请检查网络连接设置");
+            },
+            success: function(data) {
+                $("#feed-back-model").modal("hide");
+                resetfeedback();
+                showModel("发送成功","感谢您的合作！");
+            }
+        });
+    });
+    $("#cancel-post-feedback").click(function () {
+        $("#feed-back-model").modal("hide");
+        resetfeedback();
+    });
     //TODO:You can use the following code to make navgation-bottom-bar show or disappear
     //$("#begin-nav-div").fadeOut();
     //  $("#begin-nav-div").fadeOut();
@@ -120,4 +146,8 @@ function showModel(title, content){
     $("#model-title").text(title);
     $("#model-content").text(content);
     $("#search-no-result").modal('show');
+}
+
+function resetfeedback(){
+    $("#user-feedback")[0].reset();
 }

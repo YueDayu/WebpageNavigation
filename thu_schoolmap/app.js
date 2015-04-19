@@ -15,6 +15,7 @@ var app = express();
 var API = require("./node_modules/wechat-api");
 var config = require("./weixin/config");
 var api = new API(config.appid, config.appsecret);
+var fs = require('fs');
 
 // all environments
 app.set('port', process.env.PORT || 80);
@@ -87,4 +88,27 @@ app.post('/location', function(req, res){
     } else {
         res.send({isDebug: true});
     }
+});
+
+app.post('/feedback',function(req,res){
+    var feedback=req["body"];
+    var f_string = "";
+
+    for(var name in feedback){
+        if(name=="problem"){
+            f_string += "["+name+" ";
+            for(var i= 0;i < feedback[name].length;i++){
+                f_string += (i+1)+"-"+feedback[name][i] + " ";
+            }
+            f_string += "] ";
+        }
+        else{
+            f_string += "["+name + " "+ feedback[name] + "] ";
+        }
+    }
+    f_string += "\n";
+    fs.appendFile('./userfeedback.txt', f_string, function (err) {
+        if (err) throw err;
+    });
+    res.send("OK!");
 });
