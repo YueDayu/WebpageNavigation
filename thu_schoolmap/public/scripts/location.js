@@ -29,6 +29,16 @@ $.post("/location", function (result) {
 });
 
 function Location(callback) {
+    function setLocationByHand(e) {
+        location = {
+            latitude: e.point.lat,
+            longitude: e.point.lng,
+            accuracy: 0
+        };
+        $("#set-location").fadeIn();
+        lastLocation = location;
+        callback(location);
+    }
     var location = {};
     if (isDebug) { //Debug mode, use browser location
         var geo = new BMap.Geolocation();
@@ -42,7 +52,6 @@ function Location(callback) {
                 showModel("定位失败", "定位精度过低，请手动定位。");
                 $("#search-div").fadeOut();
                 map.addEventListener("click", function(e) {
-                    console.log("Click me!");
                     location = {
                         latitude: e.point.lat,
                         longitude: e.point.lng,
@@ -65,16 +74,11 @@ function Location(callback) {
                         if (lastLocation.longitude == 0) {
                             showModel("定位失败", "定位精度过低，请手动定位。");
                             $("#search-div").fadeOut();
-                            map.addEventListener("click", function(e) {
-                                console.log("Click me!");
-                                location = {
-                                    latitude: e.point.lat,
-                                    longitude: e.point.lng,
-                                    accuracy: 0
-                                };
-                                $("#set-location").fadeIn();
-                                lastLocation = location;
-                                callback(location);
+                            map.addEventListener("click", setLocationByHand);
+                            $("#set-location").click(function() {
+                                $("#search-div").fadeIn();
+                                $("#set-location").fadeOut();
+                                map.removeEventListener("click", setLocationByHand);
                             });
                         } else {
                             location = lastLocation;

@@ -80,7 +80,7 @@ $(document).ready(function(){
         map.panTo(point);
         $("#begin-nav-div").fadeOut();
     });
-    $("#stop-nav-div").click(function(){
+    $("#stop-nav-button").click(function(){
         endNavigation();
         map.removeOverlay(path);
         map.removeOverlay(startPointMarker);
@@ -90,7 +90,7 @@ $(document).ready(function(){
         map.panTo(point);
         showModel("停止导航", "您已经手动停止导航。");
     });
-    $("#locate-button-div").click(function() {
+    $("#locate-button").click(function() {
         map.panTo(point);
     });
     $("#feedback-button-div").click(function(){
@@ -119,10 +119,6 @@ $(document).ready(function(){
         $("#feed-back-model").modal("hide");
         resetfeedback();
     });
-    $("#set-location").click(function() {
-        $("#search-div").fadeIn();
-        $("#set-location").fadeOut();
-    });
     //TODO:You can use the following code to make navgation-bottom-bar show or disappear
     //$("#begin-nav-div").fadeOut();
     //  $("#begin-nav-div").fadeOut();
@@ -142,7 +138,7 @@ $(document).ready(function(){
     var p = 0;
     map.addEventListener("zoomend",function() {
         var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
-        if(Zoomrank > 14)
+        if(Zoomrank > 17)
         {
             if(p == 1)
             {
@@ -157,8 +153,8 @@ $(document).ready(function(){
             p = 1;
         }
     });
-    addRoadBlock();
-    addTip();
+
+    $.getJSON("../data/roadcross_info.json", function(data){roadcross = data;});
     console.log("1");
     $.getJSON("../data/roadcross_info.json", function(data){roadcross = data;console.log("s")});
     console.log("2");
