@@ -137,6 +137,24 @@ $(document).ready(function(){
     //$("#locate-button-div").click(function(){
     //
     //});
+    var p = 0;
+    map.addEventListener("zoomend",function() {
+        var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
+        if(Zoomrank > 14)
+        {
+            if(p == 1)
+            {
+                addRoadBlock();
+                addTip();
+            }
+            p = 0;
+        }
+        else
+        {
+            RemoveAc();
+            p = 1;
+        }
+    });
     addRoadBlock();
     addTip();
     $.getJSON("../data/roadcross_info.json", function(data){roadcross = data;});
