@@ -6,6 +6,8 @@ map.enableScrollWheelZoom(true);
 var locationLoop;
 
 var myPosMarker;
+var myAcMarker = [];
+var Acsize=0;
 var firstFlag = true;
 var lastPoint = new BMap.Point(116.332836,40.009999);
 var point = new BMap.Point(116.332836,40.009999);
@@ -196,7 +198,7 @@ function addMarker(point, imageFile, title,content){
         icon: myIcon
     });
     if(title){
-        marker.addEventListener("click", function(){
+         marker.addEventListener("click", function(){
             var infoWindow = new BMap.InfoWindow();
             infoWindow.setTitle(title);
             infoWindow.setContent(content);
@@ -208,54 +210,28 @@ function addMarker(point, imageFile, title,content){
 }
 
 function addRoadBlock(){
-//    var blocks = [
-//        new BMap.Point(116.337138,40.010476),
-//        new BMap.Point(116.334111,40.011954)
-//    ];
-//    for(var i = 0;i < 2;i++){
-//        var marker = addMarker(blocks[i], "scripts/RoadBlock.jpg");
-//    }
     $.getJSON("../data/roadblock_info.json",function(data){
         $.each(data,function(infoIndex,info){
             var point = new BMap.Point(info["longitude"],info["latitude"]);
             var marker = addMarker(point,info["img"],info["title"],info["content"]);
+            myAcMarker.push(marker);
+            Acsize += 1;
         });
     });
 }
 
 function addTip(){
-//    var points = [
-//        new BMap.Point(116.336159,40.01565),
-//        new BMap.Point(116.340166,40.007015),
-//        new BMap.Point(116.332002,40.013724)
-//    ];
-//    var titles = [
-//        "嘉年华",
-//        "软件学院校庆",
-//        "烧烤狂欢节"
-//    ];
-//    var label = [
-//        "scripts/0.jpg",
-//        "scripts/2.jpg",
-//        "scripts/1.jpg"
-//    ];
-//    for(var i = 0;i < 3;i++){
-//        var marker = addMarker(points[i], label[i], titles[i]);
-//    }
     $.getJSON("../data/activity_info.json",function(data){
         $.each(data,function(infoIndex,info){
             var point = new BMap.Point(info["longitude"],info["latitude"]);
-            var marker = addCMarker(point,info["img"],info["title"],info["content"]);
+            var marker = addSMarker(point,info["img"],info["title"],info["content"]);
+            myAcMarker.push(marker);
+            Acsize += 1;
         });
     });
 }
 
-function GetZoom() {
-    var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
-    if (Zoomrank > 13)
-        return 1;
-    else return 0;
-}
+
 
 function addCMarker(point, imageFile, title,content) {
     function ComplexCustomOverlay(point, text, mouseoverText){
@@ -310,6 +286,28 @@ function addCMarker(point, imageFile, title,content) {
     var myCompOverlay = new ComplexCustomOverlay(point, title,mouseoverTxt);
 
     map.addOverlay(myCompOverlay);
+}
+
+function addSMarker(point, imageFile, title,content) {
+    var marker = new BMap.Marker(point);
+    if(title){
+        marker.addEventListener("click", function(){
+            var infoWindow = new BMap.InfoWindow();
+            infoWindow.setTitle(title);
+            infoWindow.setContent(content);
+            marker.openInfoWindow(infoWindow);
+        });
+    }
+    map.addOverlay(marker);
+    return marker;
+}
+
+function RemoveAc() {
+    for (i = 0; i < Acsize; i++) {
+    map.removeOverlay(myAcMarker[i]);
+    }
+    Acsize = 0;
+    myAcMarker = [];
 }
 
 function addNewPoint(point) {
