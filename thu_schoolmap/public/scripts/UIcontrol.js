@@ -80,7 +80,7 @@ $(document).ready(function(){
         map.panTo(point);
         $("#begin-nav-div").fadeOut();
     });
-    $("#stop-nav-div").click(function(){
+    $("#stop-nav-button").click(function(){
         endNavigation();
         map.removeOverlay(path);
         map.removeOverlay(startPointMarker);
@@ -90,7 +90,7 @@ $(document).ready(function(){
         map.panTo(point);
         showModel("停止导航", "您已经手动停止导航。");
     });
-    $("#locate-button-div").click(function() {
+    $("#locate-button").click(function() {
         map.panTo(point);
     });
     $("#feedback-button-div").click(function(){
