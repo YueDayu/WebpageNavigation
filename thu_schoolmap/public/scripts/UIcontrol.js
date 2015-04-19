@@ -34,6 +34,7 @@ $(document).ready(function(){
                     lastMarker = new BMap.Marker(searchPoint);
                     map.addOverlay(lastMarker);
                     $("#begin-nav-div").fadeIn();
+                    $("#search-div").fadeOut();
                 } else {
 					showModel("搜索失败", "抱歉，我们没有在清华校内找到您要的地点。");
                 }
@@ -79,6 +80,7 @@ $(document).ready(function(){
         map.removeOverlay(lastMarker);
         map.panTo(point);
         $("#begin-nav-div").fadeOut();
+        $("#search-div").fadeIn();
     });
     $("#stop-nav-button").click(function(){
         endNavigation();
