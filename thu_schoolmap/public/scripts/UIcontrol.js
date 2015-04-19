@@ -14,7 +14,6 @@ $(document).ready(function(){
         });
 
     $("#allmap").click(function(){
-
        $("#search-content").blur();
        $("#search-button").blur();
        $("#begin-nav-button").blur();
@@ -120,6 +119,10 @@ $(document).ready(function(){
         $("#feed-back-model").modal("hide");
         resetfeedback();
     });
+    $("#set-location").click(function() {
+        $("#search-div").fadeIn();
+        $("#set-location").fadeOut();
+    });
     //TODO:You can use the following code to make navgation-bottom-bar show or disappear
     //$("#begin-nav-div").fadeOut();
     //  $("#begin-nav-div").fadeOut();
@@ -136,6 +139,24 @@ $(document).ready(function(){
     //$("#locate-button-div").click(function(){
     //
     //});
+    var p = 0;
+    map.addEventListener("zoomend",function() {
+        var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
+        if(Zoomrank > 14)
+        {
+            if(p == 1)
+            {
+                addRoadBlock();
+                addTip();
+            }
+            p = 0;
+        }
+        else
+        {
+            RemoveAc();
+            p = 1;
+        }
+    });
     addRoadBlock();
     addTip();
     console.log("1");

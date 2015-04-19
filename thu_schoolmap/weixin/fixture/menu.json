@@ -4,6 +4,11 @@
       "name":"校园导航",
       "type":"click",
       "key":"Navigation"
-    }
+    },
+    {
+        "name":"帮助",
+        "type":"click",
+        "key":"Help"
+     }
   ]
 }

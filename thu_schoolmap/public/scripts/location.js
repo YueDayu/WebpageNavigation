@@ -39,8 +39,19 @@ function Location(callback) {
                     longitude: r.point.lng,
                     accuracy: 0
                 };
+                showModel("定位失败", "定位精度过低，请手动定位。");
+                $("#search-div").fadeOut();
+                map.addEventListener("click", function(e) {
+                    console.log("Click me!");
+                    location = {
+                        latitude: e.point.lat,
+                        longitude: e.point.lng,
+                        accuracy: 0
+                    };
+                    $("#set-location").fadeIn();
+                    callback(location);
+                });
                 console.log(location);
-                callback(location);
             }
         },{enableHighAccuracy: true})
     } else { //wechat location
@@ -52,15 +63,22 @@ function Location(callback) {
                     if (accuracy >= 50)
                     {
                         if (lastLocation.longitude == 0) {
-                            showModel("定位失败", "定位精度过低，请确保打开GPS定位并重启应用");
-                            location = {
-                                latitude: point.lat,
-                                longitude: point.lng,
-                                accuracy: accuracy
-                            };
-                            lastLocation = location;
+                            showModel("定位失败", "定位精度过低，请手动定位。");
+                            $("#search-div").fadeOut();
+                            map.addEventListener("click", function(e) {
+                                console.log("Click me!");
+                                location = {
+                                    latitude: e.point.lat,
+                                    longitude: e.point.lng,
+                                    accuracy: 0
+                                };
+                                $("#set-location").fadeIn();
+                                lastLocation = location;
+                                callback(location);
+                            });
                         } else {
                             location = lastLocation;
+                            callback(location);
                         }
                     } else {
                         lastLocation = location;
@@ -69,8 +87,8 @@ function Location(callback) {
                             longitude: point.lng,
                             accuracy: accuracy
                         };
+                        callback(location);
                     }
-                    callback(location);
                 });
             },
             cancel: function (res) {
