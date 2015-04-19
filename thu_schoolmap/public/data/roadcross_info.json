@@ -15,11 +15,15 @@
 		{
 			"longitude":116.337296,
 			"road":"新民路"
-		},	
+		},
+	  	{
+			"longitude":116.339079,
+		  	"road":"主楼路"
+	  	},
 		{
 			"longitude":116.340970,
 			"road":"明德路"
-		}		
+		}
 	],
 	[
 		{
@@ -151,6 +155,32 @@
 				"longitude":116.336474,
 				"latitude":40.00316
 			}			
+		],
+		[
+			{
+			  "longitude":116.33695,
+			  "latitude":40.014773
+			},
+			{
+			  "longitude":116.337004,
+			  "latitude":40.01232
+			},
+			{
+			  "longitude":116.337129,
+			  "latitude":40.010476
+			},
+			{
+			  "longitude":116.337255,
+			  "latitude":40.008252
+			},
+			{
+			  "longitude":116.339079,
+			  "latitude":40.006794
+			},
+			{
+			  "longitude":116.339393,
+			  "latitude":40.003271
+			}
 		],
 		[
 			{
