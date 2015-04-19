@@ -14,7 +14,6 @@ $(document).ready(function(){
         });
 
     $("#allmap").click(function(){
-
        $("#search-content").blur();
        $("#search-button").blur();
        $("#begin-nav-button").blur();
@@ -120,6 +119,10 @@ $(document).ready(function(){
     $("#cancel-post-feedback").click(function () {
         $("#feed-back-model").modal("hide");
         resetfeedback();
+    });
+    $("#set-location").click(function() {
+        $("#search-div").fadeIn();
+        $("#set-location").fadeOut();
     });
     //TODO:You can use the following code to make navgation-bottom-bar show or disappear
     //$("#begin-nav-div").fadeOut();

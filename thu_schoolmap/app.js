@@ -2,7 +2,7 @@
 /**
  * Module dependencies.
  */
-var debug = false;
+var debug = true;
 
 var express = require('express');
 var routes = require('./routes');
