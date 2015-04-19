@@ -2,6 +2,7 @@
 /**
  * Module dependencies.
  */
+var debug = false;
 
 var express = require('express');
 var routes = require('./routes');
@@ -14,6 +15,7 @@ var app = express();
 var API = require("./node_modules/wechat-api");
 var config = require("./weixin/config");
 var api = new API(config.appid, config.appsecret);
+var fs = require('fs');
 
 // all environments
 app.set('port', process.env.PORT || 80);
@@ -46,16 +48,17 @@ app.use(express.query());
 app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
     var message = req.weixin;
     if(message.MsgType == 'text'){
-          res.reply({ type: "text", content: "you input " + message.Content});  
+          res.reply({ type: "text", content: "点击下方\"校园导航\"按钮进行定位与导航，点击下方\"帮助\"按钮查看使用说明"});
     }
     if(message.MsgType == 'event' && message.Event == 'CLICK'){
         switch(message.EventKey){
             case "Navigation":
-                var link = "<a href='http://123.56.155.236/Navigation'>click me</a>";
+                var link = "<a href='http://123.56.155.236/Navigation'>点击我进行定位与导航</a>";
                 res.reply({type:"text",content:link});
                 break;
-            case "aaa":
-                res.reply({type:"text",content:"Just for test"});
+            case "Help":
+                var help_message = "点击下方\"校园导航\"按钮，会收到一条消息，点击该消息即可进入相关网页进行定位于导航。\n如果网页长时间没有响应，请确保打开了GPS，并允许定位服务,之后重新进入网页。";
+                res.reply({type:"text",content:help_message});
                 break;
             default :
                 break;
@@ -63,8 +66,9 @@ app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
     }
 }));
 
-//If you want to create Menu
-//use this code
+//TODO:If you want to create Menu
+//TODO:use this code just run at the first time.
+
 menu.Menu();
 
 app.get('/Navigation',function(req,res) {
@@ -72,12 +76,40 @@ app.get('/Navigation',function(req,res) {
 });
 
 app.post('/location', function(req, res){
-    var param = {
-        debug:false,
-        jsApiList: ['getLocation'],
-        url:"http://123.56.155.236/Navigation"
-    };
-    api.getJsConfig(param, function(err, result){
-        res.send(result);
+    if (!debug) {
+        var param = {
+            debug:false,
+            jsApiList: ['getLocation'],
+            url:"http://123.56.155.236/Navigation"
+        };
+        api.getJsConfig(param, function(err, result){
+            result.isDebug = false;
+            res.send(result);
+        });
+    } else {
+        res.send({isDebug: true});
+    }
+});
+
+app.post('/feedback',function(req,res){
+    var feedback=req["body"];
+    var f_string = "";
+
+    for(var name in feedback){
+        if(name=="problem"){
+            f_string += "["+name+" ";
+            for(var i= 0;i < feedback[name].length;i++){
+                f_string += (i+1)+"-"+feedback[name][i] + " ";
+            }
+            f_string += "] ";
+        }
+        else{
+            f_string += "["+name + " "+ feedback[name] + "] ";
+        }
+    }
+    f_string += "\n";
+    fs.appendFile('./userfeedback.txt', f_string, function (err) {
+        if (err) throw err;
     });
+    res.send("OK!");
 });

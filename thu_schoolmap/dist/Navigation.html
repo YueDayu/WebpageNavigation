@@ -1,8 +1,170 @@
-<!DOCTYPE html> <html class=no-js> <head> <meta charset=utf-8> <title>webpageNavigation</title> <meta name=description content=""> <meta name=viewport content="width=device-width"> <link rel="shortcut icon" href=/6df2b309.favicon.ico> <!-- Place favicon.ico and apple-touch-icon.png in the root directory --> <link rel=stylesheet href=styles/9c307a9d.vendor.css> <link rel=stylesheet href=styles/a5896f90.main.css>  <body> <!--[if lt IE 10]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]--> <div class=container> <div class=header> <ul class="nav nav-pills pull-right"> <li class=active><a href=#>Home</a></li> <li><a href=#>About</a></li> <li><a href=#>Contact</a></li> </ul> <h3 class=text-muted>webpageNavigation</h3> </div> <div class=jumbotron> <h1>'Allo, 'Allo!</h1> <p class=lead>Always a pleasure scaffolding your apps.</p> <p><a class="btn btn-lg btn-success" href=#>Splendid! <span class="glyphicon glyphicon-ok"></span></a></p> </div> <div class="row marketing"> <div class=col-lg-6> <h4>HTML5 Boilerplate</h4> <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p> <h4>Bootstrap</h4> <p>Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.</p> </div> </div> <div class=footer> <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p> </div> </div> <script src=scripts/9e2a73af.vendor.js></script> <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. --> <script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-      e.src='//www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');</script> <script src=scripts/cb7562c6.plugins.js></script> <script src=scripts/b7e86f06.jweixin-1.0.0.js></script> <script src=scripts/9ed6173c.location.js></script> <script src=scripts/de63c1bd.UIcontrol.js></script> <script src=scripts/4c4e553e.BDmap.js></script>  
+<!DOCTYPE html>
+<html class=no-js>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>webpageNavigation</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="shortcut icon" href=./dist/favicon.ico> <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="stylesheet" href="styles/bootstrap.css">
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/vendor.css">
+    <link rel="stylesheet" href="styles/main.css">
+
+<body>
+
+<div id="allmap"></div>
+<div id = "feedback-button-div">遇到问题？反馈给我们</div>
+<div class="navbar navbar-fixed-top">
+    <div class="container">
+        <div class="nav-top-style" id = "search-div">
+            <div class="input-group">
+                <div id = "input-box" class="form-group  has-feedback">
+                    <input type="text" class="form-control" id = "search-content" placeholder="请输入要查询的地点">
+                </div>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" id = "search-button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+               </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div id = "locate-button-div">
+    <button type="button" class="btn btn-info " id = "locate-button">
+        <span class="glyphicon glyphicon-map-marker"></span>
+    </button>
+</div>
+<div class="navbar navbar-fixed-bottom" id ="navgation-bottom-bar">
+    <div class="container">
+        <div class="nav-bottom-style">
+            <div class="input-group" id="begin-nav-div">
+                <button type="button" class="btn btn-danger nav-button" id = "return-button">
+                    <span class="glyphicon glyphicon-chevron-right nav-icon"></span>返回
+                </button>
+                <button type="button" class="btn btn-primary nav-button" id = "begin-nav-button">
+                    <span class="glyphicon glyphicon-chevron-up nav-icon"></span>开始导航
+                </button>
+            </div>
+            <div class="input-group" id="stop-nav-div">
+                <button type="button" class="btn btn-danger nav-button" id = "stop-nav-button">
+                    <span class="glyphicon glyphicon-stop nav-icon"></span>停止导航
+                </button>
+            </div>
+            <div class="input-group" id="set-location">
+                <button type="button" class="btn btn-danger nav-button" id = "set-location-button">
+                    <span class="glyphicon glyphicon-map-marker"></span>设为当前地点
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="search-no-result" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id = "model-title"></h4>
+            </div>
+            <div class="modal-body" id = "model-content"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--<div class="modal fade" id="begin-nav-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+    <!--<div class="modal-dialog">-->
+        <!--<div class="modal-content">-->
+            <!--<div class="modal-body">正在努力定位中，请稍后</div>-->
+        <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
+    <!--</div>&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
+<!--</div>&lt;!&ndash; /.modal &ndash;&gt;-->
+<div class="modal fade" id="feed-back-model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">用户反馈</h4>
+            </div>
+            <div class="modal-body">
+                <form id="user-feedback">
+                    <label>您遇到的问题</label>
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="problem" value="cannot locate" id="problem1" checked>无法定位</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="problem" value="locate no precise" id="problem2">定位不准确</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="problem" value="cannot find place" id="problem3">查询不到地点</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="problem" value="place find no precise" id="problem4">查询地点不准确</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="problem" value="cannot navigate" id="problem5">无法导航</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="problem" value="else" id="problem6">其他</label>
+                    </div>
+
+                    <label>您手机型号</label>
+                    <select class="form-control" id="phone-type" name="phone-type">
+                        <option value="iPhone">iPhone</option>
+                        <option value="samsung">三星</option>
+                        <option value="mi">小米</option>
+                        <option value="meizu">魅族</option>
+                        <option value="huawei">华为</option>
+                        <option value="Windows Phone">Windows Phone</option>
+                        <option value="else">其他</option>
+                    </select>
+                    <label>您当前使用的网络</label>
+                    <div class="radio">
+                        <label><input type="radio" name="network" id="net-2G" value="2G" checked>2G</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="network" id="net-3G" value="3G">3G</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="network" id="net-4G" value="4G">4G</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="network" id="net-wifi" value="wifi">wifi</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="network" id="net-else" value="else">其他</label>
+                    </div>
+                    <label>上述问题给您的使用造成的影响</label>
+                    <div class="radio">
+                        <label><input type="radio" name="affect" id="affect1" value="not affect" checked>不影响使用</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="affect" id="affect2" value="a little">稍微有一点影响</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="affect" id="affect3" value="serious">比较严重，无法正常使用</label>
+                    </div>
+                    <label>请具体描述一下遇到的问题</label>
+                    <textarea class="form-control" name="problem-description" placeholder="请描述一下遇到的问题" rows="3" id="problem-desciption"></textarea>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel-post-feedback">关闭</button>
+                <button type="button" class="btn btn-primary" id="post-feedback">发送</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=RprdeOx6ifNtPgcYARapDtRY"></script>
+<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
+<script type="text/javascript" src="scripts/vendor.js"></script>
+<script type="text/javascript" src="scripts/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="scripts/BDmap.js"></script>
+<script type="text/javascript" src="scripts/location.js"></script>
+<script type="text/javascript" src="scripts/UIcontrol.js"></script>
+<script type="text/javascript" src="scripts/plugins.js"></script>
+<script type="text/javascript" src="scripts/bootstrap.js"></script>
+<script type="text/javascript" src="scripts/bootstrap.min.js"></script>
+</body>
+</html>
