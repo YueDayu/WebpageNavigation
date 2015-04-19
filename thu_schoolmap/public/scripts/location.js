@@ -73,8 +73,8 @@ function Location(callback) {
                                     accuracy: 0
                                 };
                                 $("#set-location").fadeIn();
-                                callback(location);
                                 lastLocation = location;
+                                callback(location);
                             });
                         } else {
                             location = lastLocation;
