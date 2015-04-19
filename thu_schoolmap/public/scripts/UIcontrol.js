@@ -138,7 +138,7 @@ $(document).ready(function(){
     var p = 0;
     map.addEventListener("zoomend",function() {
         var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
-        if(Zoomrank > 14)
+        if(Zoomrank > 17)
         {
             if(p == 1)
             {
@@ -153,8 +153,8 @@ $(document).ready(function(){
             p = 1;
         }
     });
-    addRoadBlock();
-    addTip();
+
+    $.getJSON("../data/roadcross_info.json", function(data){roadcross = data;});
     console.log("1");
     $.getJSON("../data/roadcross_info.json", function(data){roadcross = data;console.log("s")});
     console.log("2");
