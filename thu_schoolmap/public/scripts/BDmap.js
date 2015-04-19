@@ -38,8 +38,8 @@ function startLocation() {
 }
 
 function findRoadCross(startPoint) {
-    var result = [4, 5];
-    for (var i = 0; i < 5; i++) {
+    var result = [5, 5];
+    for (var i = 0; i < 6; i++) {
         if (startPoint.lng < roadcross[0][i]["longitude"]) {
             result[0] = i;
             break;
@@ -60,7 +60,6 @@ function findRoadCross(startPoint) {
     return result;
 }
 
-var MarkerTmp = [];
 var paths = [];
 
 function resultToPoint(x,y){
@@ -116,45 +115,30 @@ function findWalkingRoute(startPoint, endPoint) {
         walking.search(startPoint, endPoint);
     }
     else{
-        MarkerTmp = [];
         paths = [];
         now = 0;
         walks = [];
         var walking = new BMap.WalkingRoute(map, {
-            renderOptions: {
-                map: map,
-                autoViewport: true
-            },
             onSearchComplete:function(result){
                 now += 1;
-                if(now < walks.length){
-                    walking.search(walks[now][0],walks[now][1]);
+                if(now == 1){
+                    startPointMarker = new BMap.Marker(result.getStart().point);
+                    map.addOverlay(startPointMarker);
                 }
-            }
-        });
-        walking.setMarkersSetCallback(function(a) {
-            MarkerTmp.push(a[0].marker);
-            MarkerTmp.push(a[1].marker);
-            if(now == walks.length){
-                map.removeOverlay(MarkerTmp[2*now-2]);
-                map.addOverlay(MarkerTmp[0]);
-                startPointMarker = MarkerTmp[0];
-                endPointMarker = MarkerTmp[2*now-1];
-                MarkerTmp = [];
-            }
-        });
-        walking.setPolylinesSetCallback(function(a) {
-            paths.push(a[0].getPolyline());
-            if(now == walks.length){
-                var pathTmp = [];
-                map.removeOverlay(paths[now-1]);
-                for(var i = 0;i < now;i++){
-                    pathTmp = pathTmp.concat(paths[i].getPath());
+                else if(now == walks.length){
+                    endPointMarker = new BMap.Marker(result.getEnd().point);
+                    map.addOverlay(endPointMarker);
                 }
-                path = new BMap.Polyline(pathTmp);
-                paths = [];
-                map.addOverlay(path);
-                map.setViewport([startPointMarker.getPosition(), endPointMarker.getPosition()]);
+                paths = paths.concat(result.getPlan(0).getRoute(0).getPath());
+                if(now < walks.length) {
+                    walking.search(walks[now][0], walks[now][1]);
+                }
+                else{
+                    path = new BMap.Polyline(paths);
+                    map.addOverlay(path);
+                    paths = [];
+                    map.setViewport([startPointMarker.getPosition(), endPointMarker.getPosition()]);
+                }
             }
         });
         walks.push([startPoint, resultToPoint(result_0[0],result_0[1])]);
