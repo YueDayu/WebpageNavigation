@@ -56,59 +56,38 @@ function findRoadCross_0(startPoint) {
     return result;
 }
 
-function Modified_0(result_0, result_1, startPoint, endPoint, xy){
-    flag = false;
-    if(xy == 0){
-        tmp = "longitude";
-        pos0 = startPoint.lng;
-        pos1 = endPoint.lng;
-    }
-    else{
-        tmp = "latitude";
-        pos0 = startPoint.lat;
-        pos1 = endPoint.lat;
-    }
-    if(result_0[xy] > 0) {
-        rap = roadcross[xy][result_0[xy]][tmp] - roadcross[xy][result_0[xy] - 1][tmp];
-        rating = (pos0 - roadcross[xy][result_0[xy] - 1][tmp]) / rap;
-        rating_0 = (pos1 - pos0) / rap;
-        if ((rating <= 0.3)&&((pos1 <= pos0)||(rating_0 <= 0.3))) {
-            result_0[xy] -= 1;
-            flag = true;
-        }
-        else if ((rating >= 0.7)&&((pos1 >= pos0)||(rating_0 >= -0.3))){
-            flag = true;
-        }
-    }
-    return flag;
-}
-
-function Modified_1(result, startPoint, endPoint, xy){
-    if(xy == 0){
-        pos0 = startPoint.lng;
-        pos1 = endPoint.lng;
-    }
-    else{
-        pos0 = startPoint.lat;
-        pos1 = endPoint.lat;
-    }
-    if((result[xy] > 0) && (pos1 < pos0)){
-        result[xy] -= 1;
-        return true;
-    }
-    return false;
-}
-
 function findRoadCross(startPoint, endPoint){
+    x = startPoint.lng - endPoint.lng;
+    y = startPoint.lat - endPoint.lat;
+    area = x * x + y * y;
+    x = roadcross[0][2]["longitude"] - roadcross[0][3]["longitude"];
+    y = roadcross[1][2]["latitude"] - roadcross[1][3]["latitude"];
+    if(area < x * x + y * y){
+        return [[0,0],[0,0]];
+    }
     var result_0 = findRoadCross_0(startPoint);
     var result_1 = findRoadCross_0(endPoint);
-    if(!Modified_1(result_0, startPoint, endPoint, 0)){
-        Modified_0(result_0, result_1, startPoint, endPoint, 0);
+    if(result_0[0] > 0){
+        if(Math.abs(roadcross[0][result_0[0]]["longitude"] - endPoint.lng) >
+            Math.abs(roadcross[0][result_0[0]-1]["longitude"] - endPoint.lng))
+            result_0[0] -= 1;
     }
-    if(!Modified_1(result_0, startPoint, endPoint, 1)){
-        Modified_0(result_0, result_1, startPoint, endPoint, 1);
+    if(result_0[1] > 0){
+        if(Math.abs(roadcross[1][result_0[1]]["latitude"] - endPoint.lat) >
+            Math.abs(roadcross[1][result_0[1]-1]["latitude"] - endPoint.lat))
+            result_0[1] -= 1;
     }
-    return result_0;
+    if(result_1[0] > 0){
+        if(Math.abs(roadcross[0][result_1[0]]["longitude"] - roadcross[2][result_0[0]][result_0[1]]["longitude"]) >
+            Math.abs(roadcross[0][result_1[0]-1]["longitude"] - roadcross[2][result_0[0]][result_0[1]]["longitude"]))
+            result_1[0] -= 1;
+    }
+    if(result_1[1] > 0){
+        if(Math.abs(roadcross[1][result_1[1]]["latitude"] - roadcross[2][result_0[0]][result_0[1]]["latitude"]) >
+            Math.abs(roadcross[1][result_1[1]-1]["latitude"] - roadcross[2][result_0[0]][result_0[1]]["latitude"]))
+            result_1[1] -= 1;
+    }
+    return [result_0, result_1];
 }
 
 var paths = [];
@@ -147,11 +126,8 @@ var walks = [];
 var now = 0;
 
 function findWalkingRoute(startPoint, endPoint) {
-    var result_0 = findRoadCross(startPoint, endPoint);
-    var result_1 = findRoadCross(endPoint, startPoint);
-    console.log(result_0);
-    console.log(result_1);
-    if((result_0[0] == result_1[0]) && (result_0[1] == result_1[1])){
+    var result = findRoadCross(startPoint, endPoint);
+    if((result[0][0] == result[1][0]) && (result[0][1] == result[1][1])){
         var walking = new BMap.WalkingRoute(map, {
             renderOptions: {
                 map: map,
@@ -194,9 +170,9 @@ function findWalkingRoute(startPoint, endPoint) {
                 }
             }
         });
-        walks.push([startPoint, resultToPoint(result_0[0],result_0[1])]);
-        findRoad(result_0, result_1, walking);
-        walks.push([resultToPoint(result_1[0],result_1[1]), endPoint]);
+        walks.push([startPoint, resultToPoint(result[0][0],result[0][1])]);
+        findRoad(result[0], result[1], walking);
+        walks.push([resultToPoint(result[1][0],result[1][1]), endPoint]);
         walking.search(walks[0][0],walks[0][1]);
     }
 }
