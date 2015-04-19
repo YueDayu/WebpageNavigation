@@ -38,7 +38,7 @@ function startLocation() {
 }
 
 function findRoadCross(startPoint) {
-    var result = [5, 6];
+    var result = [4, 5];
     for (var i = 0; i < 5; i++) {
         if (startPoint.lng < roadcross[0][i]["longitude"]) {
             result[0] = i;
