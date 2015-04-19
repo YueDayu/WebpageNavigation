@@ -56,47 +56,57 @@ function findRoadCross_0(startPoint) {
     return result;
 }
 
-function Modified_0(result, point, xy){
+function Modified_0(result_0, result_1, startPoint, endPoint, xy){
     flag = false;
     if(xy == 0){
         tmp = "longitude";
-        pos = point.lng;
+        pos0 = startPoint.lng;
+        pos1 = endPoint.lng;
     }
     else{
         tmp = "latitude";
-        pos = point.lat;
+        pos0 = startPoint.lat;
+        pos1 = endPoint.lat;
     }
-    if(result[xy] > 0) {
-        rap = roadcross[xy][result[xy]][tmp] - roadcross[xy][result[xy] - 1][tmp];
-        rating = (pos - roadcross[xy][result[xy] - 1][tmp]) / rap;
-        if (rating <= 0.25) {
-            result[xy] -= 1;
+    if(result_0[xy] > 0) {
+        rap = roadcross[xy][result_0[xy]][tmp] - roadcross[xy][result_0[xy] - 1][tmp];
+        rating = (pos0 - roadcross[xy][result_0[xy] - 1][tmp]) / rap;
+        rating_0 = (pos1 - pos0) / rap;
+        if ((rating <= 0.3)&&((pos1 <= pos0)||(rating_0 <= 0.3))) {
+            result_0[xy] -= 1;
             flag = true;
         }
-        else if (rating >= 0.75){
+        else if ((rating >= 0.7)&&((pos1 >= pos0)||(rating_0 >= -0.3))){
             flag = true;
         }
     }
     return flag;
 }
 
-function Modified_1(result_0, result_1, startPoint, endPoint, xy){
-    if(result_0[xy] == result_1[xy]){
-        return;
+function Modified_1(result, startPoint, endPoint, xy){
+    if(xy == 0){
+        pos0 = startPoint.lng;
+        pos1 = endPoint.lng;
     }
-    if(result_1[xy] < result_0[xy]){
-        result_0[xy] -= 1;
+    else{
+        pos0 = startPoint.lat;
+        pos1 = endPoint.lat;
     }
+    if((result[xy] > 0) && (pos1 < pos0)){
+        result[xy] -= 1;
+        return true;
+    }
+    return false;
 }
 
 function findRoadCross(startPoint, endPoint){
     var result_0 = findRoadCross_0(startPoint);
     var result_1 = findRoadCross_0(endPoint);
-    if(!Modified_0(result_0, startPoint, 0)){
-        Modified_1(result_0, result_1, startPoint, endPoint, 0);
+    if(!Modified_1(result_0, startPoint, endPoint, 0)){
+        Modified_0(result_0, result_1, startPoint, endPoint, 0);
     }
-    if(!Modified_0(result_0, startPoint, 1)){
-        Modified_1(result_0, result_1, startPoint, endPoint, 1);
+    if(!Modified_1(result_0, startPoint, endPoint, 1)){
+        Modified_0(result_0, result_1, startPoint, endPoint, 1);
     }
     return result_0;
 }
@@ -139,6 +149,8 @@ var now = 0;
 function findWalkingRoute(startPoint, endPoint) {
     var result_0 = findRoadCross(startPoint, endPoint);
     var result_1 = findRoadCross(endPoint, startPoint);
+    console.log(result_0);
+    console.log(result_1);
     if((result_0[0] == result_1[0]) && (result_0[1] == result_1[1])){
         var walking = new BMap.WalkingRoute(map, {
             renderOptions: {
