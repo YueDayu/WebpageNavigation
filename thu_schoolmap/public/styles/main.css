@@ -182,3 +182,9 @@ body {
 #phone-type{
     margin-bottom: 10px;
 }
+
+.infostyle{
+    font-size:15px;
+    color:#FF0000;
+    background-color:#FFFFFF
+}
