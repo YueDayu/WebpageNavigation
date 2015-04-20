@@ -4,23 +4,52 @@ var lastLocation = {
     longitude: 0,
     accuracy: 0
 };
-
-$.post("/location", function (result) {
-    isDebug = result.isDebug;
-    wx.config({
-        debug: true,
-        appId: result.appId,
-        timestamp: result.timestamp,
-        nonceStr: result.nonceStr,
-        signature: result.signature,
-        jsApiList: result.jsApiList
-    });
-    wx.ready(function () {
-        SetLocation(function () {
-            map.panTo(point);
-        });
-    });
+$.ajax({
+    url: "location",
+    type: "post",
+    data: {
+        url: location.href.split('#')[0]
+    },
+    success: function (result) {
+        isDebug = result.isDebug;
+        if (!isDebug) {
+            wx.config({
+                debug: false,
+                appId: result.appId,
+                timestamp: result.timestamp,
+                nonceStr: result.nonceStr,
+                signature: result.signature,
+                jsApiList: result.jsApiList
+            });
+            wx.ready(function () {
+                SetLocation(function () {
+                    map.panTo(point);
+                });
+            });
+        }
+        else {
+            SetLocation(function () {
+                map.panTo(point);
+            });
+        }
+    }
 });
+//$.post("/location", function (result) {
+//    isDebug = result.isDebug;
+//    wx.config({
+//        debug: false,
+//        appId: result.appId,
+//        timestamp: result.timestamp,
+//        nonceStr: result.nonceStr,
+//        signature: result.signature,
+//        jsApiList: result.jsApiList
+//    });
+//    wx.ready(function () {
+//        SetLocation(function () {
+//            map.panTo(point);
+//        });
+//    });
+//});
 
 function Location(callback) {
     function setLocationByHand(e) {
