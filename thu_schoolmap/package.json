@@ -1,0 +1,14 @@
+{
+  "name": "thu_schoolmap",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.5.0",
+    "jade": "*",
+    "wechat":"1.2.3",
+    "wechat-api":"1.7.1"
+  }
+}

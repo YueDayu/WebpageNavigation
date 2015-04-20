@@ -1,0 +1,9 @@
+{
+  "button":[
+    {
+      "name":"校园导航",
+      "type":"click",
+      "key":"Navigation"
+    }
+  ]
+}

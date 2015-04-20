@@ -93,11 +93,7 @@ body {
 }
 
 .nav-bottom-style{
-    margin-bottom: 20px;
-}
-
-#navigation-bottom-bar{
-
+    margin-bottom: 30px;
 }
 
 #search-content{
@@ -106,7 +102,7 @@ body {
     height: 35px;
 }
 
-#begin-nav-div,#stop-nav-div{
+#begin-nav-div,#stop-nav-div, #set-location{
     width: auto;
     margin-left: auto;
     margin-right: auto;
@@ -139,18 +135,56 @@ body {
 
 #locate-button-div{
     position: absolute;
-    left: 5%;
+    right: 5%;
     bottom:15%;
-
-}
-
-#locate-button{
-    /*background: -webkit-linear-gradient(white, #dddddd); *//* Safari 5.1 - 6.0 */
-    /*background: -o-linear-gradient(white, #dddddd); *//* Opera 11.1 - 12.0 */
-    /*background: -moz-linear-gradient(white, #dddddd); *//* Firefox 3.6 - 15 */
-    /*background: linear-gradient(white, #dddddd); *//* 标准的语法 */
 }
 
 #locate-button span{
     font-size: 1.2em;
+}
+
+.Markerstyle {
+    position: absolute;
+    background-color: rgba(0, 0, 255, 0.2);
+    line-height : 18px;
+    white-space: nowrap;
+    -moz-user-select: none;
+    color : black;
+    border : 0px;
+    padding : 2px;
+    font-size: 12px;
+}
+
+.Arrowstyle {
+    position : absolute;
+    width: 11px;
+    height : 10px;
+    top : 22px;
+    left: 10px;
+    overflow : hidden;
+}
+
+#feedback-button-div{
+    position: absolute;
+    right: 1%;
+    bottom:15px;
+    /*top:60px;*/
+    z-index: 1500;
+    font-size: 0.8em;
+    color: rgb(66,139,202);
+    text-decoration: underline;
+}
+
+#feed-back-model{
+    z-index: 2000;
+}
+
+#phone-type{
+    margin-bottom: 10px;
+}
+
+.infostyle{
+    font-size:15px;
+    color:#FF0000;
+    background-color:#FFFFFF
 }

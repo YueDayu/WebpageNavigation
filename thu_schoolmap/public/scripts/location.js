@@ -29,6 +29,16 @@ $.post("/location", function (result) {
 });
 
 function Location(callback) {
+    function setLocationByHand(e) {
+        location = {
+            latitude: e.point.lat,
+            longitude: e.point.lng,
+            accuracy: 0
+        };
+        $("#set-location").fadeIn();
+        lastLocation = location;
+        callback(location);
+    }
     var location = {};
     if (isDebug) { //Debug mode, use browser location
         var geo = new BMap.Geolocation();
@@ -49,19 +59,31 @@ function Location(callback) {
                 var tempPoint = new BMap.Point(parseFloat(res.longitude), parseFloat(res.latitude));
                 BMap.Convertor.translate(tempPoint, 0, function(point) {
                     var accuracy = parseFloat(res.accuracy);
-                    if (accuracy >= 50)
+                    if (accuracy >= 50 && accuracy <= 150)
                     {
                         if (lastLocation.longitude == 0) {
-                            showModel("定位失败", "定位精度过低，请确保打开GPS定位并重启应用");
+                            showModel("定位精度过低", "请确保打开GPS定位");
                             location = {
                                 latitude: point.lat,
                                 longitude: point.lng,
                                 accuracy: accuracy
                             };
+                            lastLocation = location;
                         } else {
                             location = lastLocation;
                         }
-                    } else {
+                    }
+                    else if(accuracy > 150){
+                        showModel("定位失败", "定位精度过低，请手动定位。");
+                        $("#search-div").fadeOut();
+                        map.addEventListener("click", setLocationByHand);
+                        $("#set-location").click(function() {
+                            $("#search-div").fadeIn();
+                            $("#set-location").fadeOut();
+                            map.removeEventListener("click", setLocationByHand); 
+                        });
+                    } 
+                    else {
                         lastLocation = location;
                         location = {
                             latitude: point.lat,
