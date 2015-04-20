@@ -6,12 +6,12 @@ var lastLocation = {
 };
 
 $.ajax({
-    url:"loaction",
-    type:"post",
-    data:{
-        url:location.href.split('#')[0]
+    url: "loaction",
+    type: "post",
+    data: {
+        url: location.href.split('#')[0]
     },
-    success: function(result) {
+    success: function (result) {
         isDebug = result.isDebug;
         if (!isDebug) {
             wx.config({
@@ -22,46 +22,22 @@ $.ajax({
                 signature: result.signature,
                 jsApiList: result.jsApiList
             });
-            wx.ready(function() {
-                SetLocation(function() {
+            wx.ready(function () {
+                SetLocation(function () {
                     map.panTo(point);
                 });
             });
         }
         else {
-            SetLocation(function() {
+            SetLocation(function () {
                 map.panTo(point);
             });
         }
     }
 });
 
-//$.post("/location", function (result) {
-//    isDebug = result.isDebug;
-//    if (!isDebug) {
-//        wx.config({
-//            debug: true,
-//            appId: result.appId,
-//            timestamp: result.timestamp,
-//            nonceStr: result.nonceStr,
-//            signature: result.signature,
-//            jsApiList: result.jsApiList
-//        });
-//        console.log(result);
-//
-//        wx.ready(function() {
-//            SetLocation(function() {
-//                map.panTo(point);
-//            });
-//        });
-//    } else {
-//        SetLocation(function() {
-//            map.panTo(point);
-//        });
-//    }
-//});
-
 function Location(callback) {
+    var location = {};
     function setLocationByHand(e) {
         location = {
             latitude: e.point.lat,
@@ -72,11 +48,10 @@ function Location(callback) {
         lastLocation = location;
         callback(location);
     }
-    var location = {};
     if (isDebug) { //Debug mode, use browser location
         var geo = new BMap.Geolocation();
-        geo.getCurrentPosition(function(r){
-            if(this.getStatus() == BMAP_STATUS_SUCCESS){
+        geo.getCurrentPosition(function (r) {
+            if (this.getStatus() == BMAP_STATUS_SUCCESS) {
                 location = {
                     latitude: r.point.lat,
                     longitude: r.point.lng,
@@ -84,7 +59,7 @@ function Location(callback) {
                 };
                 showModel("定位失败", "定位精度过低，请手动定位。");
                 $("#search-div").fadeOut();
-                map.addEventListener("click", function(e) {
+                map.addEventListener("click", function (e) {
                     location = {
                         latitude: e.point.lat,
                         longitude: e.point.lng,
@@ -95,48 +70,47 @@ function Location(callback) {
                 });
                 console.log(location);
             }
-        },{enableHighAccuracy: true})
+        }, {enableHighAccuracy: true})
     } else { //wechat location
         wx.getLocation({
             success: function (res) {
                 var tempPoint = new BMap.Point(parseFloat(res.longitude), parseFloat(res.latitude));
-                BMap.Convertor.translate(tempPoint, 0, function(point) {
+                BMap.Convertor.translate(tempPoint, 0, function (point) {
                     var accuracy = parseFloat(res.accuracy);
-                    if (accuracy >= 50 && accuracy <= 150)
-                    {
+                    if (accuracy >= 50 && accuracy <= 150) {
                         if (lastLocation.longitude == 0) {
-                            showModel("定位精度过低", "请确保打开GPS定位");
-                            location = {
-                                latitude: point.lat,
-                                longitude: point.lng,
-                                accuracy: accuracy
-                            };
-                            lastLocation = location;
+                            if (accuracy <= 150) {
+                                showModel("定位精度过低", "请确保打开GPS定位");
+                                location = {
+                                    latitude: point.lat,
+                                    longitude: point.lng,
+                                    accuracy: accuracy
+                                };
+                                lastLocation = location;
+                                callback(location);
+                            } else {
+                                showModel("定位失败", "定位精度过低，请手动定位。");
+                                $("#search-div").fadeOut();
+                                map.addEventListener("click", setLocationByHand);
+                                $("#set-location").click(function () {
+                                    $("#search-div").fadeIn();
+                                    $("#set-location").fadeOut();
+                                    map.removeEventListener("click", setLocationByHand);
+                                });
+                            }
                         } else {
                             location = lastLocation;
-                            //callback(location);
+                            callback(location);
                         }
-                    }
-                    else if(accuracy > 150){
-                        showModel("定位失败", "定位精度过低，请手动定位。");
-                        $("#search-div").fadeOut();
-                        map.addEventListener("click", setLocationByHand);
-                        $("#set-location").click(function() {
-                            $("#search-div").fadeIn();
-                            $("#set-location").fadeOut();
-                            map.removeEventListener("click", setLocationByHand);
-                        });
-                    }
-                    else {
+                    } else {
                         lastLocation = location;
                         location = {
                             latitude: point.lat,
                             longitude: point.lng,
                             accuracy: accuracy
                         };
-                        //callback(location);
+                        callback(location);
                     }
-                    callback(location);
                 });
             },
             cancel: function (res) {
@@ -144,7 +118,7 @@ function Location(callback) {
             }
         });
         wx.error(function (res) {
-            //alert("获取权限失败请重启应用");
+            alert("获取权限失败请重启应用");
         });
     }
 }
