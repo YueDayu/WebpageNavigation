@@ -48,12 +48,12 @@ app.use(express.query());
 app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
     var message = req.weixin;
     if(message.MsgType == 'text'){
-          res.reply({ type: "text", content: "点击下方\"校园导航\"按钮进行定位与导航，点击下方\"帮助\"按钮查看使用说明"});
+          res.reply({ type: "text", content: "点击下方\"校园导航\"按钮进行定位与导航."});
     }
     if(message.MsgType == 'event' && message.Event == 'CLICK'){
         switch(message.EventKey){
             case "Navigation":
-                var link = "<a href='http://166.111.80.103/Navigation'>点击我进行定位与导航</a>\n如果网页长时间没有响应，请确保打开了GPS，并允许定位服务,之后重新进入网页。";
+                var link = "<a href='shsf.thss.tsinghua.edu.cn/Navigation'>点击我进行定位与导航</a>\n如果网页长时间没有响应，请确保打开了GPS，并允许定位服务,之后重新进入网页。";
                 res.reply({type:"text",content:link});
                 break;
             default :
@@ -76,7 +76,7 @@ app.post('/location', function(req, res){
         var param = {
             debug:false,
             jsApiList: ['getLocation'],
-            url:"http://166.111.80.103/Navigation"
+            url:req.body.url
         };
         api.getJsConfig(param, function(err, result){
             result.isDebug = false;

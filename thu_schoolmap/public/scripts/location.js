@@ -5,28 +5,61 @@ var lastLocation = {
     accuracy: 0
 };
 
-$.post("/location", function (result) {
-    isDebug = result.isDebug;
-    if (!isDebug) {
-        wx.config({
-            debug: false,
-            appId: result.appId,
-            timestamp: result.timestamp,
-            nonceStr: result.nonceStr,
-            signature: result.signature,
-            jsApiList: result.jsApiList
-        });
-        wx.ready(function() {
+$.ajax({
+    url:"loaction",
+    type:"post",
+    data:{
+        url:location.href.split('#')[0]
+    },
+    success: function(result) {
+        isDebug = result.isDebug;
+        if (!isDebug) {
+            wx.config({
+                debug: false,
+                appId: result.appId,
+                timestamp: result.timestamp,
+                nonceStr: result.nonceStr,
+                signature: result.signature,
+                jsApiList: result.jsApiList
+            });
+            wx.ready(function() {
+                SetLocation(function() {
+                    map.panTo(point);
+                });
+            });
+        }
+        else {
             SetLocation(function() {
                 map.panTo(point);
             });
-        });
-    } else {
-        SetLocation(function() {
-            map.panTo(point);
-        });
+        }
     }
 });
+
+//$.post("/location", function (result) {
+//    isDebug = result.isDebug;
+//    if (!isDebug) {
+//        wx.config({
+//            debug: true,
+//            appId: result.appId,
+//            timestamp: result.timestamp,
+//            nonceStr: result.nonceStr,
+//            signature: result.signature,
+//            jsApiList: result.jsApiList
+//        });
+//        console.log(result);
+//
+//        wx.ready(function() {
+//            SetLocation(function() {
+//                map.panTo(point);
+//            });
+//        });
+//    } else {
+//        SetLocation(function() {
+//            map.panTo(point);
+//        });
+//    }
+//});
 
 function Location(callback) {
     function setLocationByHand(e) {
@@ -111,7 +144,7 @@ function Location(callback) {
             }
         });
         wx.error(function (res) {
-            alert("获取权限失败请重启应用");
+            //alert("获取权限失败请重启应用");
         });
     }
 }
