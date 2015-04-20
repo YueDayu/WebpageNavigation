@@ -53,7 +53,7 @@ app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
     if(message.MsgType == 'event' && message.Event == 'CLICK'){
         switch(message.EventKey){
             case "Navigation":
-                var link = "<a href='shsf.thss.tsinghua.edu.cn/Navigation'>点击我进行定位与导航</a>\n如果网页长时间没有响应，请确保打开了GPS，并允许定位服务,之后重新进入网页。";
+                var link = "<a href='shsf.thss.tsinghua.edu.cn/Navigation'>点击我进行定位与导航</a>";
                 res.reply({type:"text",content:link});
                 break;
             default :
