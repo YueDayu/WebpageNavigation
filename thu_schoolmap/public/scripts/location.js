@@ -81,7 +81,7 @@ function Location(callback) {
         }
     });
     wx.error(function (res) {
-        alert(res);
+        alert("获取权限失败，无法获取地理位置。");
     });
 }
 
