@@ -48,12 +48,13 @@ app.use(express.query());
 app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
     var message = req.weixin;
     if(message.MsgType == 'text'){
-          res.reply({ type: "text", content: "点击下方\"校园导航\"按钮进行定位与导航."});
+        var link = "<a href='http://shsf.thss.tsinghua.edu.cn/Navigation'>点击我进行定位与导航</a>";
+        res.reply({type:"text",content:link});
     }
     if(message.MsgType == 'event' && message.Event == 'CLICK'){
         switch(message.EventKey){
             case "Navigation":
-                var link = "<a href='shsf.thss.tsinghua.edu.cn/Navigation'>点击我进行定位与导航</a>";
+                var link = "<a href='http://shsf.thss.tsinghua.edu.cn/Navigation'>点击我进行定位与导航</a>";
                 res.reply({type:"text",content:link});
                 break;
             default :
