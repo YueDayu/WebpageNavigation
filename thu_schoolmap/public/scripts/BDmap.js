@@ -235,7 +235,7 @@ function addTip(){
     $.getJSON("../data/activity_info.json",function(data){
         $.each(data,function(infoIndex,info){
             var point = new BMap.Point(info["longitude"],info["latitude"]);
-            var marker = addSMarker(point,info["img"],info["title"],info["content"]);
+            var marker = addSMarker(point,info["title"],info["content"]);
             myAcMarker.push(marker);
             Acsize += 1;
         });
@@ -299,7 +299,7 @@ function addCMarker(point, imageFile, title,content) {
     map.addOverlay(myCompOverlay);
 }
 
-function addSMarker(point, imageFile, title,content) {
+function addSMarker(point, title,content) {
      var myIcon = new BMap.Icon("img/s1.png", new BMap.Size(24,24));
      var marker = new BMap.Marker(point, {
          icon: myIcon});

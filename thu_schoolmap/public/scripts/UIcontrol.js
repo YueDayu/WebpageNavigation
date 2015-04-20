@@ -122,7 +122,7 @@ $(document).ready(function(){
         resetfeedback();
     });
 
-    var p = 0;
+    var p = 1;
     map.addEventListener("zoomend",function() {
         var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
         if(Zoomrank > 15)
