@@ -25,11 +25,11 @@ $(document).ready(function(){
         map.removeOverlay(startPointMarker);
         map.removeOverlay(endPointMarker);
         map.removeOverlay(lastMarker);
-        $("#search-button").attr({"disabled":"disabled"});
+        //$("#search-button").attr({"disabled":"disabled"});
         var options = {
             onSearchComplete: function(results){
 				$("#search-content").val("");
-                $("#search-button").removeAttr("disabled");
+                //$("#search-button").removeAttr("disabled");
                 if (local.getStatus() == BMAP_STATUS_SUCCESS){
                     searchPoint = local.getResults().getPoi(0).point;
                     map.centerAndZoom(searchPoint, 18);
