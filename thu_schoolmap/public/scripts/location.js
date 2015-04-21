@@ -70,7 +70,7 @@ function Location(callback) {
             BMap.Convertor.translate(tempPoint, 0, function (point) {
                 var accuracy = parseFloat(res.accuracy);
                 if (accuracy >= 50) {
-                    if (lastLocation.longitude == 0) {
+                    if (lastLocation.longitude == 0 && lastLocation.latitude == 0) {
                         if (accuracy <= 150) {
                             showModel("定位精度过低", "请确保打开GPS定位");
                             location = {
@@ -98,12 +98,12 @@ function Location(callback) {
                     }
                 }
                 else {
-                    lastLocation = location;
                     location = {
                         latitude: point.lat,
                         longitude: point.lng,
                         accuracy: accuracy
                     };
+                    lastLocation = location;
                     callback(location);
                 }
             });
