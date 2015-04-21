@@ -25,16 +25,18 @@ $(document).ready(function(){
         map.removeOverlay(startPointMarker);
         map.removeOverlay(endPointMarker);
         map.removeOverlay(lastMarker);
-        $("#search-div").fadeOut();
+        $("#search-button").attr({"disabled":"disabled"});
         var options = {
             onSearchComplete: function(results){
 				$("#search-content").val("");
+                $("#search-button").removeAttr("disabled");
                 if (local.getStatus() == BMAP_STATUS_SUCCESS){
                     searchPoint = local.getResults().getPoi(0).point;
                     map.centerAndZoom(searchPoint, 18);
                     lastMarker = new BMap.Marker(searchPoint);
                     map.addOverlay(lastMarker);
                     $("#begin-nav-div").fadeIn();
+                    $("#search-div").fadeOut();
                 } else {
 					showModel("搜索失败", "抱歉，我们没有在清华校内找到您要的地点。");
                 }

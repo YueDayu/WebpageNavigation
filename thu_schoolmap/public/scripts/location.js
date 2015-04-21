@@ -1,5 +1,5 @@
 var isDebug = true;
-var lastLocation = {
+var lastLocation_my = {
     latitude: 0,
     longitude: 0,
     accuracy: 0
@@ -34,22 +34,6 @@ $.ajax({
         }
     }
 });
-//$.post("/location", function (result) {
-//    isDebug = result.isDebug;
-//    wx.config({
-//        debug: false,
-//        appId: result.appId,
-//        timestamp: result.timestamp,
-//        nonceStr: result.nonceStr,
-//        signature: result.signature,
-//        jsApiList: result.jsApiList
-//    });
-//    wx.ready(function () {
-//        SetLocation(function () {
-//            map.panTo(point);
-//        });
-//    });
-//});
 
 function Location(callback) {
     function setLocationByHand(e) {
@@ -59,18 +43,18 @@ function Location(callback) {
             accuracy: 0
         };
         $("#set-location").fadeIn();
-        lastLocation = location;
+        lastLocation_my = location;
         callback(location);
     }
-
     var location = {};
     wx.getLocation({
         success: function (res) {
             var tempPoint = new BMap.Point(parseFloat(res.longitude), parseFloat(res.latitude));
             BMap.Convertor.translate(tempPoint, 0, function (point) {
                 var accuracy = parseFloat(res.accuracy);
+                alert("Hello" + lastLocation_my.latitude);
                 if (accuracy >= 50) {
-                    if (lastLocation.longitude == 0 && lastLocation.latitude == 0) {
+                    if (lastLocation_my.longitude == 0 && lastLocation_my.latitude == 0) {
                         if (accuracy <= 150) {
                             showModel("定位精度过低", "请确保打开GPS定位");
                             location = {
@@ -78,7 +62,9 @@ function Location(callback) {
                                 longitude: point.lng,
                                 accuracy: accuracy
                             };
-                            lastLocation = location;
+                            lastLocation_my.latitude = location.latitude;
+                            lastLocation_my.longitude = location.longitude;
+                            lastLocation_my.accuracy = location.accuracy;
                             callback(location);
                         }
                         else {
@@ -91,19 +77,18 @@ function Location(callback) {
                                 map.removeEventListener("click", setLocationByHand);
                             });
                         }
-                    }
-                    else {
-                        location = lastLocation;
+                    } else {
                         callback(location);
                     }
-                }
-                else {
+                } else {
                     location = {
                         latitude: point.lat,
                         longitude: point.lng,
                         accuracy: accuracy
                     };
-                    lastLocation = location;
+                    lastLocation_my.latitude = location.latitude;
+                    lastLocation_my.longitude = location.longitude;
+                    lastLocation_my.accuracy = location.accuracy;
                     callback(location);
                 }
             });

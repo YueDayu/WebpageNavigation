@@ -24,7 +24,6 @@ function SetLocation(callback) {
         map.removeOverlay(myPosMarker);
         myPosMarker = new BMap.Marker(point);
         map.addOverlay(myPosMarker);
-        //map.panTo(point); //TODO: make point center.
         if(callback) {
             callback();
         }
@@ -32,7 +31,7 @@ function SetLocation(callback) {
 }
 
 function startLocation() {
-    SetLocation();
+    SetLocation(function() {});
     if (map.getDistance(point, endPoint) < 50) {
         endNavigation();
         showModel("导航结束", "您已经到达目的地附近");
