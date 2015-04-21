@@ -67,6 +67,9 @@ $(document).ready(function(){
     });
     $("#begin-nav-button").attr({"disabled":"disabled"}).click(function(){
         map.removeOverlay(lastMarker);
+        //point = new BMap.Point(116.332852,40.015323);
+        //point = new BMap.Point(116.332394,40.009962);
+        //point = new BMap.Point(116.332395,40.009959);
         startNavigation(point, searchPoint);
         $("#begin-nav-div").fadeOut(function() {
             $("#stop-nav-div").fadeIn();
@@ -157,9 +160,6 @@ $(document).ready(function(){
     });
 
     $.getJSON("../data/roadcross_info.json", function(data){roadcross = data;});
-    console.log("1");
-    $.getJSON("../data/roadcross_info.json", function(data){roadcross = data;console.log("s")});
-    console.log("2");
 });
 
 function showModel(title, content){
