@@ -80,7 +80,8 @@ function Location(callback) {
                             };
                             lastLocation = location;
                             callback(location);
-                        } else {
+                        }
+                        else {
                             showModel("定位失败", "定位精度过低，请手动定位。");
                             $("#search-div").fadeOut();
                             map.addEventListener("click", setLocationByHand);
@@ -90,11 +91,13 @@ function Location(callback) {
                                 map.removeEventListener("click", setLocationByHand);
                             });
                         }
-                    } else {
+                    }
+                    else {
                         location = lastLocation;
                         callback(location);
                     }
-                } else {
+                }
+                else {
                     lastLocation = location;
                     location = {
                         latitude: point.lat,
@@ -103,6 +106,16 @@ function Location(callback) {
                     };
                     callback(location);
                 }
+            });
+        },
+        fail:function(){
+            showModel("定位失败", "定位精度过低，请手动定位。");
+            $("#search-div").fadeOut();
+            map.addEventListener("click", setLocationByHand);
+            $("#set-location").click(function () {
+                $("#search-div").fadeIn();
+                $("#set-location").fadeOut();
+                map.removeEventListener("click", setLocationByHand);
             });
         },
         cancel: function (res) {
