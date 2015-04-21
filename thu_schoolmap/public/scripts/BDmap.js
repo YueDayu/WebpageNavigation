@@ -367,7 +367,7 @@ function addCMarker(point, imageFile, title,content) {
 }
 
 function addSMarker(point, title,content) {
-     var myIcon = new BMap.Icon("img/s1.png", new BMap.Size(24,24));
+     var myIcon = new BMap.Icon("img/s4.png", new BMap.Size(22,21));
      var marker = new BMap.Marker(point, {
          icon: myIcon});
     if(title){
