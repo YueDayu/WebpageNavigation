@@ -50,9 +50,11 @@ function Location(callback) {
             BMap.Convertor.translate(tempPoint, 0, function (point) {
                 var accuracy = parseFloat(res.accuracy);
                 //alert("Hello" + isFirstTime + point.lat);
+                if (isFirstTime == true) {
+                    $("#begin-nav-button").removeAttr("disabled");
+                }
                 if (accuracy >= 50) {
                     if (isFirstTime == true) {
-                        $("#begin-nav-button").removeAttr("disabled");
                         if (accuracy <= 150) {
                             showModel("定位精度过低", "请确保打开GPS定位");
                             location = {
