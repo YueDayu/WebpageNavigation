@@ -55,9 +55,16 @@ function findRoadCross_0(startPoint) {
     return result;
 }
 
+function dis(x, y, point){
+    var dx = x - point.lng;
+    var dy = y - point.lat;
+    return dx * dx + dy * dy;
+}
+
 function findRoadCross(startPoint, endPoint){
     x = startPoint.lng - endPoint.lng;
     y = startPoint.lat - endPoint.lat;
+    var dx, dy, i, j;
     area = x * x + y * y;
     x = roadcross[0][2]["longitude"] - roadcross[0][3]["longitude"];
     y = roadcross[1][2]["latitude"] - roadcross[1][3]["latitude"];
@@ -67,25 +74,53 @@ function findRoadCross(startPoint, endPoint){
     var result_0 = findRoadCross_0(startPoint);
     var result_1 = findRoadCross_0(endPoint);
     if(result_0[0] > 0){
-        if(Math.abs(roadcross[0][result_0[0]]["longitude"] - endPoint.lng) >
-            Math.abs(roadcross[0][result_0[0]-1]["longitude"] - endPoint.lng))
-            result_0[0] -= 1;
+        dx = 2;
+    }
+    else{
+        dx = 1;
     }
     if(result_0[1] > 0){
-        if(Math.abs(roadcross[1][result_0[1]]["latitude"] - endPoint.lat) >
-            Math.abs(roadcross[1][result_0[1]-1]["latitude"] - endPoint.lat))
-            result_0[1] -= 1;
+        dy = 2;
     }
+    else {
+        dy = 1;
+    }
+    var result = [result_0[0],result_0[1]];
+    for(i = 0;i < dx;i++){
+        for(j = 0;j < dy;j++){
+            if(dis(roadcross[0][result_0[0]-i]["longitude"], roadcross[1][result_0[1]-j]["latitude"], endPoint) <
+            dis(roadcross[0][result[0]]["longitude"], roadcross[1][result[1]]["latitude"], endPoint)){
+                result[0] = result_0[0]-i;
+                result[1] = result_0[1]-j;
+            }
+        }
+    }
+    result_0 = [result[0], result[1]];
+    var point = new BMap.Point(roadcross[0][result_0[0]]["longitude"], roadcross[1][result_0[1]]["latitude"]);
     if(result_1[0] > 0){
-        if(Math.abs(roadcross[0][result_1[0]]["longitude"] - roadcross[2][result_0[0]][result_0[1]]["longitude"]) >
-            Math.abs(roadcross[0][result_1[0]-1]["longitude"] - roadcross[2][result_0[0]][result_0[1]]["longitude"]))
-            result_1[0] -= 1;
+        dx = 2;
+    }
+    else{
+        dx = 1;
     }
     if(result_1[1] > 0){
-        if(Math.abs(roadcross[1][result_1[1]]["latitude"] - roadcross[2][result_0[0]][result_0[1]]["latitude"]) >
-            Math.abs(roadcross[1][result_1[1]-1]["latitude"] - roadcross[2][result_0[0]][result_0[1]]["latitude"]))
-            result_1[1] -= 1;
+        dy = 2;
     }
+    else {
+        dy = 1;
+    }
+    result = [result_1[0], result_1[1]];
+    for(i = 0;i < dx;i++){
+        for(j = 0;j < dy;j++){
+            if(dis(roadcross[0][result_1[0]-i]["longitude"], roadcross[1][result_1[1]-j]["latitude"], point) <
+                dis(roadcross[0][result[0]]["longitude"], roadcross[1][result[1]]["latitude"], point)){
+                result[0] = result_1[0]-i;
+                result[1] = result_1[1]-j;
+            }
+        }
+    }
+    result_1 = [result[0],result[1]];
+    console.log(result_0, result_1);
     return [result_0, result_1];
 }
 
@@ -96,13 +131,13 @@ function resultToPoint(x,y){
 }
 
 function findRoad(result_0, result_1, walking){
-    if((result_0[1] > 0) && (result_0[1] < 5)){
+/*    if((result_0[1] > 0) && (result_0[1] < 5)){
         if(result_0[0] != result_1[0]){
             walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_1[0],result_0[1])]);
         }
         walks.push([resultToPoint(result_1[0],result_0[1]),resultToPoint(result_1[0],result_1[1])]);
     }
-    else if((result_1[1] > 0) && (result_1[1] < 5)){;
+    else if((result_1[1] > 0) && (result_1[1] < 5)){
         walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_0[0],result_1[1])]);
         if(result_0[0] != result_1[0]){
             walks.push([resultToPoint(result_0[0],result_1[1]),resultToPoint(result_1[0],result_1[1])]);
@@ -118,6 +153,39 @@ function findRoad(result_0, result_1, walking){
     else{
         walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_1[0],4)]);
         findRoad([result_0[0],4], result_1, walking);
+    }   */
+    if((result_0[1] == result_1[1]) || (result_0[0] == result_1[0])){
+        walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_1[0],result_1[1])]);
+    }
+    else if((result_0[1] > 0) && (result_0[1] < 5)){
+        if(result_0[0] != result_1[0]){
+            walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_1[0],result_0[1])]);
+        }
+        walks.push([resultToPoint(result_1[0],result_0[1]),resultToPoint(result_1[0],result_1[1])]);
+    }
+    else if((result_1[1] > 0) && (result_1[1] < 5)){
+        walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_0[0],result_1[1])]);
+        if(result_0[0] != result_1[0]){
+            walks.push([resultToPoint(result_0[0],result_1[1]),resultToPoint(result_1[0],result_1[1])]);
+        }
+    }
+    else if((result_0[0] > 1) && (result_0[0] < 4)){
+        walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_0[0],result_1[1])]);
+        if(result_0[0] != result_1[0]){
+            walks.push([resultToPoint(result_0[0],result_1[1]),resultToPoint(result_1[0],result_1[1])]);
+        }
+    }
+    else if((result_1[0] > 1) && (result_1[0] < 4)) {
+        if(result_0[0] != result_1[0]){
+            walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_1[0],result_0[1])]);
+        }
+        walks.push([resultToPoint(result_1[0],result_0[1]),resultToPoint(result_1[0],result_1[1])]);
+    }
+    else{
+        walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_0[0],result_1[1])]);
+        if(result_0[0] != result_1[0]){
+            walks.push([resultToPoint(result_0[0],result_1[1]),resultToPoint(result_1[0],result_1[1])]);
+        }
     }
 }
 
