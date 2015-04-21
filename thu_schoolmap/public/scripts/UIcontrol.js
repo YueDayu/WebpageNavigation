@@ -25,6 +25,7 @@ $(document).ready(function(){
         map.removeOverlay(startPointMarker);
         map.removeOverlay(endPointMarker);
         map.removeOverlay(lastMarker);
+        $("#search-div").fadeOut();
         var options = {
             onSearchComplete: function(results){
 				$("#search-content").val("");
@@ -34,7 +35,6 @@ $(document).ready(function(){
                     lastMarker = new BMap.Marker(searchPoint);
                     map.addOverlay(lastMarker);
                     $("#begin-nav-div").fadeIn();
-                    $("#search-div").fadeOut();
                 } else {
 					showModel("搜索失败", "抱歉，我们没有在清华校内找到您要的地点。");
                 }
