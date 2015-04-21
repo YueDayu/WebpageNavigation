@@ -124,26 +124,11 @@ $(document).ready(function(){
         $("#feed-back-model").modal("hide");
         resetfeedback();
     });
-    //TODO:You can use the following code to make navgation-bottom-bar show or disappear
-    //$("#begin-nav-div").fadeOut();
-    //  $("#begin-nav-div").fadeOut();
-    //  ("#begin-nav-div").fadeIn();
-    //  $("#stop-nav-div").fadeOut();
-    //  $("#stop-nav-div").fadeIn();
 
-    //TODO : You can use the following code to show or hide the modal which indicates that
-    //you are trying to locate yourself
-    // $("#begin-nav-model").modal('show');
-    // $("#begin-nav-model").modal('hide');
-
-    //TODO : Add function to locate-self button
-    //$("#locate-button-div").click(function(){
-    //
-    //});
-    var p = 0;
+    var p = 1;
     map.addEventListener("zoomend",function() {
         var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
-        if(Zoomrank > 17)
+        if(Zoomrank > 15)
         {
             if(p == 1)
             {
@@ -159,7 +144,9 @@ $(document).ready(function(){
         }
     });
 
-    $.getJSON("../data/roadcross_info.json", function(data){roadcross = data;});
+    $.getJSON("../data/roadcross_info.json", function(data){
+        roadcross = data;
+    });
 });
 
 function showModel(title, content){
