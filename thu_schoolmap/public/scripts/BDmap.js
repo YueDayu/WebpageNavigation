@@ -336,29 +336,29 @@ function addCMarker(point, imageFile, title,content) {
         div.onmouseover = function(){
             //this.style.backgroundColor = "#6B00CA";
             //this.style.borderColor = "#0000ff";
-            this.style.height = "50px"
+            this.style.height = "50px";
             this.getElementsByTagName("span")[0].innerHTML = that._overText;
             arrow.style.backgroundPosition = "0px -20px";
-        }
+        };
 
         div.onmouseout = function(){
             //this.style.backgroundColor = "#EE5D5B";
             //this.style.borderColor = "#BC3B3A";
-            this.style.height = "20px"
+            this.style.height = "20px";
             this.getElementsByTagName("span")[0].innerHTML = that._text;
             arrow.style.backgroundPosition = "0px 0px";
-        }
+        };
 
         map.getPanes().labelPane.appendChild(div);
 
         return div;
-    }
+    };
     ComplexCustomOverlay.prototype.draw = function(){
         var map = this._map;
         var pixel = map.pointToOverlayPixel(this._point);
         this._div.style.left = pixel.x - parseInt(this._arrow.style.left) + "px";
         this._div.style.top  = pixel.y - 30 + "px";
-    }
+    };
     var txt = title, mouseoverTxt = content ;
 
     var myCompOverlay = new ComplexCustomOverlay(point, title,mouseoverTxt);
