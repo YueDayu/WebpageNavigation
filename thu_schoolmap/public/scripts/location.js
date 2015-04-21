@@ -52,6 +52,7 @@ function Location(callback) {
                 //alert("Hello" + isFirstTime + point.lat);
                 if (accuracy >= 50) {
                     if (isFirstTime == true) {
+                        $("#begin-nav-button").removeAttr("disabled");
                         if (accuracy <= 150) {
                             showModel("定位精度过低", "请确保打开GPS定位");
                             location = {
