@@ -55,39 +55,21 @@
   },
   {
     "title":"<div class = 'infostyle'>毕业四十周年（1972级）纪念活动</div>",
-    "longitude":116.331034,
-    "latitude":40.009381,
+    "longitude":116.330981,
+    "latitude":40.009778,
     "content":"<div class = 'contentstyle'>4月26日9:30，大礼堂</div><div class = 'infostyle'>法学院复建二十周年院庆系列活动之学生节</div><div class = 'contentstyle'>4月26日晚大礼堂</div><div class = 'infostyle'>五道口金融学院学生节</div><div class = 'contentstyle'>4月24日18:00,大礼堂</div>"
   },
   {
-    "title":"<span class = 'infostyle'>清华大学博士后工作30周年纪念大会暨清华大学博士后创新讲坛</span>",
-    "longitude":116.339339,
-    "latitude":40.008093,
-    "content":"<div class = 'contentstyle'>4月25日8:00-12:00，主楼后厅</div><div class = 'infostyle'>清华大学年度校友励学金颁发大会</div><div class = 'contentstyle'>4月23日14:00，主楼后厅</div>"
-  },
-  {
-    "title":"<span class = 'infostyle'>北京-西雅图清华校友的音乐之旅</span>",
+    "title":"<div class = 'infostyle'>北京-西雅图清华校友的音乐之旅</div>",
     "longitude":116.339101,
     "latitude":40.008037,
-    "content":"<div class = 'contentstyle'>4月26日晚,主楼后厅</div><div class = 'infostyle'>毕业二十周年（1990级）纪念活动</div><div class = 'contentstyle'>4月26日9:30，主楼后厅</div><div class = 'infostyle'>清华大学精准医学论坛</div><div class = 'contentstyle'>4月21日14:00，主楼后厅</div>"
-  },
-  {
-    "title":"<span class = 'infostyle'>四川校友会招待话剧《一代斯文》</span>",
-    "longitude":116.336501,
-    "latitude":40.007588,
-    "content":"<span class = 'contentstyle'>4月27、28日,新清华学堂</span>"
+    "content":"<div class = 'contentstyle'>4月26日晚,主楼后厅</div><div class = 'infostyle'>毕业二十周年（1990级）纪念活动</div><div class = 'contentstyle'>4月26日9:30，主楼后厅</div><div class = 'infostyle'>清华大学博士后工作30周年纪念大会<br>暨清华大学博士后创新讲坛</br></div><div class = 'contentstyle'>4月25日8:00-12:00，主楼后厅</div><div class = 'infostyle'>清华大学年度校友励学金颁发大会</div><div class = 'contentstyle'>4月23日14:00，主楼后厅</div><div class = 'infostyle'>清华大学精准医学论坛</div><div class = 'contentstyle'>4月21日14:00，主楼后厅</div>"
   },
   {
     "title":"<span class = 'infostyle'>清华大学学生原创话剧《马兰花开》专场演出</span>",
     "longitude":116.336128,
     "latitude":40.007063,
-    "content":"<span class = 'contentstyle'>4月26日15:00,新清华学堂</span>"
-  },
-  {
-    "title":"<span class = 'infostyle'>104周年校庆校友接待专场演出</span>",
-    "longitude":116.335768,
-    "latitude":40.007602,
-    "content":"<span class = 'contentstyle'>4月25日15:00,新清华学堂</span>"
+    "content":"<div class = 'contentstyle'>4月26日15:00,新清华学堂</div><div class = 'infostyle'>四川校友会招待话剧《一代斯文》</div><div class = 'contentstyle'>4月27、28日,新清华学堂</div><div class = 'infostyle'>104周年校庆校友接待专场演出</div><div class = 'contentstyle'>4月25日15:00,新清华学堂</div><div class = 'infostyle'>毕业三十周年（2001级）纪念活动</div><div class = 'contentstyle'>4月26日9:30，新清华学堂</div>"
   },
   {
     "title":"<span class = 'infostyle'>校庆网球比赛</span>",
@@ -156,33 +138,15 @@
     "content":"<span class = 'contentstyle'>4月24日-5月5日，校史馆</span>"
   },
   {
-    "title":"<span class = 'infostyle'>海军、清华大学第九届“海洋观教育日”</span>",
-    "longitude":116.339389,
-    "latitude":40.007771,
-    "content":"<span class = 'contentstyle'>4月23日9:00，主楼</span>"
-  },
-  {
     "title":"<span class = 'infostyle'>清华--庆祝母校104华诞师生书法展</span>",
     "longitude":116.339097,
     "latitude":40.007606,
-    "content":"<span class = 'contentstyle'>4月24日-26日，主楼前厅</span>"
+    "content":"<div class = 'contentstyle'>4月24日-26日，主楼前厅</div><div class = 'infostyle'>清华大学博士后进站“二十周年、十周年”校友座谈</div><div class = 'contentstyle'>4月25日13:00-16:00，主楼327会议室</div><div class = 'infostyle'>海军、清华大学第九届“海洋观教育日”</div><div class = 'contentstyle'>4月23日9:00，主楼</div>"
   },
   {
     "title":"<span class = 'infostyle'>毕业十周年（2001级）纪念活动</span>",
     "longitude":116.335171,
     "latitude":40.007823,
     "content":"<span class = 'contentstyle'>4月26日9:30，蒙民伟音乐厅</span>"
-  },
-  {
-    "title":"<span class = 'infostyle'>毕业三十周年（2001级）纪念活动</span>",
-    "longitude":116.335836,
-    "latitude":40.007208,
-    "content":"<span class = 'contentstyle'>4月26日9:30，新清华学堂</span>"
-  },
-  {
-    "title":"<span class = 'infostyle'>清华大学博士后进站“二十周年、十周年”校友座谈</span>",
-    "longitude":116.338733,
-    "latitude":40.007689,
-    "content":"<span class = 'contentstyle'>4月25日13:00-16:00，主楼327会议室</span>"
   }
 ]

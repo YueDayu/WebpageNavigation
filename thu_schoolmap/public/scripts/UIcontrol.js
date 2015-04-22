@@ -25,9 +25,11 @@ $(document).ready(function(){
         map.removeOverlay(startPointMarker);
         map.removeOverlay(endPointMarker);
         map.removeOverlay(lastMarker);
+        //$("#search-button").attr({"disabled":"disabled"});
         var options = {
             onSearchComplete: function(results){
 				$("#search-content").val("");
+                //$("#search-button").removeAttr("disabled");
                 if (local.getStatus() == BMAP_STATUS_SUCCESS){
                     searchPoint = local.getResults().getPoi(0).point;
                     map.centerAndZoom(searchPoint, 18);
@@ -53,23 +55,18 @@ $(document).ready(function(){
                     local.searchInBounds(document.getElementById("search-content").value, bs);
                 }
             }
-		}
+		};
         var local = new BMap.LocalSearch(map, options);
 		var local_custom = new BMap.LocalSearch(map, options_customs);
         map.removeOverlay(lastMarker);
-        //TODO: 处理输入信息
 		local_custom.searchInBounds(document.getElementById("search-content").value, bs, {
 			customData:{
 				geotableId:99990
 			}
 		});
-        $("#begin-nav-button").removeAttr("disabled");
     });
     $("#begin-nav-button").attr({"disabled":"disabled"}).click(function(){
         map.removeOverlay(lastMarker);
-        //point = new BMap.Point(116.332852,40.015323);
-        //point = new BMap.Point(116.332394,40.009962);
-        //point = new BMap.Point(116.332395,40.009959);
         startNavigation(point, searchPoint);
         $("#begin-nav-div").fadeOut(function() {
             $("#stop-nav-div").fadeIn();
