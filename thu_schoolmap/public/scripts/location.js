@@ -57,6 +57,8 @@ function Location(callback) {
                     if (isFirstTime == true) {
                         if (accuracy <= 150) {
                             $("#location-model").fadeIn();
+                            $("#locate-button-div").fadeIn();
+                            $("#search-bar-div").fadeIn();
                             location = {
                                 latitude: parseFloat(point.lat),
                                 longitude: parseFloat(point.lng),
@@ -64,7 +66,8 @@ function Location(callback) {
                             };
                             isFirstTime = false;
                             callback(location);
-                        } else {
+                        }
+                        else {
                             if (isFirstTime == true) {
                                 isFirstTime = false;
                                 showModel("定位失败", "定位精度过低，请手动定位。");
@@ -74,6 +77,8 @@ function Location(callback) {
                                     $("#search-div").fadeIn();
                                     $("#set-location").fadeOut();
                                     map.removeEventListener("click", setLocationByHand);
+                                    $("#locate-button-div").fadeIn();
+                                    $("#search-bar-div").fadeIn();
                                 });
                             }
                         }
@@ -82,6 +87,8 @@ function Location(callback) {
                 else {
                     if(isFirstTime){
                         $("#location-model").fadeIn();
+                        $("#locate-button-div").fadeIn();
+                        $("#search-bar-div").fadeIn();
                     }
                     location = {
                         latitude: parseFloat(point.lat),
@@ -103,6 +110,8 @@ function Location(callback) {
                     $("#search-div").fadeIn();
                     $("#set-location").fadeOut();
                     map.removeEventListener("click", setLocationByHand);
+                    $("#locate-button-div").fadeIn();
+                    $("#search-bar-div").fadeIn();
                 });
             }
         },

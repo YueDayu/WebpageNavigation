@@ -81,7 +81,9 @@ body {
     position: absolute;
 }
 
-
+#search-bar-div{
+    display: none;
+}
 .nav-top-style,.nav-bottom-style{
     margin-left: auto;
     margin-right: auto;
@@ -148,6 +150,7 @@ body {
     position: absolute;
     right: 5%;
     bottom:15%;
+    display: none;
 }
 
 #locate-button span{
