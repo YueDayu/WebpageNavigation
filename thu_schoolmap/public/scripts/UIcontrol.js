@@ -20,12 +20,31 @@ $(document).ready(function(){
        $("#return-button").blur();
     });
 
+    $("#location-model-button").click(function() {
+        $("#location-model-button").attr({"disabled":"disabled"});
+        $("#location-model").fadeOut(function() {
+            $("#return-from-location-model").fadeIn();
+        });
+        $("#search-div").fadeOut();
+        locationLoop = setInterval("startLocation()", 3000);
+    });
+
+    $("#return-from-location-model-button").click(function() {
+        $("#return-from-location-model").fadeOut(function() {
+            $("#location-model").fadeIn();
+        });
+        $("#search-div").fadeIn();
+        $("#location-model-button").removeAttr("disabled");
+        endNavigation();
+    });
+
     $("#search-button").click(function(){
         map.removeOverlay(path);
         map.removeOverlay(startPointMarker);
         map.removeOverlay(endPointMarker);
         map.removeOverlay(lastMarker);
         $("#search-button").attr({"disabled":"disabled"});
+        $("#location-model").fadeOut();
         var options = {
             onSearchComplete: function(results){
 				$("#search-content").val("");
@@ -79,7 +98,9 @@ $(document).ready(function(){
         map.removeOverlay(endPointMarker);
         map.removeOverlay(lastMarker);
         map.panTo(point);
-        $("#begin-nav-div").fadeOut();
+        $("#begin-nav-div").fadeOut(function() {
+            $("#location-model").fadeIn();
+        });
         $("#search-div").fadeIn();
     });
     $("#stop-nav-button").click(function(){
@@ -88,7 +109,9 @@ $(document).ready(function(){
         map.removeOverlay(startPointMarker);
         map.removeOverlay(endPointMarker);
         $("#search-div").fadeIn();
-        $("#stop-nav-div").fadeOut();
+        $("#stop-nav-div").fadeOut(function() {
+            $("#location-model").fadeIn();
+        });
         map.panTo(point);
         showModel("停止导航", "您已经手动停止导航。");
     });

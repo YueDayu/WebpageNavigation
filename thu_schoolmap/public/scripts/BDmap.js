@@ -239,7 +239,7 @@ function findDrivingRoute(startPoint, endPoint){
 
 function startNavigation(startPoint, endPoint) {
     findWalkingRoute(startPoint, endPoint);
-    locationLoop = setInterval("startLocation()", 5000);
+    locationLoop = setInterval("startLocation()", 3000);
 }
 
 function endNavigation() {

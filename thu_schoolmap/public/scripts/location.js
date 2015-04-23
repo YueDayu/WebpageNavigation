@@ -23,16 +23,17 @@ $.ajax({
                     map.panTo(point);
                 });
             });
-        }
-        else {
-            SetLocation(function () {
-                map.panTo(point);
-            });
+        } else {
+            $("#begin-nav-button").removeAttr("disabled");
         }
     }
 });
 
 function Location(callback) {
+    if (isDebug) {
+        console.log("location model");
+        return;
+    }
     function setLocationByHand(e) {
         location = {
             latitude: e.point.lat,
