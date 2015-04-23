@@ -44,18 +44,19 @@ $(document).ready(function(){
         map.removeOverlay(endPointMarker);
         map.removeOverlay(lastMarker);
         $("#search-button").attr({"disabled":"disabled"});
-        $("#location-model").fadeOut();
         var options = {
             onSearchComplete: function(results){
 				$("#search-content").val("");
                 $("#search-button").removeAttr("disabled");
                 if (local.getStatus() == BMAP_STATUS_SUCCESS){
+                    $("#location-model").fadeOut(1000,function(){
+                        $("#begin-nav-div").fadeIn();
+                        $("#search-div").fadeOut();
+                    });
                     searchPoint = local.getResults().getPoi(0).point;
                     map.centerAndZoom(searchPoint, 18);
                     lastMarker = new BMap.Marker(searchPoint);
                     map.addOverlay(lastMarker);
-                    $("#begin-nav-div").fadeIn();
-                    $("#search-div").fadeOut();
                 } else {
 					showModel("搜索失败", "抱歉，我们没有在清华校内找到您要的地点。");
                 }
@@ -64,12 +65,16 @@ $(document).ready(function(){
 		var options_customs = {
             onSearchComplete: function(results){
                 if (local_custom.getStatus() == BMAP_STATUS_SUCCESS){
+                    $("#location-model").fadeOut(1000,function(){
+                        $("#begin-nav-div").fadeIn();
+                        $("#search-div").fadeOut();
+                    });
 					$("#search-content").val("");
                     searchPoint = local_custom.getResults().getPoi(0).point;
                     map.centerAndZoom(searchPoint, 18);
                     lastMarker = new BMap.Marker(searchPoint);
                     map.addOverlay(lastMarker);
-                    $("#begin-nav-div").fadeIn();
+
                 } else {
                     local.searchInBounds(document.getElementById("search-content").value, bs);
                 }
@@ -101,6 +106,7 @@ $(document).ready(function(){
         $("#begin-nav-div").fadeOut(function() {
             $("#location-model").fadeIn();
         });
+        $("#search-button").removeAttr("disabled");
         $("#search-div").fadeIn();
     });
     $("#stop-nav-button").click(function(){
@@ -108,6 +114,7 @@ $(document).ready(function(){
         map.removeOverlay(path);
         map.removeOverlay(startPointMarker);
         map.removeOverlay(endPointMarker);
+        $("#search-button").removeAttr("disabled");
         $("#search-div").fadeIn();
         $("#stop-nav-div").fadeOut(function() {
             $("#location-model").fadeIn();
