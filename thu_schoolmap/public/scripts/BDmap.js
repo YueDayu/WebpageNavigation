@@ -248,9 +248,9 @@ function endNavigation() {
 
 function addMarker(point, type,title,content){
     if(type == "block")
-        var myIcon = new BMap.Icon("img/b1.png", new BMap.Size(18,17));
+        var myIcon = new BMap.Icon("img/block.png", new BMap.Size(18,17));
     else
-        var myIcon = new BMap.Icon("img/p2.png", new BMap.Size(15,15));
+        var myIcon = new BMap.Icon("img/park.png", new BMap.Size(15,15));
     var marker = new BMap.Marker(point, {
         icon: myIcon
     });
@@ -281,14 +281,19 @@ function addTip(){
     $.getJSON("../data/activity_info.json",function(data){
         $.each(data,function(infoIndex,info){
             var point = new BMap.Point(info["longitude"],info["latitude"]);
-            var marker = addSMarker(point,info["title"],info["content"]);
+            var marker = addSMarker(point,info["type"],info["title"],info["content"]);
             myAcMarker.push(marker);
             Acsize += 1;
         });
     });
 }
-function addSMarker(point, title,content) {
-     var myIcon = new BMap.Icon("img/p1.png", new BMap.Size(22,22));
+function addSMarker(point,type, title,content) {
+    if(type == "activity")
+        var myIcon = new BMap.Icon("img/act.png", new BMap.Size(22,22));
+    else if(type =="monument")
+        var myIcon = new BMap.Icon("img/tower.png", new BMap.Size(12,23));
+    else
+        var myIcon = new BMap.Icon("img/scenic.png", new BMap.Size(12,12));
      var marker = new BMap.Marker(point, {
          icon: myIcon});
     if(title){

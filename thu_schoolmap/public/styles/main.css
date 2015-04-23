@@ -199,9 +199,15 @@ body {
     font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
     color:#FF0000;
     background-color:#FFFFFF
+    word-break:break-all;
+    width:200px;
+    overflow:auto;
 }
 
 .contentstyle{
     font-size:10px;
     font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
+    word-break:break-all;
+    width:200px;
+    overflow:auto;
 }
