@@ -56,7 +56,7 @@ function Location(callback) {
                 if (accuracy >= 50) {
                     if (isFirstTime == true) {
                         if (accuracy <= 150) {
-                            showModel("定位精度过低", "请确保打开GPS定位");
+                            //showModel("定位精度过低", "请确保打开GPS定位");
                             location = {
                                 latitude: parseFloat(point.lat),
                                 longitude: parseFloat(point.lng),
