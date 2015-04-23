@@ -48,17 +48,14 @@ app.use(express.query());
 app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
     var message = req.weixin;
     if(message.MsgType == 'text'){
-          res.reply({ type: "text", content: "点击下方\"校园导航\"按钮进行定位与导航，点击下方\"帮助\"按钮查看使用说明"});
+        var link = "<a href='http://shsf.thss.tsinghua.edu.cn/Navigation'>点击我进行定位与导航</a>";
+        res.reply({type:"text",content:link});
     }
     if(message.MsgType == 'event' && message.Event == 'CLICK'){
         switch(message.EventKey){
             case "Navigation":
-                var link = "<a href='http://123.56.155.236/Navigation'>点击我进行定位与导航</a>";
+                var link = "<a href='http://shsf.thss.tsinghua.edu.cn/Navigation'>点击我进行定位与导航</a>";
                 res.reply({type:"text",content:link});
-                break;
-            case "Help":
-                var help_message = "点击下方\"校园导航\"按钮，会收到一条消息，点击该消息即可进入相关网页进行定位于导航。\n如果网页长时间没有响应，请确保打开了GPS，并允许定位服务,之后重新进入网页。";
-                res.reply({type:"text",content:help_message});
                 break;
             default :
                 break;
@@ -69,7 +66,7 @@ app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
 //TODO:If you want to create Menu
 //TODO:use this code just run at the first time.
 
-menu.Menu();
+//menu.Menu();
 
 app.get('/Navigation',function(req,res) {
     res.sendfile("./dist/Navigation.html");
@@ -80,7 +77,7 @@ app.post('/location', function(req, res){
         var param = {
             debug:false,
             jsApiList: ['getLocation'],
-            url:"http://123.56.155.236/Navigation"
+            url:req.body.url
         };
         api.getJsConfig(param, function(err, result){
             result.isDebug = false;
