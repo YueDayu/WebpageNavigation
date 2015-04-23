@@ -49,6 +49,13 @@
     "content":"<span class = 'contentstyle'>4月26日9:00-12:00，工字厅前广场</span>"
   },
   {
+    "title":"<span class = 'infostyle'>紫操开个Bar</span>",
+    "type":"activity",
+    "longitude":116.336084,
+    "latitude":40.015633,
+    "content":"<span class = 'contentstyle'>清华大学学生会&吉他协会主题夜。4月24日19：00，紫操</span>"
+  },
+  {
     "title":"<span class = 'infostyle'>学生艺术团军乐队校园音乐会</span>",
     "type":"activity",
     "longitude":116.335086,
@@ -126,11 +133,11 @@
     "content":"<span class = 'contentstyle'>4月25、26日，图书馆老馆、逸夫馆、文科图书馆、美术图书馆、金融图书馆</span>"
   },
   {
-    "title":"<span class = 'infostyle'>图书馆开放日</span>",
+    "title":"<span class = 'infostyle'>校庆读书活动</span>",
     "type":"activity",
-    "longitude":116.331232,
-    "latitude":40.011156,
-    "content":"<span class = 'contentstyle'>4月25、26日，图书馆老馆、逸夫馆、文科图书馆、美术图书馆、金融图书馆</span>"
+    "longitude":116.3317,
+    "latitude":40.008087,
+    "content":"<span class = 'contentstyle'>4月26日 星期日 14:00 清华学堂门厅</span>"
   },
   {
     "title":"<span class = 'infostyle'>《清华人与清华大学》主题阅读活动</span>",
@@ -173,6 +180,20 @@
     "longitude":116.335171,
     "latitude":40.007823,
     "content":"<span class = 'contentstyle'>4月26日9:30，蒙民伟音乐厅</span>"
+  },
+  {
+    "title":"<span class = 'infostyle'>“文化养生，书画育人”老中青书画作品联展</span>",
+    "type":"activity",
+    "longitude":116.330272,
+    "latitude":40.003158,
+    "content":"<span class = 'contentstyle'>4月22日-29日，熊知行楼二层多功能厅</span>"
+  },
+  {
+    "title":"<span class = 'infostyle'>环境学院“王继明先生百岁华诞贺寿会”</span>",
+    "type":"activity",
+    "longitude":116.341586,
+    "latitude":40.004059,
+    "content":"<span class = 'contentstyle'>4月26日10:00，环境学院一层多功能厅</span>"
   },
   {
     "title":"<div class = 'infostyle'>祖国儿女，清华英烈-纪念碑</div>",
