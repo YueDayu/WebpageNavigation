@@ -148,7 +148,7 @@ $(document).ready(function(){
     var p = 1;
     map.addEventListener("zoomend",function() {
         var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
-        if(Zoomrank > 15)
+        if(Zoomrank > 16)
         {
             if(p == 1)
             {
