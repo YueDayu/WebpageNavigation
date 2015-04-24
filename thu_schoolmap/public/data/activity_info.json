@@ -593,5 +593,13 @@
     "longitude":116.336914,
     "latitude":40.011785,
     "content":"<div class = 'contentstyle'>“汽车楼”和Π字型的汽车试验室、发动机试验室隶属于汽车工程系，总建筑面积3000平方米，于1956年落成。</div >"
+    },
+    {
+        "title":"<div class = 'infostyle'>团委</div>",
+        "type":"scenic",
+        "longitude":116.333744,
+        "latitude":40.010582,
+        "content":"<div class = 'contentstyle'>清华大学校团委所在地，又称小红楼</div >"
     }
+
 ]

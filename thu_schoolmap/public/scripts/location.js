@@ -18,6 +18,7 @@ $.ajax({
                 signature: result.signature,
                 jsApiList: result.jsApiList
             });
+            console.log(result);
             wx.ready(function () {
                 SetLocation(function () {
                     map.panTo(point);
@@ -29,11 +30,8 @@ $.ajax({
     }
 });
 
+
 function Location(callback) {
-    if (isDebug) {
-        console.log("location model");
-        return;
-    }
     function setLocationByHand(e) {
         location = {
             latitude: e.point.lat,
