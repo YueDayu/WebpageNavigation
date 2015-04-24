@@ -66,13 +66,16 @@ function findRoadCross(startPoint, endPoint){
     var y = startPoint.lat - endPoint.lat;
     var dx, dy, i, j;
     var area = x * x + y * y;
-    x = roadcross[0][2]["longitude"] - roadcross[0][3]["longitude"];
-    y = roadcross[1][2]["latitude"] - roadcross[1][3]["latitude"];
+    var point1 = new BMap.Point(116.335024,40.011907),
+        point2 = new BMap.Point(116.335087,40.010412);
+    x = point1.lng - point2.lng;
+    y = point1.lat - point2.lat;
     if(area < x * x + y * y){
         return [[0,0],[0,0]];
     }
     var result_0 = findRoadCross_0(startPoint);
     var result_1 = findRoadCross_0(endPoint);
+    console.log("begin:", result_0, result_1);
     if(result_0[0] > 0){
         dx = 2;
     }
@@ -93,6 +96,25 @@ function findRoadCross(startPoint, endPoint){
                 result[0] = result_0[0]-i;
                 result[1] = result_0[1]-j;
             }
+        }
+    }
+    var gap;
+    if(dx == 2){
+        gap = roadcross[0][result_0[0]]["longitude"] - roadcross[0][result_0[0]-1]["longitude"];
+        if(Math.abs(startPoint.lng - roadcross[0][result_0[0]["longitude"]]) / gap < 0.15){
+            result[0] = result_0[0];
+        }
+        else if(Math.abs(startPoint.lng - roadcross[0][result_0[0]-1]["longitude"]) / gap < 0.15){
+            result[0] = result_0[0]-1;
+        }
+    }
+    if(dy == 2){
+        gap = roadcross[1][result_0[1]]["latitude"] - roadcross[1][result_0[1]-1]["latitude"];
+        if(Math.abs(startPoint.lat - roadcross[1][result_0[1]["latitude"]]) / gap < 0.15){
+            result[1] = result_0[1];
+        }
+        else if(Math.abs(startPoint.lat - roadcross[1][result_0[1]-1]["latitude"]) / gap < 0.15){
+            result[1] = result_0[1]-1;
         }
     }
     result_0 = [result[0], result[1]];
@@ -119,7 +141,31 @@ function findRoadCross(startPoint, endPoint){
             }
         }
     }
+    console.log(result);
+    if(dx == 2){
+        gap = roadcross[0][result_1[0]]["longitude"] - roadcross[0][result_1[0]-1]["longitude"];
+        if(Math.abs(endPoint.lng - roadcross[0][result_1[0]["longitude"]]) / gap < 0.15){
+            console.log(endPoint.lng, roadcross[0][result_1[0]]["longitude"], Math.abs(endPoint.lng - roadcross[0][result_1[0]]["longitude"]) / gap);
+            result[0] = result_1[0];
+        }
+        else if(Math.abs(endPoint.lng - roadcross[0][result_1[0]-1]["longitude"]) / gap < 0.15){
+            console.log(endPoint.lng, roadcross[0][result_1[0]-1]["longitude"], Math.abs(endPoint.lng - roadcross[0][result_1[0]-1]["longitude"]) / gap);
+            result[0] = result_1[0]-1;
+        }
+    }
+    if(dy == 2){
+        gap = roadcross[1][result_1[1]-1]["latitude"] - roadcross[1][result_1[1]]["latitude"];
+        if(Math.abs(endPoint.lat - roadcross[1][result_1[1]["latitude"]]) / gap < 0.15){
+            console.log(endPoint.lat, roadcross[1][result_1[1]]["latitude"], Math.abs(endPoint.lat - roadcross[1][result_1[1]]["latitude"]) / gap);
+            result[1] = result_1[1];
+        }
+        else if(Math.abs(endPoint.lat - roadcross[1][result_1[1]-1]["latitude"]) / gap < 0.15){
+            console.log(endPoint.lat, roadcross[1][result_1[1]-1]["latitude"], Math.abs(endPoint.lat - roadcross[1][result_1[1]-1]["latitude"]) / gap);
+            result[1] = result_1[1]-1;
+        }
+    }
     result_1 = [result[0],result[1]];
+    console.log("end:", result_0, result_1);
     return [result_0, result_1];
 }
 
@@ -132,41 +178,100 @@ function resultToPoint(x,y){
 function findRoad(result_0, result_1){
     if((result_0[1] == result_1[1]) || (result_0[0] == result_1[0])){
         walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_1[0],result_1[1])]);
-    }
-    else if((result_0[1] > 0) && (result_0[1] < 5)){
-        if(result_0[0] != result_1[0]){
-            walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_1[0],result_0[1])]);
-        }
-        walks.push([resultToPoint(result_1[0],result_0[1]),resultToPoint(result_1[0],result_1[1])]);
-    }
-    else if((result_1[1] > 0) && (result_1[1] < 5)){
-        walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_0[0],result_1[1])]);
-        if(result_0[0] != result_1[0]){
-            walks.push([resultToPoint(result_0[0],result_1[1]),resultToPoint(result_1[0],result_1[1])]);
-        }
+        console.log("walking:", [result_0[0],result_0[1]], [result_1[0],result_1[1]]);
     }
     else if((result_0[0] > 1) && (result_0[0] < 4)){
         walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_0[0],result_1[1])]);
+        console.log("walking:", [result_0[0],result_0[1]], [result_0[0],result_1[1]]);
         if(result_0[0] != result_1[0]){
             walks.push([resultToPoint(result_0[0],result_1[1]),resultToPoint(result_1[0],result_1[1])]);
+            console.log("walking:", [result_0[0],result_1[1]], [result_1[0],result_1[1]]);
         }
     }
     else if((result_1[0] > 1) && (result_1[0] < 4)) {
         if(result_0[0] != result_1[0]){
             walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_1[0],result_0[1])]);
+            console.log("walking:", [result_0[0],result_0[1]], [result_1[0],result_0[1]]);
         }
         walks.push([resultToPoint(result_1[0],result_0[1]),resultToPoint(result_1[0],result_1[1])]);
+        console.log("walking:", [result_1[0],result_0[1]], [result_1[0],result_1[1]]);
+    }
+    else if((result_0[1] > 0) && (result_0[1] < 5)){
+        if(result_0[0] != result_1[0]){
+            walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_1[0],result_0[1])]);
+            console.log("walking:", [result_0[0],result_0[1]], [result_1[0],result_0[1]]);
+        }
+        walks.push([resultToPoint(result_1[0],result_0[1]),resultToPoint(result_1[0],result_1[1])]);
+        console.log("walking:", [result_1[0],result_0[1]], [result_1[0],result_1[1]]);
+    }
+    else if((result_1[1] > 0) && (result_1[1] < 5)){
+        walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_0[0],result_1[1])]);
+        console.log("walking:", [result_0[0],result_0[1]], [result_0[0],result_1[1]]);
+        if(result_0[0] != result_1[0]){
+            walks.push([resultToPoint(result_0[0],result_1[1]),resultToPoint(result_1[0],result_1[1])]);
+            console.log("walking:", [result_0[0],result_1[1]], [result_1[0],result_1[1]]);
+        }
     }
     else{
         walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_0[0],result_1[1])]);
+        console.log("walking:", [result_0[0],result_0[1]], [result_0[0],result_1[1]]);
         if(result_0[0] != result_1[0]){
             walks.push([resultToPoint(result_0[0],result_1[1]),resultToPoint(result_1[0],result_1[1])]);
+            console.log("walking:", [result_0[0],result_1[1]], [result_1[0],result_1[1]]);
         }
     }
 }
 
 var walks = [];
 var now = 0;
+
+function Modified_0(walks, point, result){
+    var result_ = findRoadCross_0(point);
+    if(result[0] == 2 && result[1] == 2 && result_[0] == 3 && result_[1] == 3){
+        var tmp = new BMap.Point(116.334378, 40.009044);
+        if(point.lat < tmp.lat){
+            walks.push([point, tmp]);
+            walks.push([tmp, resultToPoint(result[0], result[1])]);
+        }
+        else{
+            var tmp = new BMap.Point(116.33559, 40.010405);
+            if(point.lng < tmp.lng){
+                walks.push([point, resultToPoint(result[0],result[1])]);
+            }
+            else{
+                walks.push([point, resultToPoint(3,2)]);
+                walks.push([resultToPoint(3,2), resultToPoint(2,2)]);
+            }
+        }
+    }
+    else{
+        walks.push([point, resultToPoint(result[0],result[1])]);
+    }
+}
+
+function Modified_1(walks, point, result){
+    var result_ = findRoadCross_0(point);
+    if(result[0] == 2 && result[1] == 2 && result_[0] == 3 && result_[1] == 3){
+        var tmp = new BMap.Point(116.334378, 40.009044);
+        if(point.lat < tmp.lat){
+            walks.push([resultToPoint(result[0], result[1]), tmp]);
+            walks.push([tmp, point]);
+        }
+        else{
+            var tmp = new BMap.Point(116.33559, 40.010405);
+            if(point.lng < tmp.lng){
+                walks.push([resultToPoint(result[0],result[1]), point]);
+            }
+            else{
+                walks.push([resultToPoint(2,2), resultToPoint(3,2)]);
+                walks.push([resultToPoint(3,2), point]);
+            }
+        }
+    }
+    else{
+        walks.push([resultToPoint(result[0],result[1]), point]);
+    }
+}
 
 function findWalkingRoute(startPoint, endPoint) {
     var result = findRoadCross(startPoint, endPoint);
@@ -213,9 +318,10 @@ function findWalkingRoute(startPoint, endPoint) {
                 }
             }
         });
-        walks.push([startPoint, resultToPoint(result[0][0],result[0][1])]);
+        Modified_0(walks, startPoint, result[0]);
         findRoad(result[0], result[1]);
-        walks.push([resultToPoint(result[1][0],result[1][1]), endPoint]);
+        Modified_1(walks, endPoint, result[1]);
+        console.log(walks[0]);
         walking.search(walks[0][0],walks[0][1]);
     }
 }
