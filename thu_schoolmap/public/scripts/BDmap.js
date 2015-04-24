@@ -345,15 +345,18 @@ function findDrivingRoute(startPoint, endPoint){
 
 function startNavigation(startPoint, endPoint) {
     findWalkingRoute(startPoint, endPoint);
-    locationLoop = setInterval("startLocation()", 5000);
+    locationLoop = setInterval("startLocation()", 3000);
 }
 
 function endNavigation() {
     clearInterval(locationLoop);
 }
 
-function addMarker(point, imageFile, title,content){
-    var myIcon = new BMap.Icon(imageFile, new BMap.Size(15,15));
+function addMarker(point, type,title,content){
+    if(type == "block")
+        var myIcon = new BMap.Icon("img/block.png", new BMap.Size(18,17));
+    else
+        var myIcon = new BMap.Icon("img/park.png", new BMap.Size(15,15));
     var marker = new BMap.Marker(point, {
         icon: myIcon
     });
@@ -373,7 +376,7 @@ function addRoadBlock(){
     $.getJSON("../data/roadblock_info.json",function(data){
         $.each(data,function(infoIndex,info){
             var point = new BMap.Point(info["longitude"],info["latitude"]);
-            var marker = addMarker(point,info["img"],info["title"],info["content"]);
+            var marker = addMarker(point,info["type"],info["title"],info["content"]);
             myAcMarker.push(marker);
             Acsize += 1;
         });
@@ -384,72 +387,19 @@ function addTip(){
     $.getJSON("../data/activity_info.json",function(data){
         $.each(data,function(infoIndex,info){
             var point = new BMap.Point(info["longitude"],info["latitude"]);
-            var marker = addSMarker(point,info["title"],info["content"]);
+            var marker = addSMarker(point,info["type"],info["title"],info["content"]);
             myAcMarker.push(marker);
             Acsize += 1;
         });
     });
 }
-
-
-
-function addCMarker(point, imageFile, title,content) {
-    function ComplexCustomOverlay(point, text, mouseoverText){
-        this._point = point;
-        this._text = text;
-        this._overText = mouseoverText;
-    }
-    ComplexCustomOverlay.prototype = new BMap.Overlay();
-    ComplexCustomOverlay.prototype.initialize = function(map){
-        this._map = map;
-        var div = this._div = document.createElement("div");
-        div.className = "Markerstyle";
-        div.style.zIndex = BMap.Overlay.getZIndex(this._point.lat);
-        var span = this._span = document.createElement("span");
-        div.appendChild(span);
-        span.appendChild(document.createTextNode(this._text));
-        var that = this;
-
-        var arrow = this._arrow = document.createElement("div");
-        arrow.className = "Arrowstyle";
-        arrow.style.left = "10px";
-        div.appendChild(arrow);
-
-        div.onmouseover = function(){
-            //this.style.backgroundColor = "#6B00CA";
-            //this.style.borderColor = "#0000ff";
-            this.style.height = "50px";
-            this.getElementsByTagName("span")[0].innerHTML = that._overText;
-            arrow.style.backgroundPosition = "0px -20px";
-        };
-
-        div.onmouseout = function(){
-            //this.style.backgroundColor = "#EE5D5B";
-            //this.style.borderColor = "#BC3B3A";
-            this.style.height = "20px";
-            this.getElementsByTagName("span")[0].innerHTML = that._text;
-            arrow.style.backgroundPosition = "0px 0px";
-        };
-
-        map.getPanes().labelPane.appendChild(div);
-
-        return div;
-    };
-    ComplexCustomOverlay.prototype.draw = function(){
-        var map = this._map;
-        var pixel = map.pointToOverlayPixel(this._point);
-        this._div.style.left = pixel.x - parseInt(this._arrow.style.left) + "px";
-        this._div.style.top  = pixel.y - 30 + "px";
-    };
-    var txt = title, mouseoverTxt = content ;
-
-    var myCompOverlay = new ComplexCustomOverlay(point, title,mouseoverTxt);
-
-    map.addOverlay(myCompOverlay);
-}
-
-function addSMarker(point, title,content) {
-     var myIcon = new BMap.Icon("img/s4.png", new BMap.Size(22,21));
+function addSMarker(point,type, title,content) {
+    if(type == "activity")
+        var myIcon = new BMap.Icon("img/act.png", new BMap.Size(22,22));
+    else if(type =="monument")
+        var myIcon = new BMap.Icon("img/tower.png", new BMap.Size(12,23));
+    else
+        var myIcon = new BMap.Icon("img/scenic.png", new BMap.Size(12,12));
      var marker = new BMap.Marker(point, {
          icon: myIcon});
     if(title){

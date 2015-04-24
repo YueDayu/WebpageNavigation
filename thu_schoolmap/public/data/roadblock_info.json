@@ -1,44 +1,93 @@
 [
     {
         "title":"路障",
+        "type":"block",
         "longitude":116.337138,
         "latitude":40.010476,
-        "img":"../img/RoadBlock.jpg",
         "content":"此期间车辆不能通行"
     },
     {
         "title":"路障",
+        "type":"block",
         "longitude":116.334111,
         "latitude":40.011954,
-        "img":"../img/RoadBlock.jpg",
         "content":"此期间车辆不能通行"
     },
     {
         "title":"路障",
+        "type":"block",
         "longitude":116.337062,
         "latitude":40.008018,
-        "img":"../img/RoadBlock.jpg",
         "content":"此期间车辆不能通行"
     },
     {
         "title":"路障",
+        "type":"block",
         "longitude":116.337269,
         "latitude":40.008233,
-        "img":"../img/RoadBlock.jpg",
         "content":"此期间车辆不能通行"
     },
     {
         "title":"路障",
+         "type":"block",
         "longitude":116.337125,
         "latitude":40.010471,
-        "img":"../img/RoadBlock.jpg",
         "content":"此期间车辆不能通行"
     },
     {
         "title":"路障",
+        "type":"block",
         "longitude":116.337017,
         "latitude":40.012329,
-        "img":"../img/RoadBlock.jpg",
         "content":"此期间车辆不能通行"
-    }
+    },
+    {
+      "title":"停车场",
+      "type":"park",
+      "longitude":116.339155,
+      "latitude":40.0070651,
+      "content":"可停车"
+    },
+  {
+    "title":"停车场",
+    "type":"park",
+    "longitude":116.341015,
+    "latitude":40.003545,
+    "content":"可停车"
+  },
+  {
+    "title":"停车场",
+    "type":"park",
+    "longitude":116.336316,
+    "latitude":40.004101,
+    "content":"可停车"
+  },
+  {
+    "title":"停车场",
+    "type":"park",
+    "longitude":116.336743,
+    "latitude":40.010892,
+    "content":"可停车"
+  },
+  {
+    "title":"停车场",
+    "type":"park",
+    "longitude":116.329727,
+    "latitude":40.012626,
+    "content":"可停车"
+  },
+  {
+    "title":"停车场",
+    "type":"park",
+    "longitude":116.328209,
+    "latitude":40.008181,
+    "content":"可停车"
+  },
+  {
+    "title":"停车场",
+    "type":"park",
+    "longitude":116.325523,
+    "latitude":40.009048,
+    "content":"可停车"
+  }
 ]

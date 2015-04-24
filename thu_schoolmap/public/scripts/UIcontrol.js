@@ -42,23 +42,44 @@ $(document).ready(function(){
        $("#return-button").blur();
     });
 
+    $("#location-model-button").click(function() {
+        $("#location-model-button").attr({"disabled":"disabled"});
+        $("#location-model").fadeOut(function() {
+            $("#return-from-location-model").fadeIn();
+        });
+        $("#search-div").fadeOut();
+        locationLoop = setInterval("startLocation()", 3000);
+    });
+
+    $("#return-from-location-model-button").click(function() {
+        $("#return-from-location-model").fadeOut(function() {
+            $("#location-model").fadeIn();
+        });
+        $("#search-div").fadeIn();
+        $("#location-model-button").removeAttr("disabled");
+        endNavigation();
+    });
+
     $("#search-button").click(function(){
         map.removeOverlay(path);
         map.removeOverlay(startPointMarker);
         map.removeOverlay(endPointMarker);
         map.removeOverlay(lastMarker);
-        $("#begin-nav-button").removeAttr("disabled");
+        //$("#begin-nav-button").removeAttr("disabled");
+        $("#search-button").attr({"disabled":"disabled"});
         var options = {
             onSearchComplete: function(results){
 				$("#search-content").val("");
-                //$("#search-button").removeAttr("disabled");
+                $("#search-button").removeAttr("disabled");
                 if (local.getStatus() == BMAP_STATUS_SUCCESS){
+                    $("#location-model").fadeOut(1000,function(){
+                        $("#begin-nav-div").fadeIn();
+                        $("#search-div").fadeOut();
+                    });
                     searchPoint = local.getResults().getPoi(0).point;
                     map.centerAndZoom(searchPoint, 18);
                     lastMarker = new BMap.Marker(searchPoint);
                     map.addOverlay(lastMarker);
-                    $("#begin-nav-div").fadeIn();
-                    $("#search-div").fadeOut();
                 } else {
 					showModel("搜索失败", "抱歉，我们没有在清华校内找到您要的地点。");
                 }
@@ -67,12 +88,16 @@ $(document).ready(function(){
 		var options_customs = {
             onSearchComplete: function(results){
                 if (local_custom.getStatus() == BMAP_STATUS_SUCCESS){
+                    $("#location-model").fadeOut(1000,function(){
+                        $("#begin-nav-div").fadeIn();
+                        $("#search-div").fadeOut();
+                    });
 					$("#search-content").val("");
                     searchPoint = local_custom.getResults().getPoi(0).point;
                     map.centerAndZoom(searchPoint, 18);
                     lastMarker = new BMap.Marker(searchPoint);
                     map.addOverlay(lastMarker);
-                    $("#begin-nav-div").fadeIn();
+
                 } else {
                     local.searchInBounds(document.getElementById("search-content").value, bs);
                 }
@@ -102,7 +127,10 @@ $(document).ready(function(){
         map.removeOverlay(endPointMarker);
         map.removeOverlay(lastMarker);
         map.panTo(point);
-        $("#begin-nav-div").fadeOut();
+        $("#begin-nav-div").fadeOut(function() {
+            $("#location-model").fadeIn();
+        });
+        $("#search-button").removeAttr("disabled");
         $("#search-div").fadeIn();
     });
     $("#stop-nav-button").click(function(){
@@ -110,8 +138,11 @@ $(document).ready(function(){
         map.removeOverlay(path);
         map.removeOverlay(startPointMarker);
         map.removeOverlay(endPointMarker);
+        $("#search-button").removeAttr("disabled");
         $("#search-div").fadeIn();
-        $("#stop-nav-div").fadeOut();
+        $("#stop-nav-div").fadeOut(function() {
+            $("#location-model").fadeIn();
+        });
         map.panTo(point);
         showModel("停止导航", "您已经手动停止导航。");
     });
@@ -148,7 +179,7 @@ $(document).ready(function(){
     var p = 1;
     map.addEventListener("zoomend",function() {
         var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
-        if(Zoomrank > 15)
+        if(Zoomrank > 16)
         {
             if(p == 1)
             {
