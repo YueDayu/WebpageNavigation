@@ -244,6 +244,80 @@ function Modified_0(walks, point, result){
             }
         }
     }
+    else if(result_[0] == 3 && result_[1] == 2){
+        var tmp = new BMap.Point(116.335647,40.011295);
+        if(point.lng > tmp.lng){
+            if(point.lat < tmp.lat){
+                walks.push([point, resultToPoint(3,2)]);
+                if(result[1] != 2){
+                    walks.push([resultToPoint(3,2), resultToPoint(3, result[1])]);
+                }
+                walks.push([resultToPoint(3, result[1]), resultToPoint(result[0], result[1])]);
+            }
+            else{
+                walks.push([point, resultToPoint(3,1)]);
+                if(result[1] != 1){
+                    walks.push([resultToPoint(3,1), resultToPoint(3, result[1])]);
+                }
+                walks.push([resultToPoint(3, result[1]), resultToPoint(result[0], result[1])]);
+            }
+        }
+        else{
+            if(point.lat < tmp.lat){
+                walks.push([point, resultToPoint(2,2)]);
+                if(result[1] != 2){
+                    walks.push([resultToPoint(2,2), resultToPoint(2, result[1])]);
+                }
+                walks.push([resultToPoint(2, result[1]), resultToPoint(result[0], result[1])]);
+            }
+            else{
+                walks.push([point, resultToPoint(2,1)]);
+                if(result[1] != 1){
+                    walks.push([resultToPoint(2,1), resultToPoint(2, result[1])]);
+                }
+                walks.push([resultToPoint(2, result[1]), resultToPoint(result[0], result[1])]);
+            }
+        }
+    }
+    else if(result_[0] == 3 && result_[1] == 1){
+        var tmp = new BMap.Point(116.335629,40.013685);
+        if(point.lat < tmp.lat){
+            if(point.lng < tmp.lng){
+                if(result[1] == 0){
+                    var pp = new BMap.Point(116.333985,40.013674);
+                    walks.push([point, pp]);
+                    walks.push([pp, resultToPoint(2,0)]);
+                    if(result[0] != 2){
+                        walks.push([resultToPoint(2,0), resultToPoint(3,0)]);
+                    }
+                }
+                else{
+                    var pp = new BMap.Point(116.334973,40.012262);
+                    walks.push([point, pp]);
+                    walks.push([pp, resultToPoint(result[0],result[1])]);
+                }
+            }
+            else{
+                if(result[1] == 0){
+                    var pp = new BMap.Point(116.336959,40.013695);
+                    walks.push([point, pp]);
+                    walks.push([pp, resultToPoint(3,0)]);
+                    if(result[0] != 3){
+                        walks.push([resultToPoint(3,0), resultToPoint(2,0)]);
+                    }
+                }
+                else{
+                    walks.push([point, resultToPoint(3,1)]);
+                    if(result[1] != 3){
+                        walks.push([resultToPoint(3,1), resultToPoint(2,1)]);
+                    }
+                }
+            }
+        }
+        else{
+            walks.push([point, resultToPoint(result[0],result[1])]);
+        }
+    }
     else{
         walks.push([point, resultToPoint(result[0],result[1])]);
     }
@@ -266,6 +340,80 @@ function Modified_1(walks, point, result){
                 walks.push([resultToPoint(2,2), resultToPoint(3,2)]);
                 walks.push([resultToPoint(3,2), point]);
             }
+        }
+    }
+    else if(result_[0] == 3 && result_[1] == 2){
+        var tmp = new BMap.Point(116.335647,40.011295);
+        if(point.lng > tmp.lng){
+            if(point.lat < tmp.lat){
+                walks.push([resultToPoint(result[0], result[1]), resultToPoint(3, result[1])]);
+                if(result[1] != 2){
+                    walks.push([resultToPoint(3, result[1]), resultToPoint(3,2)]);
+                }
+                walks.push([resultToPoint(3,2), point]);
+            }
+            else{
+                walks.push([resultToPoint(result[0], result[1]), resultToPoint(3, result[1])]);
+                if(result[1] != 1){
+                    walks.push([resultToPoint(3, result[1]), resultToPoint(3,1)]);
+                }
+                walks.push([resultToPoint(3,1), point]);
+            }
+        }
+        else{
+            if(point.lat < tmp.lat){
+                walks.push([resultToPoint(result[0], result[1]), resultToPoint(2, result[1])]);
+                if(result[1] != 2){
+                    walks.push([resultToPoint(2, result[1]), resultToPoint(2,2)]);
+                }
+                walks.push([resultToPoint(2,2), point]);
+            }
+            else{
+                walks.push([resultToPoint(result[0], result[1]), resultToPoint(2, result[1])]);
+                if(result[1] != 1){
+                    walks.push([resultToPoint(2, result[1]), resultToPoint(2,1)]);
+                }
+                walks.push([resultToPoint(2,1), point]);
+            }
+        }
+    }
+    else if(result_[0] == 3 && result_[1] == 1){
+        var tmp = new BMap.Point(116.335629,40.013685);
+        if(point.lat < tmp.lat){
+            if(point.lng < tmp.lng){
+                if(result[1] == 0){
+                    var pp = new BMap.Point(116.333985,40.013674);
+                    if(result[0] != 2){
+                        walks.push([resultToPoint(3,0), resultToPoint(2,0)]);
+                    }
+                    walks.push([resultToPoint(2,0), pp]);
+                    walks.push([pp, point]);
+                }
+                else{
+                    var pp = new BMap.Point(116.334973,40.012262);
+                    walks.push([resultToPoint(result[0],result[1]), pp]);
+                    walks.push([pp, point]);
+                }
+            }
+            else{
+                if(result[1] == 0){
+                    var pp = new BMap.Point(116.336959,40.013695);
+                    if(result[0] != 3){
+                        walks.push([resultToPoint(2,0), resultToPoint(3,0)]);
+                    }
+                    walks.push([resultToPoint(3,0), pp]);
+                    walks.push([pp, point]);
+                }
+                else{
+                    if(result[1] != 3){
+                        walks.push([resultToPoint(2,1), resultToPoint(3,1)]);
+                    }
+                    walks.push([resultToPoint(3,1), point]);
+                }
+            }
+        }
+        else{
+            walks.push([resultToPoint(result[0],result[1]), point]);
         }
     }
     else{

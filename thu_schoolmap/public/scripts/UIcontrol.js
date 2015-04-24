@@ -7,28 +7,6 @@ var searchPoint;
 
 var roadcross;
 
-function testPoint(i){
-    var test = [
-        new BMap.Point(116.339389,40.002338), //东南门
-        new BMap.Point(116.335405,40.000486), //南门
-        new BMap.Point(116.321764,40.005834), //西门
-        new BMap.Point(116.341882,40.015026), //东门
-        new BMap.Point(116.329791,40.016138), //北门
-        new BMap.Point(116.343629,40.006155), //美院
-        new BMap.Point(116.331003,40.006677), //二校门
-        new BMap.Point(116.336285,40.006749), //新清华学堂
-        new BMap.Point(116.339103,40.006792), //主楼
-        new BMap.Point(116.336929,40.008312), //六教
-        new BMap.Point(116.337019,40.012325), //12号楼
-        new BMap.Point(116.339076,40.009548), //综体
-        new BMap.Point(116.330991,40.009299), //大礼堂
-        new BMap.Point(116.326383,40.008049), //荷塘
-        new BMap.Point(116.332842,40.015351), //紫荆学生公寓
-        new BMap.Point(116.335671,40.015876) //紫操
-    ];
-    point = test[i];
-}
-
 $(document).ready(function(){
     var ac = new BMap.Autocomplete({
             "input" : "search-content",
@@ -65,7 +43,6 @@ $(document).ready(function(){
         map.removeOverlay(startPointMarker);
         map.removeOverlay(endPointMarker);
         map.removeOverlay(lastMarker);
-        //$("#begin-nav-button").removeAttr("disabled");
         $("#search-button").attr({"disabled":"disabled"});
         var options = {
             onSearchComplete: function(results){
@@ -114,7 +91,6 @@ $(document).ready(function(){
     });
     $("#begin-nav-button").attr({"disabled":"disabled"}).click(function(){
         map.removeOverlay(lastMarker);
-      //  testPoint(9);
         startNavigation(point, searchPoint);
         $("#begin-nav-div").fadeOut(function() {
             $("#stop-nav-div").fadeIn();
