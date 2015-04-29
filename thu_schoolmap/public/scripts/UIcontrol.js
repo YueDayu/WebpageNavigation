@@ -70,6 +70,7 @@ $(document).ready(function(){
                 if (local.getStatus() == BMAP_STATUS_SUCCESS){
                     $("#location-model").fadeOut(1000,function(){
                         $("#begin-nav-div").fadeIn();
+						$("#return-begin-nav-div").fadeIn();
                         $("#search-div").fadeOut();
                     });
                     searchPoint = local.getResults().getPoi(0).point;
