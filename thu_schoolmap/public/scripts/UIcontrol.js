@@ -21,11 +21,6 @@ function hideSideBar() {
     }
 }
 
-function showMsg(a, b) {
-    console.log("Hello" + a + b);
-    hideSideBar()
-}
-
 $(document).ready(function(){
     var ac = new BMap.Autocomplete({
             "input" : "search-content",
