@@ -11,7 +11,7 @@ $(document).ready(function () {
     var isZoomed = true;
     map.addEventListener("zoomend",function() {
         var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
-        if(Zoomrank > 16)
+        if(Zoomrank > 15)
         {
             if(isZoomed)
             {
@@ -27,7 +27,6 @@ $(document).ready(function () {
         }
     });
     getResourceNecessary();
-
 });
 
 function addMarker(point, type,title,content){
