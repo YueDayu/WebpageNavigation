@@ -37,7 +37,7 @@ var recommendRoute = new BMap.Polyline([
 ], {strokeColor:"red", strokeWeight:6, strokeOpacity:0.5});
 
 $(document).ready(function(){
-    
+
 });
 
 function createMenuScence(){
