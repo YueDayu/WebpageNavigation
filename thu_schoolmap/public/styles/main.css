@@ -212,7 +212,8 @@ body {
     position: absolute;
     bottom:15px;
     z-index: 1500;
-    font-size: 0.8em;
+    font-size: 0.5em;
+    color:#fff;
 }
 
 #feed-back-model{

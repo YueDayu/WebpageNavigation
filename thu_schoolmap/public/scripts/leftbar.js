@@ -47,7 +47,6 @@ function createMenuScence(){
 }
 
 function createMenuActivity() {
-    console.log(school_exhibition);
     var num = [0, 0, 0, 0, 0];
     $.each(activity_info, function(index, info) {
         if(info["name"]=="indoor_act"){
