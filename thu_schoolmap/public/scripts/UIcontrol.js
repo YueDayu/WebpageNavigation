@@ -70,6 +70,7 @@ $(document).ready(function(){
                 if (local.getStatus() == BMAP_STATUS_SUCCESS){
                     $("#location-model").fadeOut(1000,function(){
                         $("#begin-nav-div").fadeIn();
+						$("#return-begin-nav-div").fadeIn();
                         $("#search-div").fadeOut();
                     });
                     searchPoint = local.getResults().getPoi(0).point;
@@ -86,6 +87,7 @@ $(document).ready(function(){
                 if (local_custom.getStatus() == BMAP_STATUS_SUCCESS){
                     $("#location-model").fadeOut(1000,function(){
                         $("#begin-nav-div").fadeIn();
+						$("#return-begin-nav-div").fadeIn();
                         $("#search-div").fadeOut();
                     });
 					$("#search-content").val("");
@@ -112,6 +114,7 @@ $(document).ready(function(){
         map.removeOverlay(lastMarker);
         startNavigation(point, searchPoint, 0);
         $("#begin-nav-div").fadeOut(function() {
+            $("#return-begin-nav-div").fadeOut();
             $("#stop-nav-div").fadeIn();
         });
         $("#search-div").fadeOut();
@@ -122,6 +125,7 @@ $(document).ready(function(){
         map.removeOverlay(lastMarker);
         startNavigation(point, searchPoint, 1);
         $("#begin-nav-div").fadeOut(function() {
+            $("#return-begin-nav-div").fadeOut();
             $("#stop-nav-div").fadeIn();
         });
         $("#search-div").fadeOut();
@@ -134,7 +138,8 @@ $(document).ready(function(){
         map.removeOverlay(endPointMarker);
         map.removeOverlay(lastMarker);
         map.panTo(point);
-        $("#begin-nav-div").fadeOut(function() {
+        $("#return-begin-nav-div").fadeOut(function() {
+            $("#begin-nav-div").fadeOut();
             $("#location-model").fadeIn();
         });
         $("#search-button").removeAttr("disabled");
