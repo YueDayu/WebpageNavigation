@@ -2,20 +2,17 @@
 /**
  * Module dependencies.
  */
-var debug = false;
+
 
 var express = require('express');
 var routes = require('./routes');
+var hadle_post = require("./routes/handle_post");
 var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 var wechat = require('wechat');
 var menu = require('./weixin/menu');
 var app = express();
-var API = require("./node_modules/wechat-api");
-var config = require("./weixin/config");
-var api = new API(config.appid, config.appsecret);
-var fs = require('fs');
 
 // all environments
 app.set('port', process.env.PORT || 80);
@@ -36,6 +33,10 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.get('/Navigation',function(req,res) {
+    res.sendfile("./dist/Navigation.html");
+});
+hadle_post(app);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
@@ -49,12 +50,14 @@ app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
     var message = req.weixin;
     if(message.MsgType == 'text'){
         var link = "<a href='http://shsf.thss.tsinghua.edu.cn/Navigation'>点击我进行定位与导航</a>";
+//          var link = "<a href='http://123.56.155.236/Navigation'>点击我进行定位与导航</a>";
         res.reply({type:"text",content:link});
     }
     if(message.MsgType == 'event' && message.Event == 'CLICK'){
         switch(message.EventKey){
             case "Navigation":
                 var link = "<a href='http://shsf.thss.tsinghua.edu.cn/Navigation'>点击我进行定位与导航</a>";
+//                var link = "<a href='http://123.56.155.236/Navigation'>点击我进行定位与导航</a>";
                 res.reply({type:"text",content:link});
                 break;
             default :
@@ -68,45 +71,3 @@ app.use('/wechat', wechat('thu_schoolmap', function (req, res, next) {
 
 //menu.Menu();
 
-app.get('/Navigation',function(req,res) {
-    res.sendfile("./dist/Navigation.html");
-});
-
-app.post('/location', function(req, res){
-    if (!debug) {
-        var param = {
-            debug:false,
-            jsApiList: ['getLocation'],
-            url:req.body.url
-        };
-        api.getJsConfig(param, function(err, result){
-            result.isDebug = false;
-            res.send(result);
-        });
-    } else {
-        res.send({isDebug: true});
-    }
-});
-
-app.post('/feedback',function(req,res){
-    var feedback=req["body"];
-    var f_string = "";
-
-    for(var name in feedback){
-        if(name=="problem"){
-            f_string += "["+name+" ";
-            for(var i= 0;i < feedback[name].length;i++){
-                f_string += (i+1)+"-"+feedback[name][i] + " ";
-            }
-            f_string += "] ";
-        }
-        else{
-            f_string += "["+name + " "+ feedback[name] + "] ";
-        }
-    }
-    f_string += "\n";
-    fs.appendFile('./userfeedback.txt', f_string, function (err) {
-        if (err) throw err;
-    });
-    res.send("OK!");
-});

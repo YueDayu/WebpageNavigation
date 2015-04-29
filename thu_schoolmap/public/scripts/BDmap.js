@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-var map=new BMap.Map("allmap");map.centerAndZoom(new BMap.Point(116.332836,40.009999),15);map.setCurrentCity("北京");map.enableScrollWheelZoom(true);var locationLoop;var myPosMarker;var myAcMarker=[];var Acsize=0;var firstFlag=true;var lastPoint=new BMap.Point(116.332836,40.009999);var point=new BMap.Point(116.332836,40.009999);var path,startPointMarker,endPointMarker;var endPoint;function SetLocation(callback){Location(function(pos){lastPoint=point;firstFlag=false;$("#begin-nav-button").removeAttr("disabled");point=new BMap.Point(pos.longitude,pos.latitude);map.removeOverlay(myPosMarker);myPosMarker=new BMap.Marker(point);map.addOverlay(myPosMarker);if(callback){callback()}})}function startLocation(){SetLocation();if(map.getDistance(point,endPoint)<50){endNavigation();showModel("导航结束","您已经到达目的地附近")}}function findRoadCross_0(startPoint){var result=[5,5];for(var i=0;i<6;i++){if(startPoint.lng<roadcross[0][i]["longitude"]){result[0]=i;break}}for(var j=0;j<6;j++){if(startPoint.lat>roadcross[1][j]["latitude"]){result[1]=j;break}}return result}function findRoadCross(startPoint,endPoint){x=startPoint.lng-endPoint.lng;y=startPoint.lat-endPoint.lat;area=x*x+y*y;x=roadcross[0][2]["longitude"]-roadcross[0][3]["longitude"];y=roadcross[1][2]["latitude"]-roadcross[1][3]["latitude"];if(area<x*x+y*y){return[[0,0],[0,0]]}var result_0=findRoadCross_0(startPoint);var result_1=findRoadCross_0(endPoint);if(result_0[0]>0){if(Math.abs(roadcross[0][result_0[0]]["longitude"]-endPoint.lng)>Math.abs(roadcross[0][result_0[0]-1]["longitude"]-endPoint.lng))result_0[0]-=1}if(result_0[1]>0){if(Math.abs(roadcross[1][result_0[1]]["latitude"]-endPoint.lat)>Math.abs(roadcross[1][result_0[1]-1]["latitude"]-endPoint.lat))result_0[1]-=1}if(result_1[0]>0){if(Math.abs(roadcross[0][result_1[0]]["longitude"]-roadcross[2][result_0[0]][result_0[1]]["longitude"])>Math.abs(roadcross[0][result_1[0]-1]["longitude"]-roadcross[2][result_0[0]][result_0[1]]["longitude"]))result_1[0]-=1}if(result_1[1]>0){if(Math.abs(roadcross[1][result_1[1]]["latitude"]-roadcross[2][result_0[0]][result_0[1]]["latitude"])>Math.abs(roadcross[1][result_1[1]-1]["latitude"]-roadcross[2][result_0[0]][result_0[1]]["latitude"]))result_1[1]-=1}return[result_0,result_1]}var paths=[];function resultToPoint(x,y){return new BMap.Point(roadcross[2][x][y]["longitude"],roadcross[2][x][y]["latitude"])}function findRoad(result_0,result_1,walking){if((result_0[1]>0)&&(result_0[1]<5)){if(result_0[0]!=result_1[0]){walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_1[0],result_0[1])])}walks.push([resultToPoint(result_1[0],result_0[1]),resultToPoint(result_1[0],result_1[1])])}else if((result_1[1]>0)&&(result_1[1]<5)){walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_0[0],result_1[1])]);if(result_0[0]!=result_1[0]){walks.push([resultToPoint(result_0[0],result_1[1]),resultToPoint(result_1[0],result_1[1])])}}else if((result_0[1]==result_1[1])||(result_0[0]==result_1[0])){walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_1[0],result_1[1])])}else if(result_0[1]==0){walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_0[0],1)]);findRoad([result_0[0],1],result_1,walking)}else{walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_1[0],4)]);findRoad([result_0[0],4],result_1,walking)}}var walks=[];var now=0;function findWalkingRoute(startPoint,endPoint){var result=findRoadCross(startPoint,endPoint);if((result[0][0]==result[1][0])&&(result[0][1]==result[1][1])){var walking=new BMap.WalkingRoute(map,{renderOptions:{map:map,autoViewport:true}});walking.setMarkersSetCallback(function(a){startPointMarker=a[0].marker;endPointMarker=a[1].marker});walking.setPolylinesSetCallback(function(a){path=a[0].getPolyline()});walking.search(startPoint,endPoint)}else{paths=[];now=0;walks=[];var walking=new BMap.WalkingRoute(map,{onSearchComplete:function(result){now+=1;if(now==1){startPointMarker=new BMap.Marker(result.getStart().point);map.addOverlay(startPointMarker)}else if(now==walks.length){endPointMarker=new BMap.Marker(result.getEnd().point);map.addOverlay(endPointMarker)}paths=paths.concat(result.getPlan(0).getRoute(0).getPath());if(now<walks.length){walking.search(walks[now][0],walks[now][1])}else{path=new BMap.Polyline(paths);map.addOverlay(path);paths=[];map.setViewport([startPointMarker.getPosition(),endPointMarker.getPosition()])}}});walks.push([startPoint,resultToPoint(result[0][0],result[0][1])]);findRoad(result[0],result[1],walking);walks.push([resultToPoint(result[1][0],result[1][1]),endPoint]);walking.search(walks[0][0],walks[0][1])}}function findDrivingRoute(startPoint,endPoint){var driving=new BMap.DrivingRoute(map,{renderOptions:{map:map,autoViewport:true}});driving.setMarkersSetCallback(function(a){startPointMarker=a[0].marker;endPointMarker=a[1].marker});driving.setPolylinesSetCallback(function(a){path=a[0].getPolyline()});driving.search(startPoint,endPoint)}function startNavigation(startPoint,endPoint){findWalkingRoute(startPoint,endPoint);locationLoop=setInterval("startLocation()",5000)}function endNavigation(){clearInterval(locationLoop)}function addMarker(point,imageFile,title,content){var myIcon=new BMap.Icon(imageFile,new BMap.Size(15,15));var marker=new BMap.Marker(point,{icon:myIcon});if(title){marker.addEventListener("click",function(){var infoWindow=new BMap.InfoWindow();infoWindow.setTitle(title);infoWindow.setContent(content);marker.openInfoWindow(infoWindow)})}map.addOverlay(marker);return marker}function addRoadBlock(){$.getJSON("../data/roadblock_info.json",function(data){$.each(data,function(infoIndex,info){var point=new BMap.Point(info["longitude"],info["latitude"]);var marker=addMarker(point,info["img"],info["title"],info["content"]);myAcMarker.push(marker);Acsize+=1})})}function addTip(){$.getJSON("../data/activity_info.json",function(data){$.each(data,function(infoIndex,info){var point=new BMap.Point(info["longitude"],info["latitude"]);var marker=addSMarker(point,info["img"],info["title"],info["content"]);myAcMarker.push(marker);Acsize+=1})})}function addCMarker(point,imageFile,title,content){function ComplexCustomOverlay(point,text,mouseoverText){this._point=point;this._text=text;this._overText=mouseoverText}ComplexCustomOverlay.prototype=new BMap.Overlay();ComplexCustomOverlay.prototype.initialize=function(map){this._map=map;var div=this._div=document.createElement("div");div.className="Markerstyle";div.style.zIndex=BMap.Overlay.getZIndex(this._point.lat);var span=this._span=document.createElement("span");div.appendChild(span);span.appendChild(document.createTextNode(this._text));var that=this;var arrow=this._arrow=document.createElement("div");arrow.className="Arrowstyle";arrow.style.left="10px";div.appendChild(arrow);div.onmouseover=function(){this.style.height="50px";this.getElementsByTagName("span")[0].innerHTML=that._overText;arrow.style.backgroundPosition="0px -20px"};div.onmouseout=function(){this.style.height="20px";this.getElementsByTagName("span")[0].innerHTML=that._text;arrow.style.backgroundPosition="0px 0px"};map.getPanes().labelPane.appendChild(div);return div};ComplexCustomOverlay.prototype.draw=function(){var map=this._map;var pixel=map.pointToOverlayPixel(this._point);this._div.style.left=pixel.x-parseInt(this._arrow.style.left)+"px";this._div.style.top=pixel.y-30+"px"};var txt=title,mouseoverTxt=content;var myCompOverlay=new ComplexCustomOverlay(point,title,mouseoverTxt);map.addOverlay(myCompOverlay)}function addSMarker(point,imageFile,title,content){var myIcon=new BMap.Icon("img/s1.png",new BMap.Size(24,24));var marker=new BMap.Marker(point,{icon:myIcon});if(title){marker.addEventListener("click",function(){var infoWindow=new BMap.InfoWindow();infoWindow.setTitle(title);infoWindow.setContent(content);marker.openInfoWindow(infoWindow)})}map.addOverlay(marker);return marker}function RemoveAc(){for(i=0;i<Acsize;i++){map.removeOverlay(myAcMarker[i])}Acsize=0;myAcMarker=[]}function addNewPoint(point){var Nmarker=new BMap.Marker(point);map.addOverlay(Nmarker)}
-=======
+$("#allmap").css("height", $("body").height() - 50 + "px");
 var map = new BMap.Map("allmap");
 map.centerAndZoom(new BMap.Point(116.332836,40.009999), 15);
 map.setCurrentCity("北京");
@@ -9,8 +7,6 @@ map.enableScrollWheelZoom(true);
 var locationLoop;
 
 var myPosMarker;
-var myAcMarker = [];
-var Acsize=0;
 var firstFlag = true;
 var lastPoint = new BMap.Point(116.332836,40.009999);
 var point = new BMap.Point(116.332836,40.009999);
@@ -69,8 +65,10 @@ function findRoadCross(startPoint, endPoint){
     var y = startPoint.lat - endPoint.lat;
     var dx, dy, i, j;
     var area = x * x + y * y;
-    x = roadcross[0][2]["longitude"] - roadcross[0][3]["longitude"];
-    y = roadcross[1][2]["latitude"] - roadcross[1][3]["latitude"];
+    var point1 = new BMap.Point(116.335024,40.011907),
+        point2 = new BMap.Point(116.335087,40.010412);
+    x = point1.lng - point2.lng;
+    y = point1.lat - point2.lat;
     if(area < x * x + y * y){
         return [[0,0],[0,0]];
     }
@@ -98,6 +96,25 @@ function findRoadCross(startPoint, endPoint){
             }
         }
     }
+    var gap;
+    if(dx == 2){
+        gap = roadcross[0][result_0[0]]["longitude"] - roadcross[0][result_0[0]-1]["longitude"];
+        if(Math.abs(startPoint.lng - roadcross[0][result_0[0]["longitude"]]) / gap < 0.15){
+            result[0] = result_0[0];
+        }
+        else if(Math.abs(startPoint.lng - roadcross[0][result_0[0]-1]["longitude"]) / gap < 0.15){
+            result[0] = result_0[0]-1;
+        }
+    }
+    if(dy == 2){
+        gap = roadcross[1][result_0[1]-1]["latitude"] - roadcross[1][result_0[1]]["latitude"];
+        if(Math.abs(startPoint.lat - roadcross[1][result_0[1]["latitude"]]) / gap < 0.15){
+            result[1] = result_0[1];
+        }
+        else if(Math.abs(startPoint.lat - roadcross[1][result_0[1]-1]["latitude"]) / gap < 0.15){
+            result[1] = result_0[1]-1;
+        }
+    }
     result_0 = [result[0], result[1]];
     var point = new BMap.Point(roadcross[0][result_0[0]]["longitude"], roadcross[1][result_0[1]]["latitude"]);
     if(result_1[0] > 0){
@@ -122,7 +139,31 @@ function findRoadCross(startPoint, endPoint){
             }
         }
     }
+    if(dx == 2){
+        gap = roadcross[0][result_1[0]]["longitude"] - roadcross[0][result_1[0]-1]["longitude"];
+        if(Math.abs(endPoint.lng - roadcross[0][result_1[0]["longitude"]]) / gap < 0.15){
+            result[0] = result_1[0];
+        }
+        else if(Math.abs(endPoint.lng - roadcross[0][result_1[0]-1]["longitude"]) / gap < 0.15){
+            result[0] = result_1[0]-1;
+        }
+    }
+    if(dy == 2){
+        gap = roadcross[1][result_1[1]-1]["latitude"] - roadcross[1][result_1[1]]["latitude"];
+        if(Math.abs(endPoint.lat - roadcross[1][result_1[1]["latitude"]]) / gap < 0.15){
+            result[1] = result_1[1];
+        }
+        else if(Math.abs(endPoint.lat - roadcross[1][result_1[1]-1]["latitude"]) / gap < 0.15){
+            result[1] = result_1[1]-1;
+        }
+    }
     result_1 = [result[0],result[1]];
+    if(result_0[0] == 4 && result_0[1] < 4){
+        result_0[0] = 3;
+    }
+    if(result_1[0] == 4 && result_1[1] < 4){
+        result_1[0] = 3;
+    }
     return [result_0, result_1];
 }
 
@@ -136,18 +177,6 @@ function findRoad(result_0, result_1){
     if((result_0[1] == result_1[1]) || (result_0[0] == result_1[0])){
         walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_1[0],result_1[1])]);
     }
-    else if((result_0[1] > 0) && (result_0[1] < 5)){
-        if(result_0[0] != result_1[0]){
-            walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_1[0],result_0[1])]);
-        }
-        walks.push([resultToPoint(result_1[0],result_0[1]),resultToPoint(result_1[0],result_1[1])]);
-    }
-    else if((result_1[1] > 0) && (result_1[1] < 5)){
-        walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_0[0],result_1[1])]);
-        if(result_0[0] != result_1[0]){
-            walks.push([resultToPoint(result_0[0],result_1[1]),resultToPoint(result_1[0],result_1[1])]);
-        }
-    }
     else if((result_0[0] > 1) && (result_0[0] < 4)){
         walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_0[0],result_1[1])]);
         if(result_0[0] != result_1[0]){
@@ -160,6 +189,18 @@ function findRoad(result_0, result_1){
         }
         walks.push([resultToPoint(result_1[0],result_0[1]),resultToPoint(result_1[0],result_1[1])]);
     }
+    else if((result_0[1] > 0) && (result_0[1] < 5)){
+        if(result_0[0] != result_1[0]){
+            walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_1[0],result_0[1])]);
+        }
+        walks.push([resultToPoint(result_1[0],result_0[1]),resultToPoint(result_1[0],result_1[1])]);
+    }
+    else if((result_1[1] > 0) && (result_1[1] < 5)){
+        walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_0[0],result_1[1])]);
+        if(result_0[0] != result_1[0]){
+            walks.push([resultToPoint(result_0[0],result_1[1]),resultToPoint(result_1[0],result_1[1])]);
+        }
+    }
     else{
         walks.push([resultToPoint(result_0[0],result_0[1]),resultToPoint(result_0[0],result_1[1])]);
         if(result_0[0] != result_1[0]){
@@ -171,8 +212,205 @@ function findRoad(result_0, result_1){
 var walks = [];
 var now = 0;
 
+function Modified_0(walks, point, result){
+    var result_ = findRoadCross_0(point);
+    if(result[0] == 2 && result[1] == 2 && result_[0] == 3 && result_[1] == 3){
+        var tmp = new BMap.Point(116.334378, 40.009044);
+        if(point.lat < tmp.lat){
+            walks.push([point, tmp]);
+            walks.push([tmp, resultToPoint(result[0], result[1])]);
+        }
+        else{
+            var tmp = new BMap.Point(116.33559, 40.010405);
+            if(point.lng < tmp.lng){
+                walks.push([point, resultToPoint(result[0],result[1])]);
+            }
+            else{
+                walks.push([point, resultToPoint(3,2)]);
+                walks.push([resultToPoint(3,2), resultToPoint(2,2)]);
+            }
+        }
+    }
+    else if(result_[0] == 3 && result_[1] == 2){
+        var tmp = new BMap.Point(116.335647,40.011295);
+        if(point.lng > tmp.lng){
+            if(point.lat < tmp.lat){
+                walks.push([point, resultToPoint(3,2)]);
+                if(result[1] != 2){
+                    walks.push([resultToPoint(3,2), resultToPoint(3, result[1])]);
+                }
+                walks.push([resultToPoint(3, result[1]), resultToPoint(result[0], result[1])]);
+            }
+            else{
+                walks.push([point, resultToPoint(3,1)]);
+                if(result[1] != 1){
+                    walks.push([resultToPoint(3,1), resultToPoint(3, result[1])]);
+                }
+                walks.push([resultToPoint(3, result[1]), resultToPoint(result[0], result[1])]);
+            }
+        }
+        else{
+            if(point.lat < tmp.lat){
+                walks.push([point, resultToPoint(2,2)]);
+                if(result[1] != 2){
+                    walks.push([resultToPoint(2,2), resultToPoint(2, result[1])]);
+                }
+                walks.push([resultToPoint(2, result[1]), resultToPoint(result[0], result[1])]);
+            }
+            else{
+                walks.push([point, resultToPoint(2,1)]);
+                if(result[1] != 1){
+                    walks.push([resultToPoint(2,1), resultToPoint(2, result[1])]);
+                }
+                walks.push([resultToPoint(2, result[1]), resultToPoint(result[0], result[1])]);
+            }
+        }
+    }
+    else if(result_[0] == 3 && result_[1] == 1){
+        var tmp = new BMap.Point(116.335629,40.013685);
+        if(point.lat < tmp.lat){
+            if(point.lng < tmp.lng){
+                if(result[1] == 0){
+                    var pp = new BMap.Point(116.333985,40.013674);
+                    walks.push([point, pp]);
+                    walks.push([pp, resultToPoint(2,0)]);
+                    if(result[0] != 2){
+                        walks.push([resultToPoint(2,0), resultToPoint(3,0)]);
+                    }
+                }
+                else{
+                    var pp = new BMap.Point(116.334973,40.012262);
+                    walks.push([point, pp]);
+                    walks.push([pp, resultToPoint(result[0],result[1])]);
+                }
+            }
+            else{
+                if(result[1] == 0){
+                    var pp = new BMap.Point(116.336959,40.013695);
+                    walks.push([point, pp]);
+                    walks.push([pp, resultToPoint(3,0)]);
+                    if(result[0] != 3){
+                        walks.push([resultToPoint(3,0), resultToPoint(2,0)]);
+                    }
+                }
+                else{
+                    walks.push([point, resultToPoint(3,1)]);
+                    if(result[0] != 3){
+                        walks.push([resultToPoint(3,1), resultToPoint(2,1)]);
+                    }
+                }
+            }
+        }
+        else{
+            walks.push([point, resultToPoint(result[0],result[1])]);
+        }
+    }
+    else{
+        walks.push([point, resultToPoint(result[0],result[1])]);
+    }
+}
+
+function Modified_1(walks, point, result){
+    var result_ = findRoadCross_0(point);
+    if(result[0] == 2 && result[1] == 2 && result_[0] == 3 && result_[1] == 3){
+        var tmp = new BMap.Point(116.334378, 40.009044);
+        if(point.lat < tmp.lat){
+            walks.push([resultToPoint(result[0], result[1]), tmp]);
+            walks.push([tmp, point]);
+        }
+        else{
+            var tmp = new BMap.Point(116.33559, 40.010405);
+            if(point.lng < tmp.lng){
+                walks.push([resultToPoint(result[0],result[1]), point]);
+            }
+            else{
+                walks.push([resultToPoint(2,2), resultToPoint(3,2)]);
+                walks.push([resultToPoint(3,2), point]);
+            }
+        }
+    }
+    else if(result_[0] == 3 && result_[1] == 2){
+        var tmp = new BMap.Point(116.335647,40.011295);
+        if(point.lng > tmp.lng){
+            if(point.lat < tmp.lat){
+                walks.push([resultToPoint(result[0], result[1]), resultToPoint(3, result[1])]);
+                if(result[1] != 2){
+                    walks.push([resultToPoint(3, result[1]), resultToPoint(3,2)]);
+                }
+                walks.push([resultToPoint(3,2), point]);
+            }
+            else{
+                walks.push([resultToPoint(result[0], result[1]), resultToPoint(3, result[1])]);
+                if(result[1] != 1){
+                    walks.push([resultToPoint(3, result[1]), resultToPoint(3,1)]);
+                }
+                walks.push([resultToPoint(3,1), point]);
+            }
+        }
+        else{
+            if(point.lat < tmp.lat){
+                walks.push([resultToPoint(result[0], result[1]), resultToPoint(2, result[1])]);
+                if(result[1] != 2){
+                    walks.push([resultToPoint(2, result[1]), resultToPoint(2,2)]);
+                }
+                walks.push([resultToPoint(2,2), point]);
+            }
+            else{
+                walks.push([resultToPoint(result[0], result[1]), resultToPoint(2, result[1])]);
+                if(result[1] != 1){
+                    walks.push([resultToPoint(2, result[1]), resultToPoint(2,1)]);
+                }
+                walks.push([resultToPoint(2,1), point]);
+            }
+        }
+    }
+    else if(result_[0] == 3 && result_[1] == 1){
+        var tmp = new BMap.Point(116.335629,40.013685);
+        if(point.lat < tmp.lat){
+            if(point.lng < tmp.lng){
+                if(result[1] == 0){
+                    var pp = new BMap.Point(116.333985,40.013674);
+                    if(result[0] != 2){
+                        walks.push([resultToPoint(3,0), resultToPoint(2,0)]);
+                    }
+                    walks.push([resultToPoint(2,0), pp]);
+                    walks.push([pp, point]);
+                }
+                else{
+                    var pp = new BMap.Point(116.334973,40.012262);
+                    walks.push([resultToPoint(result[0],result[1]), pp]);
+                    walks.push([pp, point]);
+                }
+            }
+            else{
+                if(result[1] == 0){
+                    var pp = new BMap.Point(116.336959,40.013695);
+                    if(result[0] != 3){
+                        walks.push([resultToPoint(2,0), resultToPoint(3,0)]);
+                    }
+                    walks.push([resultToPoint(3,0), pp]);
+                    walks.push([pp, point]);
+                }
+                else{
+                    if(result[0] != 3){
+                        walks.push([resultToPoint(2,1), resultToPoint(3,1)]);
+                    }
+                    walks.push([resultToPoint(3,1), point]);
+                }
+            }
+        }
+        else{
+            walks.push([resultToPoint(result[0],result[1]), point]);
+        }
+    }
+    else{
+        walks.push([resultToPoint(result[0],result[1]), point]);
+    }
+}
+
 function findWalkingRoute(startPoint, endPoint) {
-    var result = findRoadCross(startPoint, endPoint);
+    var result_ = findRoadCross(startPoint, endPoint);
+    var result = [findRoadCross_0(startPoint), findRoadCross_0(endPoint)];
     if((result[0][0] == result[1][0]) && (result[0][1] == result[1][1])){
         var walking = new BMap.WalkingRoute(map, {
             renderOptions: {
@@ -196,14 +434,6 @@ function findWalkingRoute(startPoint, endPoint) {
         var walking = new BMap.WalkingRoute(map, {
             onSearchComplete:function(result){
                 now += 1;
-                if(now == 1){
-                    startPointMarker = new BMap.Marker(result.getStart().point);
-                    map.addOverlay(startPointMarker);
-                }
-                else if(now == walks.length){
-                    endPointMarker = new BMap.Marker(result.getEnd().point);
-                    map.addOverlay(endPointMarker);
-                }
                 paths = paths.concat(result.getPlan(0).getRoute(0).getPath());
                 if(now < walks.length) {
                     walking.search(walks[now][0], walks[now][1]);
@@ -211,14 +441,18 @@ function findWalkingRoute(startPoint, endPoint) {
                 else{
                     path = new BMap.Polyline(paths);
                     map.addOverlay(path);
+                    startPointMarker = new BMap.Marker(paths[0]);
+                    endPointMarker = new BMap.Marker(paths[paths.length-1]);
+                    map.addOverlay(startPointMarker);
+                    map.addOverlay(endPointMarker);
                     paths = [];
                     map.setViewport([startPointMarker.getPosition(), endPointMarker.getPosition()]);
                 }
             }
         });
-        walks.push([startPoint, resultToPoint(result[0][0],result[0][1])]);
-        findRoad(result[0], result[1]);
-        walks.push([resultToPoint(result[1][0],result[1][1]), endPoint]);
+        Modified_0(walks, startPoint, result_[0]);
+        findRoad(result_[0], result_[1]);
+        Modified_1(walks, endPoint, result_[1]);
         walking.search(walks[0][0],walks[0][1]);
     }
 }
@@ -240,82 +474,16 @@ function findDrivingRoute(startPoint, endPoint){
     driving.search(startPoint, endPoint);
 }
 
-function startNavigation(startPoint, endPoint) {
-    findWalkingRoute(startPoint, endPoint);
+function startNavigation(startPoint, endPoint, type) {
+    if(type == 0) {
+        findWalkingRoute(startPoint, endPoint);
+    }
+    else{
+        findDrivingRoute(startPoint, endPoint);
+    }
     locationLoop = setInterval("startLocation()", 3000);
 }
 
 function endNavigation() {
     clearInterval(locationLoop);
 }
-
-function addMarker(point, type,title,content){
-    if(type == "block")
-        var myIcon = new BMap.Icon("img/b1.png", new BMap.Size(18,17));
-    else
-        var myIcon = new BMap.Icon("img/p2.png", new BMap.Size(15,15));
-    var marker = new BMap.Marker(point, {
-        icon: myIcon
-    });
-    if(title){
-         marker.addEventListener("click", function(){
-            var infoWindow = new BMap.InfoWindow();
-            infoWindow.setTitle(title);
-            infoWindow.setContent(content);
-            marker.openInfoWindow(infoWindow);
-        });
-    }
-    map.addOverlay(marker);
-    return marker;
-}
-
-function addRoadBlock(){
-    $.getJSON("../data/roadblock_info.json",function(data){
-        $.each(data,function(infoIndex,info){
-            var point = new BMap.Point(info["longitude"],info["latitude"]);
-            var marker = addMarker(point,info["type"],info["title"],info["content"]);
-            myAcMarker.push(marker);
-            Acsize += 1;
-        });
-    });
-}
-
-function addTip(){
-    $.getJSON("../data/activity_info.json",function(data){
-        $.each(data,function(infoIndex,info){
-            var point = new BMap.Point(info["longitude"],info["latitude"]);
-            var marker = addSMarker(point,info["title"],info["content"]);
-            myAcMarker.push(marker);
-            Acsize += 1;
-        });
-    });
-}
-function addSMarker(point, title,content) {
-     var myIcon = new BMap.Icon("img/p1.png", new BMap.Size(22,22));
-     var marker = new BMap.Marker(point, {
-         icon: myIcon});
-    if(title){
-        marker.addEventListener("click", function(){
-            var infoWindow = new BMap.InfoWindow();
-            infoWindow.setTitle(title);
-            infoWindow.setContent(content);
-            marker.openInfoWindow(infoWindow);
-        });
-    }
-    map.addOverlay(marker);
-    return marker;
-}
-
-function RemoveAc() {
-    for (i = 0; i < Acsize; i++) {
-    map.removeOverlay(myAcMarker[i]);
-    }
-    Acsize = 0;
-    myAcMarker = [];
-}
-
-function addNewPoint(point) {
-    var Nmarker = new BMap.Marker(point);  // 创建标注
-    map.addOverlay(Nmarker);               // 将标注添加到地图中
-}
->>>>>>> back

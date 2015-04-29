@@ -21,22 +21,23 @@ $.ajax({
                 signature: result.signature,
                 jsApiList: result.jsApiList
             });
+            console.log(result);
             wx.ready(function () {
                 SetLocation(function () {
                     map.panTo(point);
                 });
             });
         } else {
+            $("#location-model").fadeIn();
+            $("#locate-button-div").fadeIn();
+            $("#search-div").fadeIn();
             $("#begin-nav-button").removeAttr("disabled");
         }
     }
 });
 
+
 function Location(callback) {
-    if (isDebug) {
-        console.log("location model");
-        return;
-    }
     function setLocationByHand(e) {
         location = {
             latitude: e.point.lat,
@@ -53,14 +54,15 @@ function Location(callback) {
             var tempPoint = new BMap.Point(parseFloat(res.longitude), parseFloat(res.latitude));
             BMap.Convertor.translate(tempPoint, 0, function (point) {
                 var accuracy = parseFloat(res.accuracy);
-                //alert("Hello" + isFirstTime + point.lat);
                 if (isFirstTime == true) {
                     $("#begin-nav-button").removeAttr("disabled");
                 }
                 if (accuracy >= 50) {
                     if (isFirstTime == true) {
                         if (accuracy <= 150) {
-                            //showModel("定位精度过低", "请确保打开GPS定位");
+                            $("#location-model").fadeIn();
+                            $("#locate-button-div").fadeIn();
+                            $("#search-div").fadeIn();
                             location = {
                                 latitude: parseFloat(point.lat),
                                 longitude: parseFloat(point.lng),
@@ -68,7 +70,8 @@ function Location(callback) {
                             };
                             isFirstTime = false;
                             callback(location);
-                        } else {
+                        }
+                        else {
                             if (isFirstTime == true) {
                                 isFirstTime = false;
                                 showModel("定位失败", "定位精度过低，请手动定位。");
@@ -78,11 +81,18 @@ function Location(callback) {
                                     $("#search-div").fadeIn();
                                     $("#set-location").fadeOut();
                                     map.removeEventListener("click", setLocationByHand);
+                                    $("#locate-button-div").fadeIn();
                                 });
                             }
                         }
                     }
-                } else {
+                }
+                else {
+                    if(isFirstTime){
+                        $("#location-model").fadeIn();
+                        $("#locate-button-div").fadeIn();
+                        $("#search-div").fadeIn();
+                    }
                     location = {
                         latitude: parseFloat(point.lat),
                         longitude: parseFloat(point.lng),
@@ -103,6 +113,7 @@ function Location(callback) {
                     $("#search-div").fadeIn();
                     $("#set-location").fadeOut();
                     map.removeEventListener("click", setLocationByHand);
+                    $("#locate-button-div").fadeIn();
                 });
             }
         },

@@ -8,7 +8,26 @@ var bs = new BMap.Bounds(pStart,pEnd);
 var lastMarker;
 var searchPoint;
 
-var roadcross;
+var $lateral_menu_trigger = $('#cd-menu-trigger'),
+    $content_wrapper = $('.cd-main-content'),
+    $navigation = $('header');
+
+function hideSideBar() {
+    $lateral_menu_trigger.removeClass('is-clicked');
+    $navigation.removeClass('lateral-menu-is-open');
+    $content_wrapper.removeClass('lateral-menu-is-open').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(){
+        $('body').removeClass('overflow-hidden');
+    });
+    $('#cd-lateral-nav').removeClass('lateral-menu-is-open');
+    if($('html').hasClass('no-csstransitions')) {
+        $('body').removeClass('overflow-hidden');
+    }
+}
+
+function showMsg(a, b) {
+    console.log("Hello" + a + b);
+    hideSideBar()
+}
 
 $(document).ready(function(){
     var ac = new BMap.Autocomplete({
@@ -47,18 +66,19 @@ $(document).ready(function(){
         map.removeOverlay(endPointMarker);
         map.removeOverlay(lastMarker);
         $("#search-button").attr({"disabled":"disabled"});
-        $("#location-model").fadeOut();
         var options = {
             onSearchComplete: function(results){
 				$("#search-content").val("");
                 $("#search-button").removeAttr("disabled");
                 if (local.getStatus() == BMAP_STATUS_SUCCESS){
+                    $("#location-model").fadeOut(1000,function(){
+                        $("#begin-nav-div").fadeIn();
+                        $("#search-div").fadeOut();
+                    });
                     searchPoint = local.getResults().getPoi(0).point;
                     map.centerAndZoom(searchPoint, 18);
                     lastMarker = new BMap.Marker(searchPoint);
                     map.addOverlay(lastMarker);
-                    $("#begin-nav-div").fadeIn();
-                    $("#search-div").fadeOut();
                 } else {
 					showModel("搜索失败", "抱歉，我们没有在清华校内找到您要的地点。");
                 }
@@ -67,12 +87,16 @@ $(document).ready(function(){
 		var options_customs = {
             onSearchComplete: function(results){
                 if (local_custom.getStatus() == BMAP_STATUS_SUCCESS){
+                    $("#location-model").fadeOut(1000,function(){
+                        $("#begin-nav-div").fadeIn();
+                        $("#search-div").fadeOut();
+                    });
 					$("#search-content").val("");
                     searchPoint = local_custom.getResults().getPoi(0).point;
                     map.centerAndZoom(searchPoint, 18);
                     lastMarker = new BMap.Marker(searchPoint);
                     map.addOverlay(lastMarker);
-                    $("#begin-nav-div").fadeIn();
+
                 } else {
                     local.searchInBounds(document.getElementById("search-content").value, bs);
                 }
@@ -87,15 +111,27 @@ $(document).ready(function(){
 			}
 		});
     });
-    $("#begin-nav-button").attr({"disabled":"disabled"}).click(function(){
+    $("#begin-nav-button-foot").click(function(){
         map.removeOverlay(lastMarker);
-        startNavigation(point, searchPoint);
+        startNavigation(point, searchPoint, 0);
         $("#begin-nav-div").fadeOut(function() {
             $("#stop-nav-div").fadeIn();
         });
         $("#search-div").fadeOut();
     });
-    $("#return-button").click(function(){
+
+    $("#begin-nav-button-car").click(function () {
+        //TODO: add car nav
+        map.removeOverlay(lastMarker);
+        startNavigation(point, searchPoint, 1);
+        $("#begin-nav-div").fadeOut(function() {
+            $("#stop-nav-div").fadeIn();
+        });
+        $("#search-div").fadeOut();
+    });
+
+
+    $("#return-begin-nav-button").click(function(){
         map.removeOverlay(path);
         map.removeOverlay(startPointMarker);
         map.removeOverlay(endPointMarker);
@@ -104,6 +140,7 @@ $(document).ready(function(){
         $("#begin-nav-div").fadeOut(function() {
             $("#location-model").fadeIn();
         });
+        $("#search-button").removeAttr("disabled");
         $("#search-div").fadeIn();
     });
     $("#stop-nav-button").click(function(){
@@ -111,6 +148,7 @@ $(document).ready(function(){
         map.removeOverlay(path);
         map.removeOverlay(startPointMarker);
         map.removeOverlay(endPointMarker);
+        $("#search-button").removeAttr("disabled");
         $("#search-div").fadeIn();
         $("#stop-nav-div").fadeOut(function() {
             $("#location-model").fadeIn();
@@ -148,28 +186,6 @@ $(document).ready(function(){
         resetfeedback();
     });
 
-    var p = 1;
-    map.addEventListener("zoomend",function() {
-        var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
-        if(Zoomrank > 15)
-        {
-            if(p == 1)
-            {
-                addRoadBlock();
-                addTip();
-            }
-            p = 0;
-        }
-        else
-        {
-            RemoveAc();
-            p = 1;
-        }
-    });
-
-    $.getJSON("../data/roadcross_info.json", function(data){
-        roadcross = data;
-    });
 });
 
 function showModel(title, content){
