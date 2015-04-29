@@ -474,8 +474,13 @@ function findDrivingRoute(startPoint, endPoint){
     driving.search(startPoint, endPoint);
 }
 
-function startNavigation(startPoint, endPoint) {
-    findWalkingRoute(startPoint, endPoint);
+function startNavigation(startPoint, endPoint, type) {
+    if(type == 0) {
+        findWalkingRoute(startPoint, endPoint);
+    }
+    else{
+        findDrivingRoute(startPoint, endPoint);
+    }
     locationLoop = setInterval("startLocation()", 3000);
 }
 

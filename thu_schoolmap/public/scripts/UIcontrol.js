@@ -108,18 +108,19 @@ $(document).ready(function(){
 			}
 		});
     });
-    $("#begin-nav-button-foot").attr({"disabled":"disabled"}).click(function(){
+    $("#begin-nav-button-foot").click(function(){
         map.removeOverlay(lastMarker);
-        startNavigation(point, searchPoint);
+        startNavigation(point, searchPoint, 0);
         $("#begin-nav-div").fadeOut(function() {
             $("#stop-nav-div").fadeIn();
         });
         $("#search-div").fadeOut();
     });
 
-    $("#begin-nav-button-car").attr({"disabled":"disabled"}).click(function () {
+    $("#begin-nav-button-car").click(function () {
         //TODO: add car nav
-
+        map.removeOverlay(lastMarker);
+        startNavigation(point, searchPoint, 1);
         $("#begin-nav-div").fadeOut(function() {
             $("#stop-nav-div").fadeIn();
         });

@@ -1,7 +1,7 @@
 /**
  * Created by xuyi on 4/29/15.
  */
-var debug = true;
+var debug = false;
 
 var API = require("../node_modules/wechat-api");
 var config = require("../weixin/config");
