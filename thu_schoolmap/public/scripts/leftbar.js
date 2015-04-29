@@ -96,13 +96,31 @@ function filterActivity(data){
     });
 }
 
+var is_show_route = false;
+
+function showOrHideRoute() {
+    hideSideBar();
+    if (is_show_route) {
+        is_show_route = false;
+        $("#isshowroute").removeClass("currentItem");
+        $("#isshowroute").html("显示推荐路线");
+        hideRecommendRoute();
+    } else {
+        is_show_route = true;
+        $("#isshowroute").addClass("currentItem");
+        $("#isshowroute").html("隐藏推荐路线");
+        showRecommendRoute();
+    }
+}
+
 function showRecommendRoute(){
     var m_point=new BMap.Point(116.326952,40.007364);
-    map.panTo(m_point);
     map.zoomTo(16);
+    map.panTo(m_point);
     map.addOverlay(recommendRoute);
 }
 
 function hideRecommendRoute(){
     map.removeOverlay(recommendRoute);
+    map.panTo(point);
 }
