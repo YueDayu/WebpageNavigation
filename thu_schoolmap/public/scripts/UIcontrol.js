@@ -136,6 +136,7 @@ $(document).ready(function(){
         map.removeOverlay(endPointMarker);
         map.removeOverlay(lastMarker);
         map.panTo(point);
+		$("#return-begin-nav-div").fadeOut();
         $("#begin-nav-div").fadeOut(function() {
             $("#location-model").fadeIn();
         });
