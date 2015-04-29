@@ -72,6 +72,11 @@ body {
     }
 }
 
+.currentItem {
+    background-color: #3a4a4d;
+    color: #FFF;
+}
+
 .listItem {
     font-size: 0.9em;
     display: block;
@@ -207,7 +212,8 @@ body {
     position: absolute;
     bottom:15px;
     z-index: 1500;
-    font-size: 0.8em;
+    font-size: 0.5em;
+    color:#fff;
 }
 
 #feed-back-model{

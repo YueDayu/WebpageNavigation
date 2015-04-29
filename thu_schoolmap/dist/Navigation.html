@@ -41,7 +41,6 @@
 <main class="cd-main-content">
     <div id="allmap"></div>
     <div id = "feedback-button-div">遇到问题？反馈给我们</div>
-    <div id="author-div">本项目由清华大学软件学院13级党支部开发</div>
     <div id = "locate-button-div">
         <button type="button" class="btn btn-info " id = "locate-button">
             <span class="glyphicon glyphicon-map-marker"></span>
@@ -212,14 +211,10 @@
             </ul>
         </li>
     </ul>
-
     <ul class="cd-navigation cd-single-item-wrapper">
-        <li><a class="current" href="#0">Journal</a></li>
-        <li><a href="#0">FAQ</a></li>
-        <li><a href="#0">Terms &amp; Conditions</a></li>
-        <li><a href="#0">Careers</a></li>
-        <li><a href="#0">Students</a></li>
+        <li class="listItem" onclick="showOrHideRoute()" id="isshowroute">显示推荐路径</li>
     </ul>
+    <div id="author-div">本项目由清华大学软件学院13级党支部开发</div>
 </nav>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=RprdeOx6ifNtPgcYARapDtRY"></script>
 <script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
