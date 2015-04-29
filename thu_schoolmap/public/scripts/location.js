@@ -25,6 +25,9 @@ $.ajax({
                 });
             });
         } else {
+            $("#location-model").fadeIn();
+            $("#locate-button-div").fadeIn();
+            $("#search-bar-div").fadeIn();
             $("#begin-nav-button").removeAttr("disabled");
         }
     }

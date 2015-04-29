@@ -12,6 +12,9 @@ $(document).ready(function(){
             "location" : map
         });
 
+
+    //$("#allmap").css("height", $("body").height() - 50 + "px");
+
     $("#allmap").click(function(){
        $("#search-content").blur();
        $("#search-button").blur();

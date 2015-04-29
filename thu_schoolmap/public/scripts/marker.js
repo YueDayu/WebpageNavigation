@@ -83,7 +83,7 @@ function addScence(){
 //}
 
 function addSMarker(point,type, title,content) {
-    var myIcon
+    var myIcon;
     if(type == "activity")
         myIcon = new BMap.Icon("img/act.png", new BMap.Size(22,22));
     else if(type =="monument")

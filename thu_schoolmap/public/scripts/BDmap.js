@@ -1,3 +1,4 @@
+$("#allmap").css("height", $("body").height() - 50 + "px");
 var map = new BMap.Map("allmap");
 map.centerAndZoom(new BMap.Point(116.332836,40.009999), 15);
 map.setCurrentCity("北京");
