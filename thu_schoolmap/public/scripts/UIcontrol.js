@@ -108,7 +108,7 @@ $(document).ready(function(){
 			}
 		});
     });
-    $("#begin-nav-button").attr({"disabled":"disabled"}).click(function(){
+    $("#begin-nav-button-foot").attr({"disabled":"disabled"}).click(function(){
         map.removeOverlay(lastMarker);
         startNavigation(point, searchPoint);
         $("#begin-nav-div").fadeOut(function() {
@@ -116,7 +116,18 @@ $(document).ready(function(){
         });
         $("#search-div").fadeOut();
     });
-    $("#return-button").click(function(){
+
+    $("#begin-nav-button-car").attr({"disabled":"disabled"}).click(function () {
+        //TODO: add car nav
+
+        $("#begin-nav-div").fadeOut(function() {
+            $("#stop-nav-div").fadeIn();
+        });
+        $("#search-div").fadeOut();
+    });
+
+
+    $("#return-begin-nav-button").click(function(){
         map.removeOverlay(path);
         map.removeOverlay(startPointMarker);
         map.removeOverlay(endPointMarker);
