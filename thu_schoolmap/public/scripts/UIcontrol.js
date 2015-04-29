@@ -114,6 +114,7 @@ $(document).ready(function(){
         map.removeOverlay(lastMarker);
         startNavigation(point, searchPoint, 0);
         $("#begin-nav-div").fadeOut(function() {
+            $("#return-begin-nav-div").fadeOut();
             $("#stop-nav-div").fadeIn();
         });
         $("#search-div").fadeOut();
@@ -124,6 +125,7 @@ $(document).ready(function(){
         map.removeOverlay(lastMarker);
         startNavigation(point, searchPoint, 1);
         $("#begin-nav-div").fadeOut(function() {
+            $("#return-begin-nav-div").fadeOut();
             $("#stop-nav-div").fadeIn();
         });
         $("#search-div").fadeOut();
@@ -136,8 +138,8 @@ $(document).ready(function(){
         map.removeOverlay(endPointMarker);
         map.removeOverlay(lastMarker);
         map.panTo(point);
-		$("#return-begin-nav-div").fadeOut();
-        $("#begin-nav-div").fadeOut(function() {
+        $("#return-begin-nav-div").fadeOut(function() {
+            $("#begin-nav-div").fadeOut();
             $("#location-model").fadeIn();
         });
         $("#search-button").removeAttr("disabled");
