@@ -189,6 +189,13 @@ body {
     text-decoration: underline;
 }
 
+#author-div{
+    position: absolute;
+    bottom:15px;
+    z-index: 1500;
+    font-size: 0.8em;
+}
+
 #feed-back-model{
     z-index: 2000;
 }
