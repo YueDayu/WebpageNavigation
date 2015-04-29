@@ -23,7 +23,7 @@ $(document).ready(function () {
         }
     });
 
-    $.getJSON("../data/roadcross_info.json", function(data){
+    getResource("roadcross_info",function(data){
         roadcross = data;
     });
 });
@@ -49,14 +49,15 @@ function addMarker(point, type,title,content){
 }
 
 function addRoadBlock(){
-    $.getJSON("../data/roadblock_info.json",function(data){
+    getResource("roadblock_info", function (data) {
         $.each(data,function(infoIndex,info){
             var point = new BMap.Point(info["longitude"],info["latitude"]);
             var marker = addMarker(point,info["type"],info["title"],info["content"]);
             myAcMarker.push(marker);
             Acsize += 1;
         });
-    });
+    })
+
 }
 
 function addTip(){
@@ -101,4 +102,23 @@ function RemoveAc() {
 function addNewPoint(point) {
     var Nmarker = new BMap.Marker(point);  // 创建标注
     map.addOverlay(Nmarker);               // 将标注添加到地图中
+}
+
+function getResource(type,callback){
+    $.ajax({
+        cache:false,
+        type:"POST",
+        url:"data_resource",
+        data:{
+            data_res:type
+        },
+        dataType:"json",
+        async: true,
+        error: function(request) {
+
+        },
+        success: function(data) {
+            callback(data);
+        }
+    });
 }
