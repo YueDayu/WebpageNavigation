@@ -131,25 +131,6 @@ function getResource(type,callback){
     });
 }
 
-function getIntroduction(type,callback){
-    $.ajax({
-        cache:false,
-        type:"POST",
-        url:"introduction",
-        data:{
-            data_res:type
-        },
-        dataType:"json",
-        async: true,
-        error: function(request) {
-
-        },
-        success: function(data) {
-            callback(data);
-        }
-    });
-}
-
 function getResourceNecessary(){
     getResource("roadcross_info",function(data){
         roadcross = data;

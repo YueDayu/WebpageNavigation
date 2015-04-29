@@ -67,12 +67,4 @@ module.exports = function(app){
         });
     });
 
-    app.post('/introduction',function(req,res){
-        var path = "./data/introduction"+req.body.data_res+".json";
-        fs.readFile(path, 'utf8', function (err, data) {
-            if (err) throw err; // we'll not consider error handling for now
-            var resource = JSON.parse(data);
-            res.send(resource);
-        });
-    });
 };
