@@ -99,6 +99,7 @@ var is_show_route = false;
 
 function showOrHideRoute() {
     hideSideBar();
+    map.removeOverlay(lastActivityMarker);
     if (is_show_route) {
         is_show_route = false;
         $("#isshowroute").removeClass("currentItem");

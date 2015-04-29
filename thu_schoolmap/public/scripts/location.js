@@ -27,7 +27,7 @@ $.ajax({
         } else {
             $("#location-model").fadeIn();
             $("#locate-button-div").fadeIn();
-            $("#search-bar-div").fadeIn();
+            $("#search-div").fadeIn();
             $("#begin-nav-button").removeAttr("disabled");
         }
     }
@@ -59,7 +59,7 @@ function Location(callback) {
                         if (accuracy <= 150) {
                             $("#location-model").fadeIn();
                             $("#locate-button-div").fadeIn();
-                            $("#search-bar-div").fadeIn();
+                            $("#search-div").fadeIn();
                             location = {
                                 latitude: parseFloat(point.lat),
                                 longitude: parseFloat(point.lng),
@@ -79,7 +79,6 @@ function Location(callback) {
                                     $("#set-location").fadeOut();
                                     map.removeEventListener("click", setLocationByHand);
                                     $("#locate-button-div").fadeIn();
-                                    $("#search-bar-div").fadeIn();
                                 });
                             }
                         }
@@ -89,7 +88,7 @@ function Location(callback) {
                     if(isFirstTime){
                         $("#location-model").fadeIn();
                         $("#locate-button-div").fadeIn();
-                        $("#search-bar-div").fadeIn();
+                        $("#search-div").fadeIn();
                     }
                     location = {
                         latitude: parseFloat(point.lat),
@@ -112,7 +111,6 @@ function Location(callback) {
                     $("#set-location").fadeOut();
                     map.removeEventListener("click", setLocationByHand);
                     $("#locate-button-div").fadeIn();
-                    $("#search-bar-div").fadeIn();
                 });
             }
         },
