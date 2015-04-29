@@ -72,7 +72,7 @@ function createMenuActivity() {
 function filterActivity(data){
     $.each(data,function(infoIndex, info){
         var point = new BMap.Point(info["longitude"],info["latitude"]);
-        var marker = addSMarker(point,info["type"],info["title"],info["content"]);
+        var marker = addSMarker(point,info["type"],"<span class = 'infostyle'>" + info["title"] + "</span>",info["content"]);
         if(info["name"]=="indoor_act"){
             indoor_act.push(marker);
             indoor_act_num++;
