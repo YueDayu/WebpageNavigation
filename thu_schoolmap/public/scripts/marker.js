@@ -1,6 +1,33 @@
 var myAcMarker = [];
 var Acsize=0;
 
+var roadcross;
+
+$(document).ready(function () {
+    var p = 1;
+    map.addEventListener("zoomend",function() {
+        var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
+        if(Zoomrank > 16)
+        {
+            if(p == 1)
+            {
+                addRoadBlock();
+                addTip();
+            }
+            p = 0;
+        }
+        else
+        {
+            RemoveAc();
+            p = 1;
+        }
+    });
+
+    $.getJSON("../data/roadcross_info.json", function(data){
+        roadcross = data;
+    });
+});
+
 function addMarker(point, type,title,content){
     if(type == "block")
         var myIcon = new BMap.Icon("img/block.png", new BMap.Size(18,17));

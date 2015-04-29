@@ -5,7 +5,6 @@ var bs = new BMap.Bounds(pStart,pEnd);
 var lastMarker;
 var searchPoint;
 
-var roadcross;
 
 $(document).ready(function(){
     var ac = new BMap.Autocomplete({
@@ -152,28 +151,6 @@ $(document).ready(function(){
         resetfeedback();
     });
 
-    var p = 1;
-    map.addEventListener("zoomend",function() {
-        var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
-        if(Zoomrank > 16)
-        {
-            if(p == 1)
-            {
-                addRoadBlock();
-                addTip();
-            }
-            p = 0;
-        }
-        else
-        {
-            RemoveAc();
-            p = 1;
-        }
-    });
-
-    $.getJSON("../data/roadcross_info.json", function(data){
-        roadcross = data;
-    });
 });
 
 function showModel(title, content){
