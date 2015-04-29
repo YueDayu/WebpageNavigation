@@ -2,30 +2,31 @@ var myAcMarker = [];
 var Acsize=0;
 
 var roadcross;
+var roadblock_info;
+var activity_info;
+var scence_info;
 
 $(document).ready(function () {
-    var p = 1;
+    var isZoomed = true;
     map.addEventListener("zoomend",function() {
         var Zoomrank = map.getZoom();//缩放等级从3到18，越大越细
         if(Zoomrank > 16)
         {
-            if(p == 1)
+            if(isZoomed)
             {
                 addRoadBlock();
-                addTip();
+                addScence();
             }
-            p = 0;
+            isZoomed=false;
         }
         else
         {
             RemoveAc();
-            p = 1;
+            isZoomed=true;
         }
     });
+    getResourceNecessary();
 
-    getResource("roadcross_info",function(data){
-        roadcross = data;
-    });
 });
 
 function addMarker(point, type,title,content){
@@ -49,27 +50,34 @@ function addMarker(point, type,title,content){
 }
 
 function addRoadBlock(){
-    getResource("roadblock_info", function (data) {
-        $.each(data,function(infoIndex,info){
-            var point = new BMap.Point(info["longitude"],info["latitude"]);
-            var marker = addMarker(point,info["type"],info["title"],info["content"]);
-            myAcMarker.push(marker);
-            Acsize += 1;
-        });
-    })
-
-}
-
-function addTip(){
-    $.getJSON("../data/activity_info.json",function(data){
-        $.each(data,function(infoIndex,info){
-            var point = new BMap.Point(info["longitude"],info["latitude"]);
-            var marker = addSMarker(point,info["type"],info["title"],info["content"]);
-            myAcMarker.push(marker);
-            Acsize += 1;
-        });
+    $.each(roadblock_info,function(infoIndex,info){
+        var point = new BMap.Point(info["longitude"],info["latitude"]);
+        var marker = addMarker(point,info["type"],info["title"],info["content"]);
+        myAcMarker.push(marker);
+        Acsize += 1;
     });
 }
+
+function addScence(){
+    $.each(scence_info,function(infoIndex,info){
+        var point = new BMap.Point(info["longitude"],info["latitude"]);
+        var marker = addSMarker(point,info["type"],info["title"],info["content"]);
+        myAcMarker.push(marker);
+        Acsize += 1;
+    });
+}
+
+//function addTip(){
+//    getResource("activity_info",function(data){
+//        $.each(data,function(infoIndex,info){
+//            var point = new BMap.Point(info["longitude"],info["latitude"]);
+//            var marker = addSMarker(point,info["type"],info["title"],info["content"]);
+//            myAcMarker.push(marker);
+//            Acsize += 1;
+//        });
+//    });
+//}
+
 function addSMarker(point,type, title,content) {
     if(type == "activity")
         var myIcon = new BMap.Icon("img/act.png", new BMap.Size(22,22));
@@ -120,5 +128,41 @@ function getResource(type,callback){
         success: function(data) {
             callback(data);
         }
+    });
+}
+
+function getIntroduction(type,callback){
+    $.ajax({
+        cache:false,
+        type:"POST",
+        url:"introduction",
+        data:{
+            data_res:type
+        },
+        dataType:"json",
+        async: true,
+        error: function(request) {
+
+        },
+        success: function(data) {
+            callback(data);
+        }
+    });
+}
+
+function getResourceNecessary(){
+    getResource("roadcross_info",function(data){
+        roadcross = data;
+    });
+    getResource("roadblock_info", function (data) {
+        roadblock_info = data;
+    });
+    getResource("activity_info", function (data) {
+        activity_info = data;
+        createMenuActivity(data);
+    });
+    getResource("scence_info",function(data){
+        scence_info = data;
+        createMenuScence(data);
     });
 }
