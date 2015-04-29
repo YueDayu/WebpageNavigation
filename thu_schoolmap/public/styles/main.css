@@ -72,6 +72,14 @@ body {
     }
 }
 
+.listItem {
+    font-size: 0.9em;
+    display: block;
+    line-height: 2em;
+    padding: 0 16px 0 32px;
+    color: #aab5b7;
+}
+
 #allmap, body, html {
     width: 100%;
     height: 100%;

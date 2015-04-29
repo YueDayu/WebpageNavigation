@@ -5,15 +5,32 @@ var bs = new BMap.Bounds(pStart,pEnd);
 var lastMarker;
 var searchPoint;
 
+var $lateral_menu_trigger = $('#cd-menu-trigger'),
+    $content_wrapper = $('.cd-main-content'),
+    $navigation = $('header');
+
+function hideSideBar() {
+    $lateral_menu_trigger.removeClass('is-clicked');
+    $navigation.removeClass('lateral-menu-is-open');
+    $content_wrapper.removeClass('lateral-menu-is-open').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(){
+        $('body').removeClass('overflow-hidden');
+    });
+    $('#cd-lateral-nav').removeClass('lateral-menu-is-open');
+    if($('html').hasClass('no-csstransitions')) {
+        $('body').removeClass('overflow-hidden');
+    }
+}
+
+function showMsg(a, b) {
+    console.log("Hello" + a + b);
+    hideSideBar()
+}
 
 $(document).ready(function(){
     var ac = new BMap.Autocomplete({
             "input" : "search-content",
             "location" : map
         });
-
-
-    //$("#allmap").css("height", $("body").height() - 50 + "px");
 
     $("#allmap").click(function(){
        $("#search-content").blur();

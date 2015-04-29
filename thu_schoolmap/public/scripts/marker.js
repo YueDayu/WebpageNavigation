@@ -47,7 +47,6 @@ function addMarker(point, type,title,content){
             marker.openInfoWindow(infoWindow);
         });
     }
-//    map.addOverlay(marker);
     return marker;
 }
 
@@ -64,23 +63,47 @@ function addRoadBlock(){
 function addScence(){
     $.each(scence_info,function(infoIndex,info){
         var point = new BMap.Point(info["longitude"],info["latitude"]);
-        var marker = addSMarker(point,info["type"],info["title"],info["content"]);
+        var marker = addSMarker(point,info["type"],"<span class = 'infostyle'>" + info["title"] + "</span>",info["content"]);
         map.addOverlay(marker);
         myAcMarker.push(marker);
         Acsize += 1;
     });
 }
 
-//function addTip(){
-//    getResource("activity_info",function(data){
-//        $.each(data,function(infoIndex,info){
-//            var point = new BMap.Point(info["longitude"],info["latitude"]);
-//            var marker = addSMarker(point,info["type"],info["title"],info["content"]);
-//            myAcMarker.push(marker);
-//            Acsize += 1;
-//        });
-//    });
-//}
+var lastActivityMarker;
+
+function moveToJingDian(index) {
+    hideSideBar();
+    map.removeOverlay(lastActivityMarker);
+    map.zoomTo(17);
+    var point = new BMap.Point(scence_info[index]["longitude"], scence_info[index]["latitude"]);
+    map.panTo(point);
+}
+
+function addActivityMarker(type, index) {
+    hideSideBar();
+    map.removeOverlay(lastActivityMarker);
+    switch (type) {
+        case 0:
+            lastActivityMarker = indoor_act[index];
+            break;
+        case 1:
+            lastActivityMarker = outdoor_act[index];
+            break;
+        case 2:
+            lastActivityMarker = school_match[index];
+            break;
+        case 3:
+            lastActivityMarker = school_exhibition[index];
+            break;
+        case 4:
+            lastActivityMarker = school_meeting[index];
+            break;
+    }
+    map.addOverlay(lastActivityMarker);
+    map.zoomTo(17);
+    map.panTo(lastActivityMarker.point);
+}
 
 function addSMarker(point,type, title,content) {
     var myIcon;
