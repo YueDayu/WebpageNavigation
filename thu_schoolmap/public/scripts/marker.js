@@ -6,18 +6,6 @@ var activity_info;
 var roadblock_info;
 var scence_info;
 
-var indoor_act=[];
-var indoor_act_num=0;
-var outdoor_act=[];
-var outdoor_act_num=0;
-var school_match=[];
-var school_match_num=0;
-var school_exhibition=[];
-var school_exhibition_num=0;
-var school_meeting=[];
-var school_meeting_num=0;
-var currentMarker=[];
-var currentMarkrt_num=0;
 
 $(document).ready(function () {
     var isZoomed = true;
@@ -43,10 +31,11 @@ $(document).ready(function () {
 });
 
 function addMarker(point, type,title,content){
+    var myIcon;
     if(type == "block")
-        var myIcon = new BMap.Icon("img/block.png", new BMap.Size(18,17));
+        myIcon = new BMap.Icon("img/block.png", new BMap.Size(18,17));
     else
-        var myIcon = new BMap.Icon("img/park.png", new BMap.Size(15,15));
+        myIcon = new BMap.Icon("img/park.png", new BMap.Size(15,15));
     var marker = new BMap.Marker(point, {
         icon: myIcon
     });
@@ -94,14 +83,15 @@ function addScence(){
 //}
 
 function addSMarker(point,type, title,content) {
+    var myIcon
     if(type == "activity")
-        var myIcon = new BMap.Icon("img/act.png", new BMap.Size(22,22));
+        myIcon = new BMap.Icon("img/act.png", new BMap.Size(22,22));
     else if(type =="monument")
-        var myIcon = new BMap.Icon("img/tower.png", new BMap.Size(12,23));
+        myIcon = new BMap.Icon("img/tower.png", new BMap.Size(12,23));
     else if(type =="building")
-        var myIcon = new BMap.Icon("img/building.png", new BMap.Size(12,12));
+        myIcon = new BMap.Icon("img/building.png", new BMap.Size(12,12));
     else if(type =="scence")
-        var myIcon = new BMap.Icon("img/scence.png", new BMap.Size(20,20));
+        myIcon = new BMap.Icon("img/scence.png", new BMap.Size(20,20));
     var marker = new BMap.Marker(point, {
         icon: myIcon});
     if(title){
@@ -158,37 +148,10 @@ function getResourceNecessary(){
     getResource("activity_info", function (data) {
         activity_info = data;
         filterActivity(activity_info);
-        createMenuActivity(activity_info);
+        createMenuActivity();
     });
     getResource("scence_info",function(data){
         scence_info = data;
-        createMenuScence(scence_info);
-    });
-}
-
-function filterActivity(data){
-    $.each(data,function(infoIndex,info){
-        var point = new BMap.Point(info["longitude"],info["latitude"]);
-        var marker = addSMarker(point,info["type"],info["title"],info["content"]);
-        if(info["name"]=="indoor_act"){
-            indoor_act.push(marker);
-            indoor_act_num++;
-        }
-        else if(info["name"]=="outdoor_act"){
-            outdoor_act.push(marker);
-            outdoor_act_num++;
-        }
-        else if(info["name"]=="match"){
-            school_match.push(marker);
-            school_match_num++;
-        }
-        else if(info["name"]="exhibition"){
-            school_exhibition.push(marker);
-            school_exhibition_num++;
-        }
-        else if(info["name"]="meeting"){
-            school_meeting.push(marker);
-            school_meeting_num++;
-        }
+        createMenuScence();
     });
 }
